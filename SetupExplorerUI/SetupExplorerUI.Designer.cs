@@ -36,22 +36,22 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.cFLLabel = new System.Windows.Forms.Label();
-            this.cFRLabel = new System.Windows.Forms.Label();
-            this.cLFLabel = new System.Windows.Forms.Label();
-            this.cCFLabel = new System.Windows.Forms.Label();
-            this.cRFLabel = new System.Windows.Forms.Label();
-            this.cLMLabel = new System.Windows.Forms.Label();
-            this.cCMLabel = new System.Windows.Forms.Label();
-            this.cRMLabel = new System.Windows.Forms.Label();
-            this.cLRLabel = new System.Windows.Forms.Label();
-            this.cCRLabel = new System.Windows.Forms.Label();
-            this.cRRLabel = new System.Windows.Forms.Label();
+            this.scHeaderTextBox = new System.Windows.Forms.TextBox();
             this.cBLLabel = new System.Windows.Forms.Label();
             this.cBMLabel = new System.Windows.Forms.Label();
             this.cBRLabel = new System.Windows.Forms.Label();
+            this.cLRLabel = new System.Windows.Forms.Label();
+            this.cCRLabel = new System.Windows.Forms.Label();
+            this.cRRLabel = new System.Windows.Forms.Label();
+            this.cRMLabel = new System.Windows.Forms.Label();
+            this.cCMLabel = new System.Windows.Forms.Label();
+            this.cLMLabel = new System.Windows.Forms.Label();
+            this.cLFLabel = new System.Windows.Forms.Label();
+            this.cCFLabel = new System.Windows.Forms.Label();
+            this.cRFLabel = new System.Windows.Forms.Label();
+            this.cFRLabel = new System.Windows.Forms.Label();
             this.cFMLabel = new System.Windows.Forms.Label();
-            this.scHeaderTextBox = new System.Windows.Forms.TextBox();
+            this.cFLLabel = new System.Windows.Forms.Label();
             this.openOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.mainToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -147,115 +147,18 @@
             this.mainTableLayoutPanel.Size = new System.Drawing.Size(484, 537);
             this.mainTableLayoutPanel.TabIndex = 1;
             // 
-            // cFLLabel
+            // scHeaderTextBox
             // 
-            this.cFLLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cFLLabel.AutoSize = true;
-            this.cFLLabel.Location = new System.Drawing.Point(46, 100);
-            this.cFLLabel.Name = "cFLLabel";
-            this.cFLLabel.Size = new System.Drawing.Size(52, 13);
-            this.cFLLabel.TabIndex = 0;
-            this.cFLLabel.Text = "Front Left";
-            // 
-            // cFRLabel
-            // 
-            this.cFRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cFRLabel.AutoSize = true;
-            this.cFRLabel.Location = new System.Drawing.Point(381, 100);
-            this.cFRLabel.Name = "cFRLabel";
-            this.cFRLabel.Size = new System.Drawing.Size(59, 13);
-            this.cFRLabel.TabIndex = 2;
-            this.cFRLabel.Text = "Front Right";
-            // 
-            // cLFLabel
-            // 
-            this.cLFLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cLFLabel.AutoSize = true;
-            this.cLFLabel.Location = new System.Drawing.Point(46, 187);
-            this.cLFLabel.Name = "cLFLabel";
-            this.cLFLabel.Size = new System.Drawing.Size(52, 13);
-            this.cLFLabel.TabIndex = 3;
-            this.cLFLabel.Text = "Left Front";
-            // 
-            // cCFLabel
-            // 
-            this.cCFLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cCFLabel.AutoSize = true;
-            this.cCFLabel.Location = new System.Drawing.Point(209, 187);
-            this.cCFLabel.Name = "cCFLabel";
-            this.cCFLabel.Size = new System.Drawing.Size(65, 13);
-            this.cCFLabel.TabIndex = 4;
-            this.cCFLabel.Text = "Center Front";
-            // 
-            // cRFLabel
-            // 
-            this.cRFLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cRFLabel.AutoSize = true;
-            this.cRFLabel.Location = new System.Drawing.Point(381, 187);
-            this.cRFLabel.Name = "cRFLabel";
-            this.cRFLabel.Size = new System.Drawing.Size(59, 13);
-            this.cRFLabel.TabIndex = 5;
-            this.cRFLabel.Text = "Right Front";
-            // 
-            // cLMLabel
-            // 
-            this.cLMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cLMLabel.AutoSize = true;
-            this.cLMLabel.Location = new System.Drawing.Point(43, 274);
-            this.cLMLabel.Name = "cLMLabel";
-            this.cLMLabel.Size = new System.Drawing.Size(59, 13);
-            this.cLMLabel.TabIndex = 6;
-            this.cLMLabel.Text = "Left Middle";
-            // 
-            // cCMLabel
-            // 
-            this.cCMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cCMLabel.AutoSize = true;
-            this.cCMLabel.Location = new System.Drawing.Point(205, 274);
-            this.cCMLabel.Name = "cCMLabel";
-            this.cCMLabel.Size = new System.Drawing.Size(72, 13);
-            this.cCMLabel.TabIndex = 7;
-            this.cCMLabel.Text = "Center Middle";
-            // 
-            // cRMLabel
-            // 
-            this.cRMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cRMLabel.AutoSize = true;
-            this.cRMLabel.Location = new System.Drawing.Point(378, 274);
-            this.cRMLabel.Name = "cRMLabel";
-            this.cRMLabel.Size = new System.Drawing.Size(66, 13);
-            this.cRMLabel.TabIndex = 8;
-            this.cRMLabel.Text = "Right Middle";
-            // 
-            // cLRLabel
-            // 
-            this.cLRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cLRLabel.AutoSize = true;
-            this.cLRLabel.Location = new System.Drawing.Point(47, 361);
-            this.cLRLabel.Name = "cLRLabel";
-            this.cLRLabel.Size = new System.Drawing.Size(51, 13);
-            this.cLRLabel.TabIndex = 9;
-            this.cLRLabel.Text = "Left Rear";
-            // 
-            // cCRLabel
-            // 
-            this.cCRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cCRLabel.AutoSize = true;
-            this.cCRLabel.Location = new System.Drawing.Point(209, 361);
-            this.cCRLabel.Name = "cCRLabel";
-            this.cCRLabel.Size = new System.Drawing.Size(64, 13);
-            this.cCRLabel.TabIndex = 10;
-            this.cCRLabel.Text = "Center Rear";
-            // 
-            // cRRLabel
-            // 
-            this.cRRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.cRRLabel.AutoSize = true;
-            this.cRRLabel.Location = new System.Drawing.Point(382, 361);
-            this.cRRLabel.Name = "cRRLabel";
-            this.cRRLabel.Size = new System.Drawing.Size(58, 13);
-            this.cRRLabel.TabIndex = 11;
-            this.cRRLabel.Text = "Right Rear";
+            this.mainTableLayoutPanel.SetColumnSpan(this.scHeaderTextBox, 3);
+            this.scHeaderTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.scHeaderTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scHeaderTextBox.Location = new System.Drawing.Point(3, 3);
+            this.scHeaderTextBox.Multiline = true;
+            this.scHeaderTextBox.Name = "scHeaderTextBox";
+            this.scHeaderTextBox.ReadOnly = true;
+            this.scHeaderTextBox.Size = new System.Drawing.Size(478, 44);
+            this.scHeaderTextBox.TabIndex = 15;
+            this.scHeaderTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // cBLLabel
             // 
@@ -287,6 +190,106 @@
             this.cBRLabel.TabIndex = 14;
             this.cBRLabel.Text = "Back Right";
             // 
+            // cLRLabel
+            // 
+            this.cLRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cLRLabel.AutoSize = true;
+            this.cLRLabel.Location = new System.Drawing.Point(47, 361);
+            this.cLRLabel.Name = "cLRLabel";
+            this.cLRLabel.Size = new System.Drawing.Size(51, 13);
+            this.cLRLabel.TabIndex = 9;
+            this.cLRLabel.Text = "Left Rear";
+            // 
+            // cCRLabel
+            // 
+            this.cCRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cCRLabel.AutoSize = true;
+            this.cCRLabel.Location = new System.Drawing.Point(209, 361);
+            this.cCRLabel.Name = "cCRLabel";
+            this.cCRLabel.Size = new System.Drawing.Size(64, 13);
+            this.cCRLabel.TabIndex = 10;
+            this.cCRLabel.Text = "Center Rear";
+            // 
+            // cRRLabel
+            // 
+            this.cRRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cRRLabel.AutoSize = true;
+            this.cRRLabel.Location = new System.Drawing.Point(382, 361);
+            this.cRRLabel.Name = "cRRLabel";
+            this.cRRLabel.Size = new System.Drawing.Size(58, 13);
+            this.cRRLabel.TabIndex = 11;
+            this.cRRLabel.Text = "Right Rear";
+            // 
+            // cRMLabel
+            // 
+            this.cRMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cRMLabel.AutoSize = true;
+            this.cRMLabel.Location = new System.Drawing.Point(378, 274);
+            this.cRMLabel.Name = "cRMLabel";
+            this.cRMLabel.Size = new System.Drawing.Size(66, 13);
+            this.cRMLabel.TabIndex = 8;
+            this.cRMLabel.Text = "Right Middle";
+            // 
+            // cCMLabel
+            // 
+            this.cCMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cCMLabel.AutoSize = true;
+            this.cCMLabel.Location = new System.Drawing.Point(205, 274);
+            this.cCMLabel.Name = "cCMLabel";
+            this.cCMLabel.Size = new System.Drawing.Size(72, 13);
+            this.cCMLabel.TabIndex = 7;
+            this.cCMLabel.Text = "Center Middle";
+            // 
+            // cLMLabel
+            // 
+            this.cLMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cLMLabel.AutoSize = true;
+            this.cLMLabel.Location = new System.Drawing.Point(43, 274);
+            this.cLMLabel.Name = "cLMLabel";
+            this.cLMLabel.Size = new System.Drawing.Size(59, 13);
+            this.cLMLabel.TabIndex = 6;
+            this.cLMLabel.Text = "Left Middle";
+            // 
+            // cLFLabel
+            // 
+            this.cLFLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cLFLabel.AutoSize = true;
+            this.cLFLabel.Location = new System.Drawing.Point(46, 187);
+            this.cLFLabel.Name = "cLFLabel";
+            this.cLFLabel.Size = new System.Drawing.Size(52, 13);
+            this.cLFLabel.TabIndex = 3;
+            this.cLFLabel.Text = "Left Front";
+            // 
+            // cCFLabel
+            // 
+            this.cCFLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cCFLabel.AutoSize = true;
+            this.cCFLabel.Location = new System.Drawing.Point(209, 187);
+            this.cCFLabel.Name = "cCFLabel";
+            this.cCFLabel.Size = new System.Drawing.Size(65, 13);
+            this.cCFLabel.TabIndex = 4;
+            this.cCFLabel.Text = "Center Front";
+            // 
+            // cRFLabel
+            // 
+            this.cRFLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cRFLabel.AutoSize = true;
+            this.cRFLabel.Location = new System.Drawing.Point(381, 187);
+            this.cRFLabel.Name = "cRFLabel";
+            this.cRFLabel.Size = new System.Drawing.Size(59, 13);
+            this.cRFLabel.TabIndex = 5;
+            this.cRFLabel.Text = "Right Front";
+            // 
+            // cFRLabel
+            // 
+            this.cFRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cFRLabel.AutoSize = true;
+            this.cFRLabel.Location = new System.Drawing.Point(381, 100);
+            this.cFRLabel.Name = "cFRLabel";
+            this.cFRLabel.Size = new System.Drawing.Size(59, 13);
+            this.cFRLabel.TabIndex = 2;
+            this.cFRLabel.Text = "Front Right";
+            // 
             // cFMLabel
             // 
             this.cFMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -297,18 +300,15 @@
             this.cFMLabel.TabIndex = 1;
             this.cFMLabel.Text = "Front Middle";
             // 
-            // scHeaderTextBox
+            // cFLLabel
             // 
-            this.mainTableLayoutPanel.SetColumnSpan(this.scHeaderTextBox, 3);
-            this.scHeaderTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.scHeaderTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scHeaderTextBox.Location = new System.Drawing.Point(3, 3);
-            this.scHeaderTextBox.Multiline = true;
-            this.scHeaderTextBox.Name = "scHeaderTextBox";
-            this.scHeaderTextBox.ReadOnly = true;
-            this.scHeaderTextBox.Size = new System.Drawing.Size(478, 44);
-            this.scHeaderTextBox.TabIndex = 15;
-            this.scHeaderTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.cFLLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.cFLLabel.AutoSize = true;
+            this.cFLLabel.Location = new System.Drawing.Point(46, 100);
+            this.cFLLabel.Name = "cFLLabel";
+            this.cFLLabel.Size = new System.Drawing.Size(52, 13);
+            this.cFLLabel.TabIndex = 0;
+            this.cFLLabel.Text = "Front Left";
             // 
             // openOpenFileDialog
             // 

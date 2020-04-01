@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -30,8 +31,7 @@ namespace SetupExplorerUI
             {
                 setupParser = new SetupParser(openOpenFileDialog.FileName);
 
-                //scHeaderTextBox.Text = setupParser.h2cartrack;
-                scHeaderTextBox.Text = String.Format("car : {0} \t track : {1} \r\n setup : {2}", setupParser.CarName, setupParser.TrackName, setupParser.SetupName);
+                scHeaderTextBox.Text = String.Format("car : {0}\ttrack : {1}\r\nsetup : {2}", setupParser.CarName, setupParser.TrackName, setupParser.SetupName);
                 mainToolStripStatusLabel.Text = String.Format("Setup File : {0}", setupParser.InputFile);
             }
         }

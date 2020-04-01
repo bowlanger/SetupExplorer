@@ -16,9 +16,6 @@ namespace SetupExplorerLibrary
         private HtmlNodeCollection H2Nodes;
         private HtmlNode SetupSummaryH2Node;
 
-        // Test
-        public string h2cartrack;
-
         public string CarName { get; set; }
         public string SetupName { get; set; }
         public string TrackName { get; set; }
@@ -41,7 +38,7 @@ namespace SetupExplorerLibrary
             Console.WriteLine("setupname : " + SetupName);
 
             // Test
-            h2cartrack = doc.DocumentNode.SelectSingleNode("//h2[@align=\"center\"]").InnerHtml;
+            //h2cartrack = doc.DocumentNode.SelectSingleNode("//h2[@align=\"center\"]").InnerHtml;
         }
 
         private void LoadInputFile()
@@ -58,28 +55,29 @@ namespace SetupExplorerLibrary
 
         private HtmlNode GetSetupSummaryH2Node()
         {
+            // setup summary (car, track, setup name) is first H2 element in document.
             return H2Nodes.First();
         }
 
         private string GetSanitizedCarName(string carsetupLine)
         {
-            // get substring from carsetupLine until ":" and get rid of trailing string "setup"
+            // get substring from carsetupLine until ":" and get rid of trailing string "setup".
             return carsetupLine.Substring(0, carsetupLine.IndexOf(":") - 5);
         }
 
         private string GetSanitizedSetupName(string carsetupLine)
         {
-            // get substring from carsetupLine starting at ":" and offset by "+ 2" to the actual beginning of the setup name
+            // get substring from carsetupLine starting at ":" and offset by "+ 2" to the actual beginning of the setup name.
             return carsetupLine.Substring(carsetupLine.IndexOf(":") + 2);
         }
 
         private string GetSanitizedTrackName(string trackLine)
         {
-            // get substring from trackLine starting at ":" and offset by "+ 2" to the actual beginning of the track name
+            // get substring from trackLine starting at ":" and offset by "+ 2" to the actual beginning of the track name.
             return trackLine.Substring(trackLine.IndexOf(":") + 2);
         }
 
-        // retrieve and format from first H2 element : car, track and setup names
+        // retrieve and format from first H2 element : car, track and setup names.
         //private void GetCarTrackH2Node()
         //{
         //    Console.WriteLine("GetCarTrackH2Node");
