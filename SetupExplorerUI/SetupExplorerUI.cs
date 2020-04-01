@@ -19,6 +19,8 @@ namespace SetupExplorerUI
         public mainForm()
         {
             InitializeComponent();
+            // Prevent blinking cursor in scHeaderTextBox
+            //scHeaderTextBox.Enter += (s, e) => { scHeaderTextBox.Parent.Focus(); };
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -28,7 +30,9 @@ namespace SetupExplorerUI
             {
                 setupParser = new SetupParser(openOpenFileDialog.FileName);
 
-                testTextBox.Text = setupParser.h2cartrack;
+                //scHeaderTextBox.Text = setupParser.h2cartrack;
+                scHeaderTextBox.Text = String.Format("car : {0} \t track : {1} \r\n setup : {2}", setupParser.CarName, setupParser.TrackName, setupParser.SetupName);
+                mainToolStripStatusLabel.Text = String.Format("Setup File : {0}", setupParser.InputFile);
             }
         }
     }

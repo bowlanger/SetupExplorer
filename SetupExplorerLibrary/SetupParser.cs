@@ -9,8 +9,8 @@ namespace SetupExplorerLibrary
 {
     public class SetupParser
     {
-        //public string InputFile { get; set; }
-        private string InputFile;
+        public string InputFile { get; set; }
+        //private string InputFile;
 
         private HtmlDocument doc = new HtmlDocument();
         private HtmlNodeCollection H2Nodes;
@@ -19,9 +19,9 @@ namespace SetupExplorerLibrary
         // Test
         public string h2cartrack;
 
-        private string CarName;
-        private string SetupName;
-        private string TrackName;
+        public string CarName { get; set; }
+        public string SetupName { get; set; }
+        public string TrackName { get; set; }
 
         public SetupParser(string InputFile)
         {
