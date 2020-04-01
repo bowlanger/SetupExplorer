@@ -48,7 +48,7 @@ namespace SetupExplorerLibrary
             return H2Nodes;
         }
 
-        // retrieve and format : car, track and setup names
+        // retrieve and format from first H2 element : car, track and setup names
         private void GetCarTrackH2Node()
         {
             Console.WriteLine("GetCarTrackH2Node");
