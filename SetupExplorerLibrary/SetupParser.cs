@@ -48,13 +48,16 @@ namespace SetupExplorerLibrary
             return H2Nodes;
         }
 
+        // retrieve and format : car, track and setup names
         private void GetCarTrackH2Node()
         {
             Console.WriteLine("GetCarTrackH2Node");
             HtmlNode cartrackH2Node = H2Nodes.First();
-            Car = cartrackH2Node.ChildNodes[2].InnerText.Trim();
-            Track = cartrackH2Node.ChildNodes[4].InnerText.Trim();
-            SetupName = Car;
+            string carsetup = cartrackH2Node.ChildNodes[2].InnerText.Trim();
+            string track = cartrackH2Node.ChildNodes[4].InnerText.Trim();
+            Car = carsetup.Substring(0, carsetup.IndexOf(":") - 5);
+            Track = track.Substring(track.IndexOf(":") + 2);
+            SetupName = carsetup.Substring(carsetup.IndexOf(":") + 2);
 
             Console.WriteLine("car : " + Car);
             Console.WriteLine("track : " + Track);
