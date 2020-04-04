@@ -379,7 +379,7 @@
             this.Controls.Add(this.mainMenuStrip);
             this.MainMenuStrip = this.mainMenuStrip;
             this.Name = "mainForm";
-            this.Text = "Setup Explorer 2.0";
+            this.Text = "Setup Explorer 0.1";
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.mainStatusStrip.ResumeLayout(false);
