@@ -35,8 +35,8 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-			this.scHeaderTextBox = new System.Windows.Forms.TextBox();
 			this.cBLLabel = new System.Windows.Forms.Label();
 			this.cBMLabel = new System.Windows.Forms.Label();
 			this.cBRLabel = new System.Windows.Forms.Label();
@@ -57,7 +57,7 @@
 			this.mainToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tbConsole = new System.Windows.Forms.RichTextBox();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-			this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.scHeaderTextBox = new System.Windows.Forms.RichTextBox();
 			this.mainMenuStrip.SuspendLayout();
 			this.mainTableLayoutPanel.SuspendLayout();
 			this.mainStatusStrip.SuspendLayout();
@@ -120,13 +120,19 @@
 			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
 			this.aboutToolStripMenuItem.Text = "About";
 			// 
+			// versionToolStripMenuItem
+			// 
+			this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
+			this.versionToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+			this.versionToolStripMenuItem.Text = "Version";
+			this.versionToolStripMenuItem.Click += new System.EventHandler(this.versionToolStripMenuItem_Click);
+			// 
 			// mainTableLayoutPanel
 			// 
 			this.mainTableLayoutPanel.ColumnCount = 3;
 			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
 			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40F));
 			this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30F));
-			this.mainTableLayoutPanel.Controls.Add(this.scHeaderTextBox, 0, 0);
 			this.mainTableLayoutPanel.Controls.Add(this.cBLLabel, 0, 6);
 			this.mainTableLayoutPanel.Controls.Add(this.cBMLabel, 1, 6);
 			this.mainTableLayoutPanel.Controls.Add(this.cBRLabel, 2, 6);
@@ -142,6 +148,7 @@
 			this.mainTableLayoutPanel.Controls.Add(this.cFRLabel, 2, 2);
 			this.mainTableLayoutPanel.Controls.Add(this.cFMLabel, 1, 2);
 			this.mainTableLayoutPanel.Controls.Add(this.cFLLabel, 0, 2);
+			this.mainTableLayoutPanel.Controls.Add(this.scHeaderTextBox, 0, 0);
 			this.mainTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.mainTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.mainTableLayoutPanel.Name = "mainTableLayoutPanel";
@@ -155,19 +162,6 @@
 			this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
 			this.mainTableLayoutPanel.Size = new System.Drawing.Size(534, 593);
 			this.mainTableLayoutPanel.TabIndex = 1;
-			// 
-			// scHeaderTextBox
-			// 
-			this.mainTableLayoutPanel.SetColumnSpan(this.scHeaderTextBox, 3);
-			this.scHeaderTextBox.Cursor = System.Windows.Forms.Cursors.IBeam;
-			this.scHeaderTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.scHeaderTextBox.Location = new System.Drawing.Point(3, 3);
-			this.scHeaderTextBox.Multiline = true;
-			this.scHeaderTextBox.Name = "scHeaderTextBox";
-			this.scHeaderTextBox.ReadOnly = true;
-			this.scHeaderTextBox.Size = new System.Drawing.Size(528, 44);
-			this.scHeaderTextBox.TabIndex = 15;
-			this.scHeaderTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// cBLLabel
 			// 
@@ -364,12 +358,16 @@
 			this.splitContainer1.SplitterDistance = 534;
 			this.splitContainer1.TabIndex = 4;
 			// 
-			// versionToolStripMenuItem
+			// scHeaderTextBox
 			// 
-			this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
-			this.versionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.versionToolStripMenuItem.Text = "Version";
-			this.versionToolStripMenuItem.Click += new System.EventHandler(this.versionToolStripMenuItem_Click);
+			this.mainTableLayoutPanel.SetColumnSpan(this.scHeaderTextBox, 3);
+			this.scHeaderTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scHeaderTextBox.Enabled = false;
+			this.scHeaderTextBox.Location = new System.Drawing.Point(3, 3);
+			this.scHeaderTextBox.Name = "scHeaderTextBox";
+			this.scHeaderTextBox.Size = new System.Drawing.Size(528, 44);
+			this.scHeaderTextBox.TabIndex = 15;
+			this.scHeaderTextBox.Text = "";
 			// 
 			// mainForm
 			// 
@@ -423,12 +421,12 @@
         private System.Windows.Forms.Label cBMLabel;
         private System.Windows.Forms.Label cBRLabel;
         private System.Windows.Forms.OpenFileDialog openOpenFileDialog;
-        private System.Windows.Forms.TextBox scHeaderTextBox;
         private System.Windows.Forms.StatusStrip mainStatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel mainToolStripStatusLabel;
 		private System.Windows.Forms.RichTextBox tbConsole;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.ToolStripMenuItem versionToolStripMenuItem;
+		private System.Windows.Forms.RichTextBox scHeaderTextBox;
 	}
 }
 
