@@ -26,7 +26,7 @@ namespace SetupExplorerUI
 			{
 				setupParser = new SetupParser(openOpenFileDialog.FileName, _logger);
 
-				scHeaderTextBox.Text = String.Format("car : {0}\ttrack : {1}\r\nsetup : {2}", setupParser.CarName, setupParser.TrackName, setupParser.SetupName);
+				scHeaderReadOnlyTextBox.Text = String.Format("car : {0}\ttrack : {1}\r\nsetup : {2}", setupParser.CarName, setupParser.TrackName, setupParser.SetupName);
 				mainToolStripStatusLabel.Text = String.Format("Setup File : {0}", setupParser.InputFile);
 			}
 		}
