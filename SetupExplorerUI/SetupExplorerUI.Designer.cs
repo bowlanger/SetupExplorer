@@ -1,6 +1,6 @@
 ﻿namespace SetupExplorerUI
 {
-    partial class mainForm
+    partial class SetupExplorerForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.seMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -36,9 +36,9 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.versionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
-            this.mainToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.seOpenFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.seStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.seToolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.tbConsole = new System.Windows.Forms.RichTextBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.mainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
@@ -57,9 +57,9 @@
             this.cFRLabel = new System.Windows.Forms.Label();
             this.cFMLabel = new System.Windows.Forms.Label();
             this.cFLLabel = new System.Windows.Forms.Label();
-            this.scHeaderReadOnlyTextBox = new SetupExplorerUI.Components.ReadOnlyTextBox();
-            this.mainMenuStrip.SuspendLayout();
-            this.mainStatusStrip.SuspendLayout();
+            this.seHeaderReadOnlyTextBox = new SetupExplorerUI.Components.ReadOnlyTextBox();
+            this.seMenuStrip.SuspendLayout();
+            this.seStatusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -67,15 +67,15 @@
             this.mainTableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // mainMenuStrip
+            // seMenuStrip
             // 
-            this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.seMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.aboutToolStripMenuItem});
-            this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
-            this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(785, 24);
-            this.mainMenuStrip.TabIndex = 0;
+            this.seMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.seMenuStrip.Name = "seMenuStrip";
+            this.seMenuStrip.Size = new System.Drawing.Size(785, 24);
+            this.seMenuStrip.TabIndex = 0;
             // 
             // fileToolStripMenuItem
             // 
@@ -91,25 +91,25 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.closeToolStripMenuItem.Text = "Close";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(100, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // aboutToolStripMenuItem
@@ -125,33 +125,33 @@
             this.versionToolStripMenuItem.Name = "versionToolStripMenuItem";
             this.versionToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.versionToolStripMenuItem.Text = "Version";
-            this.versionToolStripMenuItem.Click += new System.EventHandler(this.versionToolStripMenuItem_Click);
+            this.versionToolStripMenuItem.Click += new System.EventHandler(this.VersionToolStripMenuItem_Click);
             // 
-            // openOpenFileDialog
+            // seOpenFileDialog
             // 
-            this.openOpenFileDialog.Filter = "Exported Setup Files|*.htm|All Files|*.*";
+            this.seOpenFileDialog.Filter = "Exported Setup Files|*.htm|All Files|*.*";
             // 
-            // mainStatusStrip
+            // seStatusStrip
             // 
-            this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mainToolStripStatusLabel});
-            this.mainStatusStrip.Location = new System.Drawing.Point(0, 617);
-            this.mainStatusStrip.Name = "mainStatusStrip";
-            this.mainStatusStrip.Size = new System.Drawing.Size(785, 22);
-            this.mainStatusStrip.TabIndex = 2;
-            this.mainStatusStrip.Text = "statusStrip1";
+            this.seStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.seToolStripStatusLabel});
+            this.seStatusStrip.Location = new System.Drawing.Point(0, 617);
+            this.seStatusStrip.Name = "seStatusStrip";
+            this.seStatusStrip.Size = new System.Drawing.Size(785, 22);
+            this.seStatusStrip.TabIndex = 2;
+            this.seStatusStrip.Text = "statusStrip1";
             // 
-            // mainToolStripStatusLabel
+            // seToolStripStatusLabel
             // 
-            this.mainToolStripStatusLabel.Name = "mainToolStripStatusLabel";
-            this.mainToolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
+            this.seToolStripStatusLabel.Name = "seToolStripStatusLabel";
+            this.seToolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
             // 
             // tbConsole
             // 
             this.tbConsole.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbConsole.Location = new System.Drawing.Point(0, 0);
             this.tbConsole.Name = "tbConsole";
-            this.tbConsole.Size = new System.Drawing.Size(247, 593);
+            this.tbConsole.Size = new System.Drawing.Size(385, 593);
             this.tbConsole.TabIndex = 3;
             this.tbConsole.Text = "";
             // 
@@ -169,7 +169,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tbConsole);
             this.splitContainer1.Size = new System.Drawing.Size(785, 593);
-            this.splitContainer1.SplitterDistance = 534;
+            this.splitContainer1.SplitterDistance = 396;
             this.splitContainer1.TabIndex = 4;
             // 
             // mainTableLayoutPanel
@@ -193,7 +193,7 @@
             this.mainTableLayoutPanel.Controls.Add(this.cFRLabel, 2, 2);
             this.mainTableLayoutPanel.Controls.Add(this.cFMLabel, 1, 2);
             this.mainTableLayoutPanel.Controls.Add(this.cFLLabel, 0, 2);
-            this.mainTableLayoutPanel.Controls.Add(this.scHeaderReadOnlyTextBox, 0, 0);
+            this.mainTableLayoutPanel.Controls.Add(this.seHeaderReadOnlyTextBox, 0, 0);
             this.mainTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.mainTableLayoutPanel.Name = "mainTableLayoutPanel";
@@ -205,14 +205,14 @@
             this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.mainTableLayoutPanel.Size = new System.Drawing.Size(534, 593);
+            this.mainTableLayoutPanel.Size = new System.Drawing.Size(396, 593);
             this.mainTableLayoutPanel.TabIndex = 1;
             // 
             // cBLLabel
             // 
             this.cBLLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cBLLabel.AutoSize = true;
-            this.cBLLabel.Location = new System.Drawing.Point(53, 492);
+            this.cBLLabel.Location = new System.Drawing.Point(32, 492);
             this.cBLLabel.Name = "cBLLabel";
             this.cBLLabel.Size = new System.Drawing.Size(53, 13);
             this.cBLLabel.TabIndex = 12;
@@ -222,7 +222,7 @@
             // 
             this.cBMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cBMLabel.AutoSize = true;
-            this.cBMLabel.Location = new System.Drawing.Point(233, 492);
+            this.cBMLabel.Location = new System.Drawing.Point(164, 492);
             this.cBMLabel.Name = "cBMLabel";
             this.cBMLabel.Size = new System.Drawing.Size(66, 13);
             this.cBMLabel.TabIndex = 13;
@@ -232,7 +232,7 @@
             // 
             this.cBRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cBRLabel.AutoSize = true;
-            this.cBRLabel.Location = new System.Drawing.Point(423, 492);
+            this.cBRLabel.Location = new System.Drawing.Point(306, 492);
             this.cBRLabel.Name = "cBRLabel";
             this.cBRLabel.Size = new System.Drawing.Size(60, 13);
             this.cBRLabel.TabIndex = 14;
@@ -242,7 +242,7 @@
             // 
             this.cLRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cLRLabel.AutoSize = true;
-            this.cLRLabel.Location = new System.Drawing.Point(54, 394);
+            this.cLRLabel.Location = new System.Drawing.Point(33, 394);
             this.cLRLabel.Name = "cLRLabel";
             this.cLRLabel.Size = new System.Drawing.Size(51, 13);
             this.cLRLabel.TabIndex = 9;
@@ -252,7 +252,7 @@
             // 
             this.cCRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cCRLabel.AutoSize = true;
-            this.cCRLabel.Location = new System.Drawing.Point(234, 394);
+            this.cCRLabel.Location = new System.Drawing.Point(165, 394);
             this.cCRLabel.Name = "cCRLabel";
             this.cCRLabel.Size = new System.Drawing.Size(64, 13);
             this.cCRLabel.TabIndex = 10;
@@ -262,7 +262,7 @@
             // 
             this.cRRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cRRLabel.AutoSize = true;
-            this.cRRLabel.Location = new System.Drawing.Point(424, 394);
+            this.cRRLabel.Location = new System.Drawing.Point(307, 394);
             this.cRRLabel.Name = "cRRLabel";
             this.cRRLabel.Size = new System.Drawing.Size(58, 13);
             this.cRRLabel.TabIndex = 11;
@@ -272,7 +272,7 @@
             // 
             this.cRMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cRMLabel.AutoSize = true;
-            this.cRMLabel.Location = new System.Drawing.Point(420, 296);
+            this.cRMLabel.Location = new System.Drawing.Point(303, 296);
             this.cRMLabel.Name = "cRMLabel";
             this.cRMLabel.Size = new System.Drawing.Size(66, 13);
             this.cRMLabel.TabIndex = 8;
@@ -282,7 +282,7 @@
             // 
             this.cCMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cCMLabel.AutoSize = true;
-            this.cCMLabel.Location = new System.Drawing.Point(230, 296);
+            this.cCMLabel.Location = new System.Drawing.Point(161, 296);
             this.cCMLabel.Name = "cCMLabel";
             this.cCMLabel.Size = new System.Drawing.Size(72, 13);
             this.cCMLabel.TabIndex = 7;
@@ -292,7 +292,7 @@
             // 
             this.cLMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cLMLabel.AutoSize = true;
-            this.cLMLabel.Location = new System.Drawing.Point(50, 296);
+            this.cLMLabel.Location = new System.Drawing.Point(29, 296);
             this.cLMLabel.Name = "cLMLabel";
             this.cLMLabel.Size = new System.Drawing.Size(59, 13);
             this.cLMLabel.TabIndex = 6;
@@ -302,7 +302,7 @@
             // 
             this.cLFLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cLFLabel.AutoSize = true;
-            this.cLFLabel.Location = new System.Drawing.Point(54, 198);
+            this.cLFLabel.Location = new System.Drawing.Point(33, 198);
             this.cLFLabel.Name = "cLFLabel";
             this.cLFLabel.Size = new System.Drawing.Size(52, 13);
             this.cLFLabel.TabIndex = 3;
@@ -312,7 +312,7 @@
             // 
             this.cCFLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cCFLabel.AutoSize = true;
-            this.cCFLabel.Location = new System.Drawing.Point(234, 198);
+            this.cCFLabel.Location = new System.Drawing.Point(164, 198);
             this.cCFLabel.Name = "cCFLabel";
             this.cCFLabel.Size = new System.Drawing.Size(65, 13);
             this.cCFLabel.TabIndex = 4;
@@ -322,7 +322,7 @@
             // 
             this.cRFLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cRFLabel.AutoSize = true;
-            this.cRFLabel.Location = new System.Drawing.Point(424, 198);
+            this.cRFLabel.Location = new System.Drawing.Point(306, 198);
             this.cRFLabel.Name = "cRFLabel";
             this.cRFLabel.Size = new System.Drawing.Size(59, 13);
             this.cRFLabel.TabIndex = 5;
@@ -332,7 +332,7 @@
             // 
             this.cFRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cFRLabel.AutoSize = true;
-            this.cFRLabel.Location = new System.Drawing.Point(424, 100);
+            this.cFRLabel.Location = new System.Drawing.Point(306, 100);
             this.cFRLabel.Name = "cFRLabel";
             this.cFRLabel.Size = new System.Drawing.Size(59, 13);
             this.cFRLabel.TabIndex = 2;
@@ -342,7 +342,7 @@
             // 
             this.cFMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cFMLabel.AutoSize = true;
-            this.cFMLabel.Location = new System.Drawing.Point(234, 100);
+            this.cFMLabel.Location = new System.Drawing.Point(164, 100);
             this.cFMLabel.Name = "cFMLabel";
             this.cFMLabel.Size = new System.Drawing.Size(65, 13);
             this.cFMLabel.TabIndex = 1;
@@ -352,38 +352,38 @@
             // 
             this.cFLLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cFLLabel.AutoSize = true;
-            this.cFLLabel.Location = new System.Drawing.Point(54, 100);
+            this.cFLLabel.Location = new System.Drawing.Point(33, 100);
             this.cFLLabel.Name = "cFLLabel";
             this.cFLLabel.Size = new System.Drawing.Size(52, 13);
             this.cFLLabel.TabIndex = 0;
             this.cFLLabel.Text = "Front Left";
             // 
-            // scHeaderReadOnlyTextBox
+            // seHeaderReadOnlyTextBox
             // 
-            this.mainTableLayoutPanel.SetColumnSpan(this.scHeaderReadOnlyTextBox, 3);
-            this.scHeaderReadOnlyTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scHeaderReadOnlyTextBox.Location = new System.Drawing.Point(3, 3);
-            this.scHeaderReadOnlyTextBox.Multiline = true;
-            this.scHeaderReadOnlyTextBox.Name = "scHeaderReadOnlyTextBox";
-            this.scHeaderReadOnlyTextBox.ReadOnly = true;
-            this.scHeaderReadOnlyTextBox.Size = new System.Drawing.Size(528, 44);
-            this.scHeaderReadOnlyTextBox.TabIndex = 15;
+            this.mainTableLayoutPanel.SetColumnSpan(this.seHeaderReadOnlyTextBox, 3);
+            this.seHeaderReadOnlyTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.seHeaderReadOnlyTextBox.Location = new System.Drawing.Point(3, 3);
+            this.seHeaderReadOnlyTextBox.Multiline = true;
+            this.seHeaderReadOnlyTextBox.Name = "seHeaderReadOnlyTextBox";
+            this.seHeaderReadOnlyTextBox.ReadOnly = true;
+            this.seHeaderReadOnlyTextBox.Size = new System.Drawing.Size(390, 44);
+            this.seHeaderReadOnlyTextBox.TabIndex = 15;
             // 
-            // mainForm
+            // SetupExplorerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(785, 639);
             this.Controls.Add(this.splitContainer1);
-            this.Controls.Add(this.mainStatusStrip);
-            this.Controls.Add(this.mainMenuStrip);
-            this.MainMenuStrip = this.mainMenuStrip;
-            this.Name = "mainForm";
+            this.Controls.Add(this.seStatusStrip);
+            this.Controls.Add(this.seMenuStrip);
+            this.MainMenuStrip = this.seMenuStrip;
+            this.Name = "SetupExplorerForm";
             this.Text = "Setup Explorer 0.1";
-            this.mainMenuStrip.ResumeLayout(false);
-            this.mainMenuStrip.PerformLayout();
-            this.mainStatusStrip.ResumeLayout(false);
-            this.mainStatusStrip.PerformLayout();
+            this.seMenuStrip.ResumeLayout(false);
+            this.seMenuStrip.PerformLayout();
+            this.seStatusStrip.ResumeLayout(false);
+            this.seStatusStrip.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -397,16 +397,16 @@
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip mainMenuStrip;
+        private System.Windows.Forms.MenuStrip seMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.OpenFileDialog openOpenFileDialog;
-        private System.Windows.Forms.StatusStrip mainStatusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel mainToolStripStatusLabel;
+        private System.Windows.Forms.OpenFileDialog seOpenFileDialog;
+        private System.Windows.Forms.StatusStrip seStatusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel seToolStripStatusLabel;
 		private System.Windows.Forms.RichTextBox tbConsole;
 		private System.Windows.Forms.SplitContainer splitContainer1;
 		private System.Windows.Forms.ToolStripMenuItem versionToolStripMenuItem;
@@ -426,7 +426,7 @@
         private System.Windows.Forms.Label cFRLabel;
         private System.Windows.Forms.Label cFMLabel;
         private System.Windows.Forms.Label cFLLabel;
-        private Components.ReadOnlyTextBox scHeaderReadOnlyTextBox;
+        private Components.ReadOnlyTextBox seHeaderReadOnlyTextBox;
     }
 }
 
