@@ -9,6 +9,7 @@ namespace SetupExplorerUI
 		private readonly RichTextBoxLogger _logger;
 
 		private Setup setup;
+		private SetupHandler setupHandler;
 
 		public SetupExplorerForm()
 		{
@@ -20,7 +21,9 @@ namespace SetupExplorerUI
 		{
 			if (seOpenFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				setup = new Setup(seOpenFileDialog.FileName, _logger);
+				setupHandler = new SetupHandler(seOpenFileDialog.FileName, _logger);
+
+				setup = setupHandler.GetSetup();
 
 				seHeaderReadOnlyTextBox.Text = String.Format("car : {0}\ttrack : {1} - {2}\r\nsetup : {3}", 
 																setup.SetupSummary.CarName, 

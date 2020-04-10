@@ -12,7 +12,7 @@ namespace SetupExplorerLibrary
 	{
 		private readonly string InputFile;
 		private readonly HtmlDocument doc = new HtmlDocument();
-		private readonly HtmlNodeCollection H2Nodes;
+		private readonly HtmlNodeCollection h2Nodes;
 		private readonly SetupSummaryParser setupSummaryParser;
 
 		private readonly ILogger logger;
@@ -24,9 +24,9 @@ namespace SetupExplorerLibrary
 			this.logger.Log("SetupParser > _constructor");
 
 			doc.Load(this.InputFile);
-			H2Nodes = doc.DocumentNode.SelectNodes("//h2");
+			h2Nodes = doc.DocumentNode.SelectNodes("//h2");
 
-			setupSummaryParser = new SetupSummaryParser(H2Nodes.First(), logger);
+			setupSummaryParser = new SetupSummaryParser(h2Nodes.First(), logger);
 		}
 
 		public SetupSummary GetSetupSummary()

@@ -16,15 +16,12 @@ namespace SetupExplorerLibrary
 
         private readonly ILogger logger;
 
-        public Setup(string SetupFile, ILogger logger)
+        public Setup(SetupSummary setupSummary, ILogger logger)
         {
-            this.SetupFile = SetupFile;
             this.logger = logger;
             this.logger.Log("Setup > _constructor");
 
-            setupParser = new SetupParser(this.SetupFile, logger);
-
-            SetupSummary = setupParser.GetSetupSummary();
+            this.SetupSummary = setupSummary;
             logger.Log("Setup > SetupSummary.CarName : " + SetupSummary.CarName);
             logger.Log("Setup > SetupSummary.SetupName : " + SetupSummary.SetupName);
             logger.Log("Setup > SetupSummary.TrackName : " + SetupSummary.TrackName);

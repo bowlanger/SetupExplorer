@@ -22,15 +22,15 @@ namespace SetupExplorerLibrary
             this.logger.Log("SetupSummary > _constructor #1");
         }
 
-        public SetupSummary(string carname, string setupname, string trackname, string trackcfg, ILogger logger)
+        public SetupSummary(string carName, string setupName, string trackName, string trackCfg, ILogger logger)
         {
             this.logger = logger;
             this.logger.Log("SetupSummary > _constructor #2");
 
-            this.CarName = carname;
-            this.SetupName = setupname;
-            this.TrackName = trackname;
-            this.TrackCfg = trackcfg;
+            this.CarName = carName;
+            this.SetupName = setupName;
+            this.TrackName = trackName;
+            this.TrackCfg = trackCfg;
         }
 
     }
