@@ -1,0 +1,75 @@
+//node()[count(following-sibling::h2)=count(//h2) - 1]
+
+//h2[$k] |
+//h2[$k]/following-sibling::node()
+       [count(.|//h2[$k+1]/preceding-sibling::node())
+       =
+        count(//h2[$k+1]/preceding-sibling::node())
+       ]
+
+In XPath, there are seven kinds of nodes: element, attribute, text, namespace, processing-instruction, comment, and document nodes.
+
+https://codebeautify.org/Xpath-Tester
+XPATH TEST CASES
+1. Select the document node 
+/
+
+2. Select the 'root' element
+/root
+
+3. Select all 'employee' elements that are direct children of the 'employees' element.
+/root/employees/employee
+
+4. Select all 'company' elements regardless of their positions in the document.
+//foo:company
+
+5. Select the 'id' attributes of the 'company' elements regardless of their positions in the document.
+//foo:company/@id
+
+6. Select the textual value of first 'employee' element.
+//employee[1]/text()
+
+7. Select the last 'employee' element.
+//employee[last()]
+
+8. Select the first and second 'employee' elements using their position.
+//employee[position() < 3]
+
+9. Select all 'employee' elements that have an 'id' attribute.
+//employee[@id]
+
+10. Select the 'employee' element with the 'id' attribute value of '3'.
+//employee[@id='3']
+
+11. Select all 'employee' nodes with the 'id' attribute value lower or equal to '3'.
+//employee[@id<=3]
+
+12. Select all the children of the 'companies' node.
+/root/foo:companies/*
+
+13. Select all the elements in the document.
+//*
+
+14. Select all the 'employee' elements AND the 'company' elements.
+//employee|//foo:company
+
+15. Select the name of the first element in the document.
+name(//*[1])
+
+16. Select the numeric value of the 'id' attribute of the first 'employee' element.
+number(//employee[1]/@id)
+
+17. Select the string representation value of the 'id' attribute of the first 'employee' element.
+string(//employee[1]/@id)
+
+18. Select the length of the first 'employee' element's textual value.
+string-length(//employee[1]/text())
+
+19. Select the local name of the first 'company' element, i.e. without the namespace.
+local-name(//foo:company[1])
+
+20. Select the number of 'company' elements.
+count(//foo:company)
+
+21. Select the sum of the 'id' attributes of the 'company' elements.
+sum(//foo:company/@id)
