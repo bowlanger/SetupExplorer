@@ -12,6 +12,8 @@ namespace SetupExplorerLibrary
 	{
 		private readonly string htmFileName;
 		private readonly HtmlDocument doc = new HtmlDocument();
+		private readonly HtmlNode firstH2Node;
+		private readonly HtmlNodeCollection documentNodes;
 		private readonly HtmlNodeCollection h2Nodes;
 		private readonly SetupSummaryParser setupSummaryParser;
 
@@ -25,11 +27,14 @@ namespace SetupExplorerLibrary
 			this.htmFileName = htmFileName;
 
 			doc.Load(this.htmFileName);
+
+			firstH2Node = doc.DocumentNode.SelectSingleNode("//h2");
+			setupSummaryParser = new SetupSummaryParser(firstH2Node, logger);
+
+			documentNodes = doc.DocumentNode.SelectNodes("//node()[preceding-sibling::h2]");
 			h2Nodes = doc.DocumentNode.SelectNodes("//h2");
-
-			setupSummaryParser = new SetupSummaryParser(h2Nodes.First(), logger);
-
-			this.Parse(logger);
+			
+			this.Parse();
 		}
 
 		public SetupSummary GetSetupSummary()
@@ -46,7 +51,7 @@ namespace SetupExplorerLibrary
 			return setupSummaryParser.GetCarName();
 		}
 
-		private void Parse(ILogger logger)
+		private void Parse()
 		{
 			/*
 			 * 
@@ -66,16 +71,40 @@ namespace SetupExplorerLibrary
 			//string query = "//node()[preceding-sibling::h2 or self::h2][following-sibling::h2 or self::h2]"; // grabs all h2 and nodes in between but won't grab "content" of last h2 node "Notes:"
 			//string query = "/body/h2/node()"; // doesn't work
 			//string query = "//node()[preceding-sibling::h2][following-sibling::h2]"; // will skip first h2 "setup summary" and the last h2 "Notes:"
-			string query = "//node()[preceding-sibling::h2]"; // skips first h2 "setup summary" and doesn't skip last h2 "Notes:", grabs all nodes that have
+			//string query = "//node()[preceding-sibling::h2]"; // skips first h2 "setup summary" and doesn't skip last h2 "Notes:", grabs all nodes that have a h2 as 
 
-			var mynodes = doc.DocumentNode.SelectNodes(query);
-			foreach (var item in mynodes.Where(
-											x => x.ParentNode is HtmlNode
-											&& !string.IsNullOrEmpty(x.InnerText.Trim())
-				))
+			List<string> lines = new List<string>();
+
+			foreach (var item in documentNodes.Where(x => x.ParentNode is HtmlNode && !string.IsNullOrEmpty(x.InnerText.Trim())))
 			{
-				logger.Log("5: " + item.ParentNode.Name + " > " + item.Name + " > " + item.InnerText.Trim());
+				//var tabs = "\t\t";
+
+				var tabs = item.XPath.Length > 24 ? "\t" : "\t\t";
+				var line = item.XPath + tabs + item.InnerText.Trim();
+				//logger.Log(line);
+
+				lines.Add(line);
 			}
+
+			//https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/file-system/how-to-write-to-a-text-file
+			//using (System.IO.StreamWriter file =
+			//	new System.IO.StreamWriter(@"E:\Temp\iRacing\SetupExplorer\setups\" + setupSummaryParser.GetCarName() + ".xpath.txt"))
+			//{
+			//	foreach (string line in lines)
+			//	{
+			//		file.WriteLine(line);
+			//	}
+				
+			//}
+			System.IO.File.WriteAllLines(@"E:\Temp\iRacing\SetupExplorer\setups\" + setupSummaryParser.GetCarName() + ".xpath.txt", lines);
+
+			//var h2NodesCount = h2Nodes.Count;
+			//for(var i=1; i < h2NodesCount; i++) // i=1 skip "summary" h2 node
+			//{
+			//	logger.Log("h2Nodes > " + h2Nodes[i].InnerText.Trim());
+			//}
+
+			var query = "//h2[text()=LEFT FRONT:]/following-sibling=text()";
 		}
 
 	}

@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Area.cs" />
+    <Compile Include="Entities\Templates\Audir3lmsTemplate.cs" />
     <Compile Include="Entities\Templates\BaseTemplate.cs" />
     <Compile Include="Components\Interfaces\Ilogger.cs" />
     <Compile Include="Entities\Templates\Mx5mx52016Template.cs" />

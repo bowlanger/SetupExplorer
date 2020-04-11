@@ -34,25 +34,25 @@ namespace SetupExplorerLibrary
         public string GetCarName()
         {
             // get beginning substring from carsetupLine until ":" and get rid of trailing string "setup".
-            return carsetupLine.Substring(0, carsetupLine.IndexOf(":") - 5);
+            return carsetupLine.Substring(0, carsetupLine.IndexOf(":") - 5).Trim();
         }
 
         public string GetSetupName()
         {
             // get ending substring from carsetupLine starting at ":" and offset by +2 (": ") to the actual beginning of the setup name.
-            return carsetupLine.Substring(carsetupLine.IndexOf(":") + 2);
+            return carsetupLine.Substring(carsetupLine.IndexOf(":") + 2).Trim();
         }
 
         public string GetTrackName()
         {
             // get beginning substring from trackfullname starting at first space
-            return trackfullnameLine.Substring(0, trackfullnameLine.IndexOf(" "));
+            return trackfullnameLine.Substring(0, trackfullnameLine.IndexOf(" ")).Trim();
         }
 
         public string GetTrackCfg()
         {
             // get ending substring from trackfullname starting at first space and offset by +1 (" ") to the actual beginning of the track cfg.
-            return trackfullnameLine.Substring(trackfullnameLine.IndexOf(" ") + 1);
+            return trackfullnameLine.Substring(trackfullnameLine.IndexOf(" ") + 1).Trim();
         }
     }
 }
