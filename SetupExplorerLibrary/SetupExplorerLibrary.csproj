@@ -34,9 +34,6 @@
     <Reference Include="HtmlAgilityPack, Version=1.11.23.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.11.23\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="ObjectDumping, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ObjectDumper.NET.2.5.20033.1\lib\net45\ObjectDumping.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,27 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Area.cs" />
-    <Compile Include="Entities\Templates\BaseTemplate.cs" />
-    <Compile Include="Components\Interfaces\Ilogger.cs" />
-    <Compile Include="Entities\Templates\Mx5mx52016Template.cs" />
-    <Compile Include="Entities\Sheets\NotesSheet.cs" />
+    <Compile Include="Interfaces\Ilogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entities\Setup.cs" />
-    <Compile Include="Components\Handlers\SetupHandler.cs" />
-    <Compile Include="Entities\Sheet.cs" />
-    <Compile Include="Entities\Sheets\SetupSheet.cs" />
-    <Compile Include="Components\Parsers\SetupParser.cs" />
-    <Compile Include="Entities\SetupSummary.cs" />
-    <Compile Include="Components\Parsers\SetupSummaryParser.cs" />
-    <Compile Include="Entities\Template.cs" />
-    <Compile Include="Entities\Sheets\TiresSheet.cs" />
+    <Compile Include="Setup.cs" />
+    <Compile Include="SetupHandler.cs" />
+    <Compile Include="SetupParser.cs" />
+    <Compile Include="SetupSummary.cs" />
+    <Compile Include="SetupSummaryParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entities\Areas\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

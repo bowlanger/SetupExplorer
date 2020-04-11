@@ -18,16 +18,15 @@ namespace SetupExplorerLibrary
 
         public SetupSummaryParser(HtmlNode setupSummary, ILogger logger)
         {
+            this.setupSummary = setupSummary;
             this.logger = logger;
             this.logger.Log("SetupSummaryParser > _constructor");
 
-            this.setupSummary = setupSummary;
-
-            // extract car-setup and trackname-trackcfg strings from html node
+            // car
             carsetupLine = this.setupSummary.ChildNodes[2].InnerText.Trim();
-            trackfullnameLine = this.setupSummary.ChildNodes[4].InnerText.Trim();
 
             // get substring from trackLine starting at ":" and offset by +2 (": ") to the actual beginning of the track name.
+            trackfullnameLine = this.setupSummary.ChildNodes[4].InnerText.Trim();
             trackfullnameLine = trackfullnameLine.Substring(trackfullnameLine.IndexOf(":") + 2);
         }
 

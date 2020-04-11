@@ -15,8 +15,6 @@ namespace SetupExplorerUI
 		{
 			InitializeComponent();
 			_logger = new RichTextBoxLogger(tbConsole);
-
-			// TODO register templates
 		}
 
 		private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -32,7 +30,7 @@ namespace SetupExplorerUI
 																setup.SetupSummary.TrackName, 
 																setup.SetupSummary.TrackCfg,
 																setup.SetupSummary.SetupName);
-				seToolStripStatusLabel.Text = String.Format("Setup File : {0}", setupHandler.GetSetupFileName());
+				seToolStripStatusLabel.Text = String.Format("Setup File : {0}", setup.SetupFile);
 			}
 		}
 
