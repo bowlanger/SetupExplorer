@@ -9,10 +9,7 @@ namespace SetupExplorerLibrary
 {
     public class Setup
     {
-        public string SetupFile { get; set; }
         public SetupSummary SetupSummary;
-
-        private readonly SetupParser setupParser;
 
         private readonly ILogger logger;
 
@@ -21,7 +18,7 @@ namespace SetupExplorerLibrary
             this.logger = logger;
             this.logger.Log("Setup > _constructor");
 
-            this.SetupSummary = setupSummary;
+            SetupSummary = setupSummary;
             logger.Log("Setup > SetupSummary.CarName : " + SetupSummary.CarName);
             logger.Log("Setup > SetupSummary.SetupName : " + SetupSummary.SetupName);
             logger.Log("Setup > SetupSummary.TrackName : " + SetupSummary.TrackName);
