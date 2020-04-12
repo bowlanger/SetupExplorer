@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary
+namespace SetupExplorerLibrary.Components.Parsers
 {
     public class SetupSummaryParser
     {

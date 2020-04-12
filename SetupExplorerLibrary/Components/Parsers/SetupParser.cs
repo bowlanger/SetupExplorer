@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SetupExplorerLibrary.Interfaces;
 
-namespace SetupExplorerLibrary
+namespace SetupExplorerLibrary.Components.Parsers
 {
 	public class SetupParser
 	{
@@ -34,7 +34,7 @@ namespace SetupExplorerLibrary
 			documentNodes = doc.DocumentNode.SelectNodes("//node()[preceding-sibling::h2]");
 			h2Nodes = doc.DocumentNode.SelectNodes("//h2");
 			
-			this.Parse();
+			this.DebugParse();
 		}
 
 		public SetupSummary GetSetupSummary()
@@ -51,7 +51,12 @@ namespace SetupExplorerLibrary
 			return setupSummaryParser.GetCarName();
 		}
 
-		private void Parse()
+		public void Parse(Template template)
+		{
+
+		}
+
+		private void DebugParse()
 		{
 			/*
 			 * 
@@ -104,7 +109,38 @@ namespace SetupExplorerLibrary
 			//	logger.Log("h2Nodes > " + h2Nodes[i].InnerText.Trim());
 			//}
 
-			var query = "//h2[text()=LEFT FRONT:]/following-sibling=text()";
+			HtmlNodeCollection h2Nodes = doc.DocumentNode.SelectNodes("//h2");
+			int h2count = h2Nodes.Count;
+
+			logger.Log(string.Format("1: Found {0} h2 nodes.", h2count));
+
+			for (var i=2; i < h2count; i++) // i=2: skip h2 summary, i < h2count : exclude Notes h2 and data, see notesQuery below
+			//for (var i=1; i <= h2count; i++) // i=1: include h2 summary, i <= h2count : include Notes h2 and data
+			{
+				var titleQuery = "//h2[" + i + "]";
+				//var dataQuery = "//h2[" + i + "]/following-sibling::node()";
+				//dataQuery += "[count(.|//h2[" + i + "+1]/preceding-sibling::node())";
+				//dataQuery += "=";
+				//dataQuery += "count(//h2[" + i + "+1]/preceding-sibling::node())]";
+				//var dataQuery = "//node()[count(preceding-sibling::h2)=" + i + "]";
+				var dataQuery = "//node()[count(preceding-sibling::h2)=" + i + " and not(*[not(h2)])]";
+				var title = doc.DocumentNode.SelectSingleNode(titleQuery).InnerText.Trim();
+				var setupNodes = doc.DocumentNode.SelectNodes(dataQuery);
+				logger.Log(string.Format("2: Content of node {0} {1} >", i, title));
+				foreach (var node in setupNodes.Where(x => x.ParentNode is HtmlNode && !string.IsNullOrEmpty(x.InnerText.Trim())))
+				{
+					logger.Log(string.Format("3: {0}", node.InnerText.Trim()));
+				}
+			}
+
+			var notesQuery = "//node()[count(preceding-sibling::h2)=" + h2count + "]";
+			var notesNodes = doc.DocumentNode.SelectNodes(notesQuery);
+			logger.Log("4: Content of node Notes >");
+			foreach (var node in notesNodes) // doesnt filter empty lines and "br" to keep a glimpse of formatting
+			{
+				logger.Log(string.Format("5: {0}", node.InnerText.Trim()));
+			}
+
 		}
 
 	}

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary
+namespace SetupExplorerLibrary.Entities.Templates
 {
     public class BaseTemplate : Template
     {

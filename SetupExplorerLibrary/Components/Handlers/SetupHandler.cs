@@ -1,11 +1,12 @@
-﻿using SetupExplorerLibrary.Interfaces;
+﻿using SetupExplorerLibrary.Components.Parsers;
+using SetupExplorerLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary
+namespace SetupExplorerLibrary.Components.Handlers
 {
     public class SetupHandler
     {
@@ -25,6 +26,8 @@ namespace SetupExplorerLibrary
             // TODO: validate htm file format ?
 
             setupParser = new SetupParser(this.setupFileName, this.logger);
+            var template = GetTemplate(setupParser.GetCarName());
+            setupParser.Parse(template);
             setup = new Setup(setupParser.GetSetupSummary(), this.logger);
         }
 
@@ -36,6 +39,31 @@ namespace SetupExplorerLibrary
         public string GetSetupFileName()
         {
             return this.setupFileName;
+        }
+
+        private Template GetTemplate(string carName)
+        {
+            // Capitalize first letter of carName
+            System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(carName.ToLower());
+
+            // Trying to dynamically instancing template
+            //string templateTypeFQN = typeof(carName + "Template").AssemblyQualifiedName;
+            //Type templateType = Type.GetType(templateTypeFQN);
+            //return (Template)Activator.CreateInstance(templateType);
+
+            // instancing template based on carName
+            //switch (carName)
+            //{
+            //    case "Audirs3lms":
+            //        return new Audirs3lmsTemplate();
+            //    //break;
+            //    default:
+            //        logger.Log("Unknown car");
+            //        break;
+            //}
+
+            return new Audirs3lmsTemplate2();
+
         }
     }
 }

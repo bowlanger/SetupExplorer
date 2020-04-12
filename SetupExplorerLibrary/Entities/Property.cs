@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary.Entities.Templates
+namespace SetupExplorerLibrary.Entities
 {
-    class Audir3lmsTemplate
+    public class Property
     {
+        public string Name;
+        public string Value;
     }
 }
