@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SetupExplorerLibrary.Interfaces;
 
-namespace SetupExplorerLibrary
+namespace SetupExplorerLibrary.Entities.Setup
 {
     public class Setup
     {

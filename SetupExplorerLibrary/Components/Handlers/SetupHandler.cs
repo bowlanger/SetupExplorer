@@ -1,4 +1,7 @@
 ﻿using SetupExplorerLibrary.Components.Parsers;
+using SetupExplorerLibrary.Entities.Setup;
+using SetupExplorerLibrary.Entities.Template;
+using SetupExplorerLibrary.Entities.Template.Cars;
 using SetupExplorerLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,11 +13,13 @@ namespace SetupExplorerLibrary.Components.Handlers
 {
     public class SetupHandler
     {
+        private readonly ILogger logger;
+
         private readonly SetupParser setupParser;
-        private readonly Setup setup;
         private readonly string setupFileName;
 
-        private readonly ILogger logger;
+        private Template template;
+        private Setup setup;
 
         public SetupHandler(string setupFileName, ILogger logger)
         {
@@ -26,9 +31,9 @@ namespace SetupExplorerLibrary.Components.Handlers
             // TODO: validate htm file format ?
 
             setupParser = new SetupParser(this.setupFileName, this.logger);
-            var template = GetTemplate(setupParser.GetCarName());
-            setupParser.Parse(template);
-            setup = new Setup(setupParser.GetSetupSummary(), this.logger);
+            GetTemplate(setupParser.GetCarName());
+
+            BuildSetupV2();
         }
 
         public Setup GetSetup()
@@ -41,7 +46,7 @@ namespace SetupExplorerLibrary.Components.Handlers
             return this.setupFileName;
         }
 
-        private Template GetTemplate(string carName)
+        private void GetTemplate(string carName)
         {
             // Capitalize first letter of carName
             System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(carName.ToLower());
@@ -62,8 +67,42 @@ namespace SetupExplorerLibrary.Components.Handlers
             //        break;
             //}
 
-            return new Audirs3lmsTemplate2();
+            template = new Audirs3lmsTemplateV2();
 
+        }
+
+        private void BuildSetup()
+        {
+            setup = new Setup(setupParser.GetSetupSummary(), logger);
+
+            foreach (Sheet sheet in template.Sheets)
+            {
+                foreach(Area area in sheet.Areas)
+                {
+                    foreach(Property property in area.Properties)
+                    {
+                        logger.Log("6: " + setupParser.GetText(property.PropertyXpath) + " => " + setupParser.GetText(property.ValuesXpath));
+                        
+                    }
+                }
+            }
+        }
+
+        private void BuildSetupV2()
+        {
+            setup = new Setup(setupParser.GetSetupSummary(), logger);
+            
+            foreach(string parsedLine in setupParser.parsedLines)
+            {
+                string last = setupParser.SplitXPath(parsedLine).Last();
+                logger.Log(last);
+                string currentNode = setupParser.GetNodeName(last);
+                string id = setupParser.GetNodeId(last);
+                if (currentNode == "h2")
+                {
+                    logger.Log(id + " => " + template.Mapping[id]);
+                }
+            }
         }
     }
 }

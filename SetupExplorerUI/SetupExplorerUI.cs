@@ -1,4 +1,5 @@
-﻿using SetupExplorerLibrary;
+﻿using SetupExplorerLibrary.Components.Handlers;
+using SetupExplorerLibrary.Entities.Setup;
 using System;
 using System.Windows.Forms;
 

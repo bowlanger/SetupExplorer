@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary.Entities
+namespace SetupExplorerLibrary.Entities.Setup
 {
     public class Sheet
     {
         public string Title { get; set; }
+        public List<Area> Areas = new List<Area>();
 
         public Sheet()
         {

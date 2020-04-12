@@ -47,29 +47,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Area.cs" />
-    <Compile Include="Entities\Property.cs" />
-    <Compile Include="Entities\Templates\Audirs3lmsTemplate.cs" />
-    <Compile Include="Entities\Templates\BaseTemplate.cs" />
+    <Compile Include="Entities\Setup\Area.cs" />
+    <Compile Include="Entities\Setup\Properties\LastHotPressure.cs" />
+    <Compile Include="Entities\Setup\Properties\LastTempsIMO.cs" />
+    <Compile Include="Entities\Setup\Properties\LastTempsOMI.cs" />
+    <Compile Include="Entities\Setup\Properties\StartingPressure.cs" />
+    <Compile Include="Entities\Setup\Properties\TreadRemainingIMO.cs" />
+    <Compile Include="Entities\Setup\Properties\TreadRemainingOMI.cs" />
+    <Compile Include="Entities\Setup\Property.cs" />
+    <Compile Include="Entities\Template\Cars\Audirs3lmsTemplateV2.cs" />
+    <Compile Include="Entities\Template\Cars\Audirs3lmsTemplate.cs" />
+    <Compile Include="Entities\Template\Cars\BaseTemplate.cs" />
     <Compile Include="Components\Interfaces\Ilogger.cs" />
-    <Compile Include="Entities\Templates\Mx5mx52016Template.cs" />
-    <Compile Include="Entities\Sheets\NotesSheet.cs" />
+    <Compile Include="Entities\Template\Cars\Mx5mx52016Template.cs" />
+    <Compile Include="Entities\Setup\Sheets\NotesSheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entities\Setup.cs" />
+    <Compile Include="Entities\Setup\Setup.cs" />
     <Compile Include="Components\Handlers\SetupHandler.cs" />
-    <Compile Include="Entities\Sheet.cs" />
-    <Compile Include="Entities\Sheets\SetupSheet.cs" />
+    <Compile Include="Entities\Setup\Sheet.cs" />
+    <Compile Include="Entities\Setup\Sheets\SetupSheet.cs" />
     <Compile Include="Components\Parsers\SetupParser.cs" />
-    <Compile Include="Entities\SetupSummary.cs" />
+    <Compile Include="Entities\Setup\SetupSummary.cs" />
     <Compile Include="Components\Parsers\SetupSummaryParser.cs" />
-    <Compile Include="Entities\Template.cs" />
-    <Compile Include="Entities\Sheets\TiresSheet.cs" />
+    <Compile Include="Entities\Template\Template.cs" />
+    <Compile Include="Entities\Setup\Sheets\TiresSheet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entities\Areas\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,11 +1,11 @@
-﻿using SetupExplorerLibrary.Entities.Sheets;
+﻿using SetupExplorerLibrary.Entities.Setup.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary.Entities.Templates
+namespace SetupExplorerLibrary.Entities.Template
 {
     public class Mx5mx52016Template : Template
     {

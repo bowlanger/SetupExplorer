@@ -91,25 +91,25 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.closeToolStripMenuItem.Text = "Close";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(100, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // aboutToolStripMenuItem
@@ -212,31 +212,31 @@
             // 
             this.cBLLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cBLLabel.AutoSize = true;
-            this.cBLLabel.Location = new System.Drawing.Point(32, 492);
+            this.cBLLabel.Location = new System.Drawing.Point(33, 492);
             this.cBLLabel.Name = "cBLLabel";
-            this.cBLLabel.Size = new System.Drawing.Size(53, 13);
+            this.cBLLabel.Size = new System.Drawing.Size(51, 13);
             this.cBLLabel.TabIndex = 12;
-            this.cBLLabel.Text = "Back Left";
+            this.cBLLabel.Text = "Rear Left";
             // 
             // cBMLabel
             // 
             this.cBMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cBMLabel.AutoSize = true;
-            this.cBMLabel.Location = new System.Drawing.Point(164, 492);
+            this.cBMLabel.Location = new System.Drawing.Point(182, 492);
             this.cBMLabel.Name = "cBMLabel";
-            this.cBMLabel.Size = new System.Drawing.Size(66, 13);
+            this.cBMLabel.Size = new System.Drawing.Size(30, 13);
             this.cBMLabel.TabIndex = 13;
-            this.cBMLabel.Text = "Back Middle";
+            this.cBMLabel.Text = "Rear";
             // 
             // cBRLabel
             // 
             this.cBRLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cBRLabel.AutoSize = true;
-            this.cBRLabel.Location = new System.Drawing.Point(306, 492);
+            this.cBRLabel.Location = new System.Drawing.Point(307, 492);
             this.cBRLabel.Name = "cBRLabel";
-            this.cBRLabel.Size = new System.Drawing.Size(60, 13);
+            this.cBRLabel.Size = new System.Drawing.Size(58, 13);
             this.cBRLabel.TabIndex = 14;
-            this.cBRLabel.Text = "Back Right";
+            this.cBRLabel.Text = "Rear Right";
             // 
             // cLRLabel
             // 
@@ -272,31 +272,31 @@
             // 
             this.cRMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cRMLabel.AutoSize = true;
-            this.cRMLabel.Location = new System.Drawing.Point(303, 296);
+            this.cRMLabel.Location = new System.Drawing.Point(320, 296);
             this.cRMLabel.Name = "cRMLabel";
-            this.cRMLabel.Size = new System.Drawing.Size(66, 13);
+            this.cRMLabel.Size = new System.Drawing.Size(32, 13);
             this.cRMLabel.TabIndex = 8;
-            this.cRMLabel.Text = "Right Middle";
+            this.cRMLabel.Text = "Right";
             // 
             // cCMLabel
             // 
             this.cCMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cCMLabel.AutoSize = true;
-            this.cCMLabel.Location = new System.Drawing.Point(161, 296);
+            this.cCMLabel.Location = new System.Drawing.Point(178, 296);
             this.cCMLabel.Name = "cCMLabel";
-            this.cCMLabel.Size = new System.Drawing.Size(72, 13);
+            this.cCMLabel.Size = new System.Drawing.Size(38, 13);
             this.cCMLabel.TabIndex = 7;
-            this.cCMLabel.Text = "Center Middle";
+            this.cCMLabel.Text = "Center";
             // 
             // cLMLabel
             // 
             this.cLMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cLMLabel.AutoSize = true;
-            this.cLMLabel.Location = new System.Drawing.Point(29, 296);
+            this.cLMLabel.Location = new System.Drawing.Point(46, 296);
             this.cLMLabel.Name = "cLMLabel";
-            this.cLMLabel.Size = new System.Drawing.Size(59, 13);
+            this.cLMLabel.Size = new System.Drawing.Size(25, 13);
             this.cLMLabel.TabIndex = 6;
-            this.cLMLabel.Text = "Left Middle";
+            this.cLMLabel.Text = "Left";
             // 
             // cLFLabel
             // 
@@ -342,11 +342,11 @@
             // 
             this.cFMLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.cFMLabel.AutoSize = true;
-            this.cFMLabel.Location = new System.Drawing.Point(164, 100);
+            this.cFMLabel.Location = new System.Drawing.Point(181, 100);
             this.cFMLabel.Name = "cFMLabel";
-            this.cFMLabel.Size = new System.Drawing.Size(65, 13);
+            this.cFMLabel.Size = new System.Drawing.Size(31, 13);
             this.cFMLabel.TabIndex = 1;
-            this.cFMLabel.Text = "Front Middle";
+            this.cFMLabel.Text = "Front";
             // 
             // cFLLabel
             // 
