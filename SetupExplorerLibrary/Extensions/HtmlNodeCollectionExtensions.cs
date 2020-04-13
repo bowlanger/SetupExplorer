@@ -1,0 +1,27 @@
+﻿using HtmlAgilityPack;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SetupExplorerLibrary.Extensions
+{
+    public static class HtmlNodeCollectionExtensions
+    {
+        public static List<string> ToXPathList(this HtmlNodeCollection htmlNodeCollection)
+        {
+            List<string> xpathList = new List<string>();
+
+            //foreach (var node in htmlNodeCollection.Where(x => !string.IsNullOrEmpty(x.InnerText.Trim())))
+            foreach (var node in htmlNodeCollection)
+            {
+                string xpath = node.XPath;
+                // string value = node.XPath.InnerText.Trim();
+                xpathList.Add(xpath);
+            }
+
+            return xpathList;
+        }
+    }
+}

@@ -9,10 +9,15 @@ namespace SetupExplorerLibrary.Entities.Setup
 {
     public class Setup
     {
-        public SetupSummary SetupSummary;
-
         private readonly ILogger logger;
 
+        public SetupSummary SetupSummary;
+
+        public Setup(ILogger logger)
+        {
+            this.logger = logger;
+            this.logger.Log("Setup > _constructor(logger)");
+        }
         public Setup(SetupSummary setupSummary, ILogger logger)
         {
             this.logger = logger;

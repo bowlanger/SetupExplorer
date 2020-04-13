@@ -15,38 +15,70 @@ namespace SetupExplorerLibrary.Components.Handlers
     {
         private readonly ILogger logger;
 
-        private readonly SetupParser setupParser;
         private readonly string setupFileName;
-
-        private Template template;
+        private readonly SetupParser setupParser;
         private Setup setup;
+        private readonly Template template;
+
+        private List<string> xPathList;
+
+        
+        
 
         public SetupHandler(string setupFileName, ILogger logger)
         {
             this.logger = logger;
-            this.logger.Log("SetupHandler > _constructor");
+            this.logger.Log("SetupHandler > _constructor(setupFileName, logger)");
 
             this.setupFileName = setupFileName;
 
-            // TODO: validate htm file format ?
+            setupParser = new SetupParser(logger);
+            setup = new Setup(logger);
 
-            setupParser = new SetupParser(this.setupFileName, this.logger);
-            GetTemplate(setupParser.GetCarName());
+            Work();
+            //template = GetTemplate(setupParser.GetCarName());
 
-            BuildSetupV2();
+            //BuildSetupV2();
         }
 
-        public Setup GetSetup()
+        private void Work()
         {
-            return this.setup;
+            if (setupParser.Load(setupFileName))
+            {
+                xPathList = setupParser.GetXpathList("//node()");
+                var carName = setupParser.GetCarName();
+                //var bSaveToFile = SaveToFile($@"E:\Temp\iRacing\SetupExplorer\setups\{setupSummaryParser.GetCarName()}.xpath.txt", xPathList);
+                SaveToFile($@"E:\Temp\iRacing\SetupExplorer\setups\__debug.xpath.txt", xPathList);
+            }
+            
         }
+
+        private bool SaveToFile(string fileName, List<string> lines)
+        {
+            try
+            {
+                // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/file-system/how-to-write-to-a-text-file
+                System.IO.File.WriteAllLines(fileName, lines);
+            }
+            catch (Exception e)
+            {
+                logger.Log(e.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        // ##############################################
+        // <------------- old code below --------------->
+        // ##############################################
 
         public string GetSetupFileName()
         {
             return this.setupFileName;
         }
 
-        private void GetTemplate(string carName)
+        private Template GetTemplate(string carName)
         {
             // Capitalize first letter of carName
             System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(carName.ToLower());
@@ -67,13 +99,13 @@ namespace SetupExplorerLibrary.Components.Handlers
             //        break;
             //}
 
-            template = new Audirs3lmsTemplateV2();
+            return new Audirs3lmsTemplateV2();
 
         }
 
         private void BuildSetup()
         {
-            setup = new Setup(setupParser.GetSetupSummary(), logger);
+            Setup = new Setup(setupParser.GetSetupSummary(), logger);
 
             foreach (Sheet sheet in template.Sheets)
             {
@@ -90,14 +122,14 @@ namespace SetupExplorerLibrary.Components.Handlers
 
         private void BuildSetupV2()
         {
-            setup = new Setup(setupParser.GetSetupSummary(), logger);
+            Setup = new Setup(setupParser.GetSetupSummary(), logger);
             
-            foreach(string parsedLine in setupParser.nodesXPath)
+            foreach(var xpath in setupParser.NodesXPathList)
             {
-                string last = setupParser.SplitXPath(parsedLine).Last();
+                var last = setupParser.SplitXPath(xpath).Last();
                 logger.Log(last);
-                string currentNode = setupParser.GetNodeName(last);
-                string id = setupParser.GetNodeId(last);
+                var currentNode = setupParser.GetNodeName(last);
+                var id = setupParser.GetNodeId(last);
                 if (currentNode == "h2")
                 {
                     logger.Log(id + " => " + template.GetKeyByValue(id));

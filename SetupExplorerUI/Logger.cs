@@ -4,6 +4,7 @@ using System.Windows.Forms;
 namespace SetupExplorerUI
 {
 	public class RichTextBoxLogger : ILogger
+
 	{
 		private readonly RichTextBox _richTextBox;
 

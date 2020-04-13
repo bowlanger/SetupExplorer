@@ -9,6 +9,8 @@ namespace SetupExplorerLibrary.Entities.Setup
     public class Property
     {
         public string PropertyLabel { get; set; }
+        
+        // internal string PropertyXPath
         public string PropertyXpath { get; set; }
         public string PropertyMatch = "";
         public string ValuesXpath { get; set; }

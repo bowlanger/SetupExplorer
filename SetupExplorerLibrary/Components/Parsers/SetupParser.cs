@@ -6,30 +6,58 @@ using System.Text;
 using System.Threading.Tasks;
 using SetupExplorerLibrary.Interfaces;
 using SetupExplorerLibrary.Entities.Setup;
+using SetupExplorerLibrary.Extensions;
 
 namespace SetupExplorerLibrary.Components.Parsers
 {
 	public class SetupParser
 	{
-		private readonly string htmFileName;
 		private readonly HtmlDocument doc = new HtmlDocument();
 		private readonly HtmlNode firstH2Node;
 		private readonly HtmlNodeCollection documentNodes;
 		private readonly HtmlNodeCollection h2Nodes;
 		private readonly SetupSummaryParser setupSummaryParser;
 
-		public List<string> nodesXPath = new List<string>();
+		public List<string> NodesXPathList { get; set; } = new List<string>();
 
 		private readonly ILogger logger;
+
+		public SetupParser(ILogger logger)
+		{
+			this.logger = logger;
+			this.logger.Log("SetupParser > _constructor(htmlFileName, logger");
+		}
+
+		public Boolean Load(string htmFileName)
+		{
+			try
+			{
+				doc.Load(htmFileName);
+			}
+			catch (Exception e)
+			{
+				logger.Log(e.Message);
+				return false;
+			}
+
+			return true;
+		}
+
+		public List<string> GetXpathList(string xpath)
+		{
+			return doc.DocumentNode.SelectNodes(xpath).ToXPathList();
+		}
+
+		// ##############################################
+		// <------------- old code below --------------->
+		// ##############################################
 
 		public SetupParser(string htmFileName, ILogger logger)
 		{
 			this.logger = logger;
 			this.logger.Log("SetupParser > _constructor");
-
-			this.htmFileName = htmFileName;
-
-			doc.Load(this.htmFileName);
+			
+			doc.Load(htmFileName);
 
 			firstH2Node = doc.DocumentNode.SelectSingleNode("//h2");
 			setupSummaryParser = new SetupSummaryParser(firstH2Node, logger);
@@ -37,7 +65,10 @@ namespace SetupExplorerLibrary.Components.Parsers
 			// get all content nodes except summary and notes
 			// solution 1
 			documentNodes = doc.DocumentNode.SelectNodes("//node()[preceding-sibling::h2][following-sibling::h2]"); 
-			nodesXPath = ListNodesXPath(documentNodes);
+			NodesXPathList = documentNodes.ToXPathList();
+
+			// save result to file for the lul
+			//SaveToFile($@"E:\Temp\iRacing\SetupExplorer\setups\{setupSummaryParser.GetCarName()}.xpath.txt", NodesXPathList);
 
 			// solution 2
 			h2Nodes = doc.DocumentNode.SelectNodes("//h2");
@@ -46,6 +77,7 @@ namespace SetupExplorerLibrary.Components.Parsers
 
 		public SetupSummary GetSetupSummary()
 		{
+
 			return new SetupSummary(setupSummaryParser.GetCarName(), 
 									setupSummaryParser.GetSetupName(), 
 									setupSummaryParser.GetTrackName(),
@@ -76,42 +108,26 @@ namespace SetupExplorerLibrary.Components.Parsers
 			}
 		}
 
-		private void SaveToFile(string filePath)
-		{
-			//https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/file-system/how-to-write-to-a-text-file
-			//using (System.IO.StreamWriter file =
-			//	new System.IO.StreamWriter(@"E:\Temp\iRacing\SetupExplorer\setups\" + setupSummaryParser.GetCarName() + ".xpath.txt"))
-			//{
-			//	foreach (string line in lines)
-			//	{
-			//		file.WriteLine(line);
-			//	}
+		//private List<string> ListNodesXPath(HtmlNodeCollection documentNodes)
+		//{
+		//	// https://stackoverflow.com/questions/37320624/htmlagilitypack-how-to-extract-html-between-some-tag
+		//	//string query = "//node()[preceding-sibling::h2 or self::h2][following-sibling::h2 or self::h2]"; // grabs all h2 and nodes in between but won't grab "content" of last h2 node "Notes:"
+		//	//string query = "//node()[preceding-sibling::h2][following-sibling::h2]"; // will skip first h2 "setup summary" and the last h2 "Notes:"
+		//	//string query = "//node()[preceding-sibling::h2]"; // skips first h2 "setup summary" and doesn't skip last h2 "Notes:", grabs all nodes that have a h2 as 
 
-			//}
-			//System.IO.File.WriteAllLines(@"E:\Temp\iRacing\SetupExplorer\setups\" + setupSummaryParser.GetCarName() + ".xpath.txt", lines);
-			System.IO.File.WriteAllLines(filePath + setupSummaryParser.GetCarName() + ".xpath.txt", nodesXPath);
-		}
+		//	//List<string> lines = new List<string>();
 
-		private List<string> ListNodesXPath(HtmlNodeCollection documentNodes)
-		{
-			// https://stackoverflow.com/questions/37320624/htmlagilitypack-how-to-extract-html-between-some-tag
-			//string query = "//node()[preceding-sibling::h2 or self::h2][following-sibling::h2 or self::h2]"; // grabs all h2 and nodes in between but won't grab "content" of last h2 node "Notes:"
-			//string query = "//node()[preceding-sibling::h2][following-sibling::h2]"; // will skip first h2 "setup summary" and the last h2 "Notes:"
-			//string query = "//node()[preceding-sibling::h2]"; // skips first h2 "setup summary" and doesn't skip last h2 "Notes:", grabs all nodes that have a h2 as 
+		//	List<string> xpaths = new List<string>();
 
-			//List<string> lines = new List<string>();
+		//	foreach (var node in documentNodes.Where(x => !string.IsNullOrEmpty(x.InnerText.Trim())))
+		//	{
+		//		string xpath = node.XPath;
+		//		// string value = node.XPath.InnerText.Trim();
+		//		xpaths.Add(xpath);
+		//	}
 
-			List<string> xpaths = new List<string>();
-
-			foreach (HtmlNode node in documentNodes.Where(x => x.ParentNode is HtmlNode && !string.IsNullOrEmpty(x.InnerText.Trim())))
-			{
-				string xpath = node.XPath;
-				// string value = node.XPath.InnerText.Trim();
-				xpaths.Add(xpath);
-			}
-
-			return xpaths;
-		}
+		//	return xpaths;
+		//}
 
 		private void Parse(HtmlNodeCollection h2Nodes)
 		{

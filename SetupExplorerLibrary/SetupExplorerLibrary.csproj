@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Setup\Area.cs" />
+    <Compile Include="Enum\EArea.cs" />
     <Compile Include="Entities\Setup\Properties\LastHotPressure.cs" />
     <Compile Include="Entities\Setup\Properties\LastTempsIMO.cs" />
     <Compile Include="Entities\Setup\Properties\LastTempsOMI.cs" />
@@ -58,7 +59,8 @@
     <Compile Include="Entities\Template\Cars\Audirs3lmsTemplateV2.cs" />
     <Compile Include="Entities\Template\Cars\Audirs3lmsTemplate.cs" />
     <Compile Include="Entities\Template\Cars\BaseTemplate.cs" />
-    <Compile Include="Components\Interfaces\Ilogger.cs" />
+    <Compile Include="Extensions\HtmlNodeCollectionExtensions.cs" />
+    <Compile Include="Interfaces\Ilogger.cs" />
     <Compile Include="Entities\Template\Cars\Mx5mx52016Template.cs" />
     <Compile Include="Entities\Setup\Sheets\NotesSheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

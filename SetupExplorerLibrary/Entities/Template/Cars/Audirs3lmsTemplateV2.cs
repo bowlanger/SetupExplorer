@@ -19,10 +19,10 @@ namespace SetupExplorerLibrary.Entities.Template.Cars
 
             //https://stackoverflow.com/questions/689940/hashtable-with-multidimensional-key-in-c-sharp
             Areas["Tires"] = new Dictionary<string, int>();
-            Areas["Tires"]["Left Front"] = 2;
-            Areas["Tires"]["Left Rear"] = 3;
-            Areas["Tires"]["Right Front"] = 4;
-            Areas["Tires"]["Right Rear"] = 5;
+            Areas["Tires"]["LeftFront"] = 2;
+            Areas["Tires"]["LeftRear"] = 3;
+            Areas["Tires"]["RightFront"] = 4;
+            Areas["Tires"]["RightRear"] = 5;
 
             Mapping["Tires:LeftFront"] = "2";
             Mapping["Tires:LeftRear"] = "3";

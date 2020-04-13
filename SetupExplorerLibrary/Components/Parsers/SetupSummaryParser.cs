@@ -16,6 +16,16 @@ namespace SetupExplorerLibrary.Components.Parsers
 
         private readonly ILogger logger;
 
+        public SetupSummaryParser(ILogger logger)
+        {
+            this.logger = logger;
+            this.logger.Log("SetupSummaryParser > _constructor(logger)");
+        }
+
+        // ##############################################
+        // <------------- old code below --------------->
+        // ##############################################
+
         public SetupSummaryParser(HtmlNode setupSummary, ILogger logger)
         {
             this.logger = logger;
