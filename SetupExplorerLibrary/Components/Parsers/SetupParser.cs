@@ -18,7 +18,7 @@ namespace SetupExplorerLibrary.Components.Parsers
 		private readonly HtmlNodeCollection h2Nodes;
 		private readonly SetupSummaryParser setupSummaryParser;
 
-		public List<string> parsedLines = new List<string>();
+		public List<string> nodesXPath = new List<string>();
 
 		private readonly ILogger logger;
 
@@ -35,10 +35,13 @@ namespace SetupExplorerLibrary.Components.Parsers
 			setupSummaryParser = new SetupSummaryParser(firstH2Node, logger);
 
 			// get all content nodes except summary and notes
+			// solution 1
 			documentNodes = doc.DocumentNode.SelectNodes("//node()[preceding-sibling::h2][following-sibling::h2]"); 
-			//h2Nodes = doc.DocumentNode.SelectNodes("//h2");
-			
-			this.GhettoParse();
+			nodesXPath = ListNodesXPath(documentNodes);
+
+			// solution 2
+			h2Nodes = doc.DocumentNode.SelectNodes("//h2");
+			GhettoParse(h2Nodes);
 		}
 
 		public SetupSummary GetSetupSummary()
@@ -86,10 +89,10 @@ namespace SetupExplorerLibrary.Components.Parsers
 
 			//}
 			//System.IO.File.WriteAllLines(@"E:\Temp\iRacing\SetupExplorer\setups\" + setupSummaryParser.GetCarName() + ".xpath.txt", lines);
-			System.IO.File.WriteAllLines(filePath + setupSummaryParser.GetCarName() + ".xpath.txt", parsedLines);
+			System.IO.File.WriteAllLines(filePath + setupSummaryParser.GetCarName() + ".xpath.txt", nodesXPath);
 		}
 
-		private void GhettoParse()
+		private List<string> ListNodesXPath(HtmlNodeCollection documentNodes)
 		{
 			// https://stackoverflow.com/questions/37320624/htmlagilitypack-how-to-extract-html-between-some-tag
 			//string query = "//node()[preceding-sibling::h2 or self::h2][following-sibling::h2 or self::h2]"; // grabs all h2 and nodes in between but won't grab "content" of last h2 node "Notes:"
@@ -98,34 +101,31 @@ namespace SetupExplorerLibrary.Components.Parsers
 
 			//List<string> lines = new List<string>();
 
-			foreach (var item in documentNodes.Where(x => x.ParentNode is HtmlNode && !string.IsNullOrEmpty(x.InnerText.Trim())))
+			List<string> xpaths = new List<string>();
+
+			foreach (HtmlNode node in documentNodes.Where(x => x.ParentNode is HtmlNode && !string.IsNullOrEmpty(x.InnerText.Trim())))
 			{
-				//var tabs = item.XPath.Length > 24 ? "\t" : "\t\t";
-				//var line = item.XPath + ";" + item.InnerText.Trim();
-				var line = item.XPath;
-				// if line = h2
-				//   found area
-				//   identify area
-				//		get id, find Template id
-				// if line = text
-				//   found property
-				// if line = u
-				//   found value
-				//     
-				// lines.add(line);
-				parsedLines.Add(line);
+				string xpath = node.XPath;
+				// string value = node.XPath.InnerText.Trim();
+				xpaths.Add(xpath);
 			}
+
+			return xpaths;
 		}
 
-		private void GhettoParse2()
+		private void Parse(HtmlNodeCollection h2Nodes)
+		{
+			int h2count = h2Nodes.Count;
+			logger.Log(string.Format("1: Found {0} h2 nodes for car {1}.", h2count, GetCarName()));
+		}
+
+		private void GhettoParse(HtmlNodeCollection h2Nodes)
 		{
 			//var h2NodesCount = h2Nodes.Count;
 			//for(var i=1; i < h2NodesCount; i++) // i=1 skip "summary" h2 node
 			//{
 			//	logger.Log("h2Nodes > " + h2Nodes[i].InnerText.Trim());
 			//}
-
-			HtmlNodeCollection h2Nodes = doc.DocumentNode.SelectNodes("//h2");
 			int h2count = h2Nodes.Count;
 
 			logger.Log(string.Format("1: Found {0} h2 nodes.", h2count));

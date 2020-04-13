@@ -92,7 +92,7 @@ namespace SetupExplorerLibrary.Components.Handlers
         {
             setup = new Setup(setupParser.GetSetupSummary(), logger);
             
-            foreach(string parsedLine in setupParser.parsedLines)
+            foreach(string parsedLine in setupParser.nodesXPath)
             {
                 string last = setupParser.SplitXPath(parsedLine).Last();
                 logger.Log(last);
@@ -100,7 +100,7 @@ namespace SetupExplorerLibrary.Components.Handlers
                 string id = setupParser.GetNodeId(last);
                 if (currentNode == "h2")
                 {
-                    logger.Log(id + " => " + template.Mapping[id]);
+                    logger.Log(id + " => " + template.GetKeyByValue(id));
                 }
             }
         }

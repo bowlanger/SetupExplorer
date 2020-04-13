@@ -26,8 +26,7 @@ namespace SetupExplorerLibrary.Entities.Template
 
         public string GetKeyByValue(string value)
         {
-            var myKey = Mapping.FirstOrDefault(x => x.Value == value).Key;
-            return myKey;
+            return Mapping.FirstOrDefault(x => x.Value == value).Key;
         }
     }
 }

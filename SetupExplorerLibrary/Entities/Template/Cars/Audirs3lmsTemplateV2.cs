@@ -24,17 +24,17 @@ namespace SetupExplorerLibrary.Entities.Template.Cars
             Areas["Tires"]["Right Front"] = 4;
             Areas["Tires"]["Right Rear"] = 5;
 
-            Mapping["2"] = "Tires:Left Front";
-            Mapping["3"] = "Tires:Left Rear";
-            Mapping["4"] = "Tires:Right Front";
-            Mapping["5"] = "Tires:Right Rear";
+            Mapping["Tires:LeftFront"] = "2";
+            Mapping["Tires:LeftRear"] = "3";
+            Mapping["Tires:RightFront"] = "4";
+            Mapping["Tires:RightRear"] = "5";
 
-            Mapping["6"] = "Chassis:Front";
-            Mapping["7"] = "Chassis:Left Front";
-            Mapping["8"] = "Chassis:Left Rear";
-            Mapping["9"] = "Chassis:Right Front";
-            Mapping["10"] = "Chassis:Right Rear";
-            Mapping["11"] = "Chassis:Rear";
+            Mapping["Chassis:Front"] = "6";
+            Mapping["Chassis:LeftFront"] = "7";
+            Mapping["Chassis:LeftRear"] = "8";
+            Mapping["Chassis:RightFront"] = "9";
+            Mapping["Chassis:RightRear"] = "10";
+            Mapping["Chassis:Rear"] = "11";
             
             //Template.Add("Tires", new Dictionary<string, int>());
             //Template["Tires"].Add("Left Front", 2);
