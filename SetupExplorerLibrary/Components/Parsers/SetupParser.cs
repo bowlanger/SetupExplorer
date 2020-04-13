@@ -25,10 +25,13 @@ namespace SetupExplorerLibrary.Components.Parsers
 		public SetupParser(ILogger logger)
 		{
 			this.logger = logger;
-			this.logger.Log("SetupParser > _constructor(htmlFileName, logger");
+			this.logger.Log("INFO | SetupParser > _constructor(logger)");
+
+			// components
+			setupSummaryParser = new SetupSummaryParser(this.logger);
 		}
 
-		public Boolean Load(string htmFileName)
+		public bool Load(string htmFileName)
 		{
 			try
 			{
@@ -40,12 +43,18 @@ namespace SetupExplorerLibrary.Components.Parsers
 				return false;
 			}
 
+			logger.Log("INFO | SetupParser > Load(htmFileName) : success !");
 			return true;
 		}
 
 		public List<string> GetXpathList(string xpath)
 		{
 			return doc.DocumentNode.SelectNodes(xpath).ToXPathList();
+		}
+
+		public List<string> Dump(string xpath)
+		{
+			return doc.DocumentNode.SelectNodes(xpath).Dump();
 		}
 
 		// ##############################################

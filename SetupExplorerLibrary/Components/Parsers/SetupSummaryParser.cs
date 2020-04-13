@@ -19,7 +19,7 @@ namespace SetupExplorerLibrary.Components.Parsers
         public SetupSummaryParser(ILogger logger)
         {
             this.logger = logger;
-            this.logger.Log("SetupSummaryParser > _constructor(logger)");
+            this.logger.Log("INFO | SetupSummaryParser > _constructor(logger)");
         }
 
         // ##############################################

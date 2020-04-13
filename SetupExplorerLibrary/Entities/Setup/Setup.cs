@@ -11,8 +11,12 @@ namespace SetupExplorerLibrary.Entities.Setup
     {
         private readonly ILogger logger;
 
-        public SetupSummary SetupSummary;
+        public SetupSummary SetupSummary { get; set; }
 
+        public Setup()
+        {
+
+        }
         public Setup(ILogger logger)
         {
             this.logger = logger;

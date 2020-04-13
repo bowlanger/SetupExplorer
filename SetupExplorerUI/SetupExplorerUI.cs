@@ -1,5 +1,4 @@
-﻿using SetupExplorerLibrary.Components.Handlers;
-using SetupExplorerLibrary.Entities.Setup;
+﻿using SetupExplorerLibrary;
 using System;
 using System.Windows.Forms;
 
@@ -9,13 +8,13 @@ namespace SetupExplorerUI
 	{
 		private readonly RichTextBoxLogger _logger;
 
-		private Setup setup;
-		private SetupHandler setupHandler;
+		private SetupExplorer setupExplorer;
 
 		public SetupExplorerForm()
 		{
 			InitializeComponent();
 			_logger = new RichTextBoxLogger(tbConsole);
+			setupExplorer = new SetupExplorer(_logger);
 
 			// TODO register templates ?
 		}
@@ -24,7 +23,7 @@ namespace SetupExplorerUI
 		{
 			if (seOpenFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				setupHandler = new SetupHandler(seOpenFileDialog.FileName, _logger);
+				setupExplorer.Init(seOpenFileDialog.FileName);
 
 				/*setup = setupHandler.Setup;
 

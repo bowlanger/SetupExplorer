@@ -47,6 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
+    <Compile Include="Entities\Setup\SetupFile.cs" />
+    <Compile Include="Enum\EFileType.cs" />
+    <Compile Include="Components\Handlers\SetupHandler.cs" />
     <Compile Include="Entities\Setup\Area.cs" />
     <Compile Include="Enum\EArea.cs" />
     <Compile Include="Entities\Setup\Properties\LastHotPressure.cs" />
@@ -65,7 +69,7 @@
     <Compile Include="Entities\Setup\Sheets\NotesSheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Setup\Setup.cs" />
-    <Compile Include="Components\Handlers\SetupHandler.cs" />
+    <Compile Include="SetupExplorer.cs" />
     <Compile Include="Entities\Setup\Sheet.cs" />
     <Compile Include="Entities\Setup\Sheets\SetupSheet.cs" />
     <Compile Include="Components\Parsers\SetupParser.cs" />
