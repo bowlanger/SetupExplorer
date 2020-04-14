@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SetupExplorerApp.Interfaces;
+using SetupExplorerLibrary.Interfaces;
 
-namespace SetupExplorerApp.Entities
+namespace SetupExplorerLibrary.Entities
 {
     public class Setup
     {
@@ -13,18 +13,13 @@ namespace SetupExplorerApp.Entities
 
         public string FileName { get; set; }
         public Summary Summary { get; set; }
+
         public List<Property> Properties { get; set; } = new List<Property>();
 
-        public Setup()
+        public Setup(string fileName)
         {
-
-        }
-        public Setup(ILogger logger)
-        {
-            this.logger = logger;
-            this.logger.Log("Setup > _constructor(logger)");
-
-            FileName = "";
+            FileName = fileName;
+            Summary = new Summary();
         }
     }
 }

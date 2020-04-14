@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SetupExplorerApp.Interfaces;
-using SetupExplorerApp.Extensions;
-using SetupExplorerApp.Entities;
+using SetupExplorerLibrary.Interfaces;
+using SetupExplorerLibrary.Extensions;
+using SetupExplorerLibrary.Entities;
 
-namespace SetupExplorerApp.Components.Parsers
+namespace SetupExplorerLibrary.Components.Parsers
 {
 	public class SetupFileParser
 	{
@@ -16,7 +16,8 @@ namespace SetupExplorerApp.Components.Parsers
 		private readonly HtmlNode firstH2Node;
 		private readonly HtmlNodeCollection documentNodes;
 		private readonly HtmlNodeCollection h2Nodes;
-		private readonly SetupSummaryParser setupSummaryParser;
+		private readonly SummaryParser summaryParser;
+		private HtmlNode summaryNode;
 
 		public List<string> NodesXPathList { get; set; } = new List<string>();
 
@@ -28,7 +29,7 @@ namespace SetupExplorerApp.Components.Parsers
 			this.logger.Log("INFO | SetupParser > _constructor(logger)");
 
 			// components
-			setupSummaryParser = new SetupSummaryParser(this.logger);
+			summaryParser = new SummaryParser(this.logger);
 		}
 
 		public bool Load(string htmFileName)
@@ -47,26 +48,48 @@ namespace SetupExplorerApp.Components.Parsers
 			return true;
 		}
 
-		public List<string> GetXpathList(string xpath)
+		public List<string> GetXPathsAsList(string xpath)
 		{
-			return doc.DocumentNode.SelectNodes(xpath).ToXPathList();
+			return doc.DocumentNode.SelectNodes(xpath).ToXPathsList();
 		}
 
-		public List<string> Dump(string xpath)
+		public List<string> GetXPathsAndValuesAsList(string xpath)
 		{
-			return doc.DocumentNode.SelectNodes(xpath).Dump();
+			return doc.DocumentNode.SelectNodes(xpath).ToXPathsAndValuesList();
 		}
 
-		public Summary GetSummary()
+		public HtmlNodeCollection GetNodes(string xpath)
 		{
-			return new Summary(setupSummaryParser.GetCarName(),
-						setupSummaryParser.GetSetupName(),
-						setupSummaryParser.GetTrackName(),
-						setupSummaryParser.GetTrackCfg(),
-						logger);
+			return doc.DocumentNode.SelectNodes(xpath);
 		}
 
-		public Summary 
+		public string GetCarName()
+		{
+			return summaryParser.GetCarName();
+		}
+
+		public string GetSetupName()
+		{
+			return summaryParser.GetSetupName();
+		}
+
+
+		//public string GetExportTrackName()
+		//{
+		//	return summaryParser.GetExportTrackName();
+		//}
+
+
+		public void Parse(Template template)
+		{
+
+		}
+
+		public List<SetupNode> GetSetupNodes(string xpath)
+		{
+			return new List<SetupNode>();
+		}
+
 		// ##############################################
 		// <------------- old code below --------------->
 		// ##############################################
@@ -79,12 +102,12 @@ namespace SetupExplorerApp.Components.Parsers
 			doc.Load(htmFileName);
 
 			firstH2Node = doc.DocumentNode.SelectSingleNode("//h2");
-			setupSummaryParser = new SetupSummaryParser(firstH2Node, logger);
+			summaryParser = new SummaryParser(firstH2Node, logger);
 
 			// get all content nodes except summary and notes
 			// solution 1
 			documentNodes = doc.DocumentNode.SelectNodes("//node()[preceding-sibling::h2][following-sibling::h2]"); 
-			NodesXPathList = documentNodes.ToXPathList();
+			NodesXPathList = documentNodes.ToXPathsList();
 
 			// save result to file for the lul
 			//SaveToFile($@"E:\Temp\iRacing\SetupExplorer\setups\{setupSummaryParser.GetCarName()}.xpath.txt", NodesXPathList);
@@ -92,21 +115,6 @@ namespace SetupExplorerApp.Components.Parsers
 			// solution 2
 			h2Nodes = doc.DocumentNode.SelectNodes("//h2");
 			GhettoParse(h2Nodes);
-		}
-
-		public Summary GetSetupSummary()
-		{
-
-			return new Summary(setupSummaryParser.GetCarName(), 
-									setupSummaryParser.GetSetupName(), 
-									setupSummaryParser.GetTrackName(),
-									setupSummaryParser.GetTrackCfg(),
-									logger);
-		}
-
-		public string GetCarName()
-		{
-			return setupSummaryParser.GetCarName();
 		}
 
 		public string GetText(string xpath)

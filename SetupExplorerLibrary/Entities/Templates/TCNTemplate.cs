@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerApp.Entities.Templates
+namespace SetupExplorerLibrary.Entities.Templates
 {
     public class TCNTemplate : Template
     {
@@ -12,6 +12,8 @@ namespace SetupExplorerApp.Entities.Templates
         {
 
             //https://stackoverflow.com/questions/689940/hashtable-with-multidimensional-key-in-c-sharp
+
+            Mapping["Summary"] = "1";
 
             Mapping["Tires:LeftFront"] = "2";
             Mapping["Tires:LeftRear"] = "3";
@@ -24,7 +26,8 @@ namespace SetupExplorerApp.Entities.Templates
             Mapping["Chassis:RightFront"] = "9";
             Mapping["Chassis:RightRear"] = "10";
             Mapping["Chassis:Rear"] = "11";
-            
+
+            Mapping["Notes"] = "12";
 
             //public Dictionary<string, 
             //                Dictionary<string, 

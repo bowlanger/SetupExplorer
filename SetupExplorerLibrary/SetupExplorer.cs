@@ -1,28 +1,28 @@
-﻿using SetupExplorerApp.Components.Handlers;
-using SetupExplorerApp.Components.Parsers;
-using SetupExplorerApp.Entities;
-using SetupExplorerApp.Interfaces;
+﻿using SetupExplorerLibrary.Components.Managers;
+using SetupExplorerLibrary.Components.Parsers;
+using SetupExplorerLibrary.Entities;
+using SetupExplorerLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerApp
+namespace SetupExplorerLibrary
 {
-    public class SetupExplorerApp
+    public class SetupExplorer
     {
         private readonly ILogger logger;
 
         private readonly Config cfg;
-        private readonly SetupHandler setupHandler;
+        private readonly SetupManager setupManager;
         private readonly SetupFileParser setupFileParser;
         private readonly Setup setup;
         private readonly Template template;
 
         private List<string> xPathList;
 
-        public SetupExplorerApp(ILogger logger)
+        public SetupExplorer(ILogger logger)
         {
             this.logger = logger;
             this.logger.Log("INFO | SetupHandler > _constructor(logger)");
@@ -31,47 +31,52 @@ namespace SetupExplorerApp
             cfg = new Config();
 
             // components
-            setupHandler = new SetupHandler(logger);
+            setupManager = new SetupManager(logger);
             setupFileParser = new SetupFileParser(logger);
 
             // entities
             template = new Template();
-            setup = new Setup();
+            //setup = new Setup();
 
             //template = GetTemplate(setupParser.GetCarName());
             //BuildSetupV2();
         }
 
-        public void Run(string setupFileName)
+        public void OpenSetupFile(string setupFileName)
         {
-            if (setupFileParser.Load(setupFileName))
-            {
-                setup.FileName = setupFileName;
-                var summary = setupFileParser.GetNode(cfg.XPathRoot + "/h2[1]");
-                setup.Properties = SetupFileParser.GetProperties();
-            }
-        }
-
-        public void LoadSetupFile(string setupFileName)
-        {
-            SetupFile setupFile = setupHandler.Create(setupFileName); 
-
-            // check setupFile.Size
-
             if (setupFileParser.Load(setupFileName))
             {
                 if (cfg.Debug)
                 {
-                    var xPathList = setupFileParser.GetXpathList(cfg.XPathRoot + "node()");
-                    var dump = setupFileParser.Dump(cfg.XPathRoot + "node()");
-                    //var carName = setupParser.GetCarName();
+                    var xPathList = setupFileParser.GetXPathsAsList(cfg.XPathRoot + "node()");
+                    var xPathValuesList = setupFileParser.GetXPathsAndValuesAsList(cfg.XPathRoot + "node()");
+                    
                     SaveToFile($@"{cfg.OutputDir}\__debug.xpath.txt", xPathList);
-                    SaveToFile($@"{cfg.OutputDir}\__debug.xpathvalues.txt", dump);
+                    SaveToFile($@"{cfg.OutputDir}\__debug.xpathvalues.txt", xPathValuesList);
                 }
 
-                setup.Summary = setupFileParser.GetSetupSummary();
+                var nodes = setupFileParser.GetSetupNodes(cfg.XPathRoot);
+
+                var tmp = nodes.
+
+                
+                var summaryNodes = setupFileParser.GetNodes(cfg.XPathRoot + "h2[1]/text()"); // /html[1]/body[1]/h2[1]/text()
+                foreach (var node in summaryNodes)
+                {
+                    logger.Log($@"DEBUG | {node.InnerText.Trim()}");
+                }
+
+                /*
+                Setup setup = new Setup(setupFileName);
+                Summary summary = new Summary(setupFileParser.GetCarName(),
+                                              setupFileParser.GetSetupName(),
+                                              setupFileParser.GetExportTrackName());
+                setup.Summary = summary;
+                setup.Properties = SetupFileParser.GetProperties();
+
+                setupManager.Register(new Setup(setupFileName));      
+                */
             }
-            
         }
 
         private bool SaveToFile(string fileName, List<string> lines)
@@ -99,6 +104,7 @@ namespace SetupExplorerApp
         //    return this.setupFileName;
         //}
 
+        /*
         private Template GetTemplate(string carName)
         {
             // Capitalize first letter of carName
@@ -121,9 +127,10 @@ namespace SetupExplorerApp
             //}
 
             return new Audirs3lmsTemplateV2();
-
         }
+        */
 
+        /*
         private void BuildSetup()
         {
             Setup setup = new Setup(setupFileParser.GetSetupSummary(), logger);
@@ -140,7 +147,9 @@ namespace SetupExplorerApp
                 }
             }
         }
+        */
 
+        /*
         private void BuildSetupV2()
         {
             Setup setup = new Setup(setupFileParser.GetSetupSummary(), logger);
@@ -157,5 +166,6 @@ namespace SetupExplorerApp
                 }
             }
         }
+        */
     }
 }

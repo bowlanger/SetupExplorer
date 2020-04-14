@@ -1,14 +1,14 @@
 ﻿using HtmlAgilityPack;
-using SetupExplorerApp.Interfaces;
+using SetupExplorerLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerApp.Components.Parsers
+namespace SetupExplorerLibrary.Components.Parsers
 {
-    public class SetupSummaryParser
+    public class SummaryParser
     {
         private readonly HtmlNode setupSummary;
         private readonly string carsetupLine; // ie : "mx5 mx52016 setup: baseline_19S3"
@@ -16,7 +16,7 @@ namespace SetupExplorerApp.Components.Parsers
 
         private readonly ILogger logger;
 
-        public SetupSummaryParser(ILogger logger)
+        public SummaryParser(ILogger logger)
         {
             this.logger = logger;
             this.logger.Log("INFO | SetupSummaryParser > _constructor(logger)");
@@ -26,7 +26,7 @@ namespace SetupExplorerApp.Components.Parsers
         // <------------- old code below --------------->
         // ##############################################
 
-        public SetupSummaryParser(HtmlNode setupSummary, ILogger logger)
+        public SummaryParser(HtmlNode setupSummary, ILogger logger)
         {
             this.logger = logger;
             this.logger.Log("SetupSummaryParser > _constructor");

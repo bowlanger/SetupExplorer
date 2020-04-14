@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerApp.Extensions
+namespace SetupExplorerLibrary.Extensions
 {
     public static class HtmlNodeCollectionExtensions
     {
-        public static List<string> ToXPathList(this HtmlNodeCollection htmlNodeCollection)
+        public static List<string> ToXPathsList(this HtmlNodeCollection htmlNodeCollection)
         {
             List<string> xpathList = new List<string>();
 
@@ -23,7 +23,7 @@ namespace SetupExplorerApp.Extensions
             return xpathList;
         }
 
-        public static List<string> Dump(this HtmlNodeCollection htmlNodeCollection)
+        public static List<string> ToXPathsAndValuesList(this HtmlNodeCollection htmlNodeCollection)
         {
             List<string> xpathList = new List<string>();
 

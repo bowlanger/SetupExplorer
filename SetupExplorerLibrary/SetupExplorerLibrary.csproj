@@ -47,36 +47,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Manager.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="Entities\Setup\SetupFile.cs" />
+    <Compile Include="Entities\SetupNode.cs" />
     <Compile Include="Enum\EFileType.cs" />
-    <Compile Include="Components\Handlers\SetupHandler.cs" />
-    <Compile Include="Entities\Setup\Area.cs" />
+    <Compile Include="Components\Managers\SetupManager.cs" />
     <Compile Include="Enum\EArea.cs" />
-    <Compile Include="Entities\Setup\Properties\LastHotPressure.cs" />
-    <Compile Include="Entities\Setup\Properties\LastTempsIMO.cs" />
-    <Compile Include="Entities\Setup\Properties\LastTempsOMI.cs" />
-    <Compile Include="Entities\Setup\Properties\StartingPressure.cs" />
-    <Compile Include="Entities\Setup\Properties\TreadRemainingIMO.cs" />
-    <Compile Include="Entities\Setup\Properties\TreadRemainingOMI.cs" />
-    <Compile Include="Entities\Setup\Property.cs" />
-    <Compile Include="Entities\Template\Cars\Audirs3lmsTemplateV2.cs" />
-    <Compile Include="Entities\Template\Cars\Audirs3lmsTemplate.cs" />
-    <Compile Include="Entities\Template\Cars\BaseTemplate.cs" />
+    <Compile Include="Entities\Property.cs" />
+    <Compile Include="Entities\Templates\TCNTemplate.cs" />
     <Compile Include="Extensions\HtmlNodeCollectionExtensions.cs" />
     <Compile Include="Interfaces\Ilogger.cs" />
-    <Compile Include="Entities\Template\Cars\Mx5mx52016Template.cs" />
-    <Compile Include="Entities\Setup\Sheets\NotesSheet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entities\Setup\Setup.cs" />
+    <Compile Include="Entities\Setup.cs" />
     <Compile Include="SetupExplorer.cs" />
-    <Compile Include="Entities\Setup\Sheet.cs" />
-    <Compile Include="Entities\Setup\Sheets\SetupSheet.cs" />
-    <Compile Include="Components\Parsers\SetupParser.cs" />
-    <Compile Include="Entities\Setup\SetupSummary.cs" />
-    <Compile Include="Components\Parsers\SetupSummaryParser.cs" />
-    <Compile Include="Entities\Template\Template.cs" />
-    <Compile Include="Entities\Setup\Sheets\TiresSheet.cs" />
+    <Compile Include="Components\Parsers\SetupFileParser.cs" />
+    <Compile Include="Entities\Summary.cs" />
+    <Compile Include="Components\Parsers\SummaryParser.cs" />
+    <Compile Include="Entities\Template.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

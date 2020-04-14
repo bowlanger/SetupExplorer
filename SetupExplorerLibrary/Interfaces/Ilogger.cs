@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerApp.Interfaces
+namespace SetupExplorerLibrary.Interfaces
 {
 	public interface ILogger
 	{

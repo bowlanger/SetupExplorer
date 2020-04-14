@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerApp.Entities
+namespace SetupExplorerLibrary.Entities
 {
     public class Property
     {
