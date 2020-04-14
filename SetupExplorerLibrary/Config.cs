@@ -1,4 +1,4 @@
-﻿namespace SetupExplorerLibrary
+﻿namespace SetupExplorerApp
 {
     internal class Config
     {

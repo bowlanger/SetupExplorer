@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary.Extensions
+namespace SetupExplorerApp.Extensions
 {
     public static class HtmlNodeCollectionExtensions
     {

@@ -1,4 +1,4 @@
-﻿using SetupExplorerLibrary.Interfaces;
+﻿using SetupExplorerApp.Interfaces;
 using System.Windows.Forms;
 
 namespace SetupExplorerUI

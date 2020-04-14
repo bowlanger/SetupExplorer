@@ -1,12 +1,12 @@
 ﻿using HtmlAgilityPack;
-using SetupExplorerLibrary.Interfaces;
+using SetupExplorerApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary.Components.Parsers
+namespace SetupExplorerApp.Components.Parsers
 {
     public class SetupSummaryParser
     {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SetupExplorerLibrary.Interfaces;
+using SetupExplorerApp.Interfaces;
 
-namespace SetupExplorerLibrary.Entities.Setup
+namespace SetupExplorerApp.Entities
 {
-    public class SetupSummary
+    public class Summary
     {
         public string CarName { get; set; }
         public string SetupName { get; set; }
@@ -16,13 +16,13 @@ namespace SetupExplorerLibrary.Entities.Setup
 
         private readonly ILogger logger;
 
-        public SetupSummary(ILogger logger)
+        public Summary(ILogger logger)
         {
             this.logger = logger;
             this.logger.Log("SetupSummary > _constructor #1");
         }
 
-        public SetupSummary(string carName, string setupName, string trackName, string trackCfg, ILogger logger)
+        public Summary(string carName, string setupName, string trackName, string trackCfg, ILogger logger)
         {
             this.logger = logger;
             this.logger.Log("SetupSummary > _constructor #2");

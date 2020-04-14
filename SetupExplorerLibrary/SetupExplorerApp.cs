@@ -1,31 +1,28 @@
-﻿using SetupExplorerLibrary.Components.Handlers;
-using SetupExplorerLibrary.Components.Parsers;
-using SetupExplorerLibrary.Entities.Setup;
-using SetupExplorerLibrary.Entities.SetupFile;
-using SetupExplorerLibrary.Entities.Template;
-using SetupExplorerLibrary.Entities.Template.Cars;
-using SetupExplorerLibrary.Interfaces;
+﻿using SetupExplorerApp.Components.Handlers;
+using SetupExplorerApp.Components.Parsers;
+using SetupExplorerApp.Entities;
+using SetupExplorerApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary
+namespace SetupExplorerApp
 {
-    public class SetupExplorer
+    public class SetupExplorerApp
     {
         private readonly ILogger logger;
 
         private readonly Config cfg;
         private readonly SetupHandler setupHandler;
-        private readonly SetupParser setupParser;
+        private readonly SetupFileParser setupFileParser;
         private readonly Setup setup;
         private readonly Template template;
 
         private List<string> xPathList;
 
-        public SetupExplorer(ILogger logger)
+        public SetupExplorerApp(ILogger logger)
         {
             this.logger = logger;
             this.logger.Log("INFO | SetupHandler > _constructor(logger)");
@@ -35,7 +32,7 @@ namespace SetupExplorerLibrary
 
             // components
             setupHandler = new SetupHandler(logger);
-            setupParser = new SetupParser(logger);
+            setupFileParser = new SetupFileParser(logger);
 
             // entities
             template = new Template();
@@ -45,10 +42,14 @@ namespace SetupExplorerLibrary
             //BuildSetupV2();
         }
 
-        public void Init(string setupFileName)
+        public void Run(string setupFileName)
         {
-            setupHandler.OpenSetupFile(setupFileName);
-            SetupFile setupFile = new SetupFile(setupFileName);
+            if (setupFileParser.Load(setupFileName))
+            {
+                setup.FileName = setupFileName;
+                var summary = setupFileParser.GetNode(cfg.XPathRoot + "/h2[1]");
+                setup.Properties = SetupFileParser.GetProperties();
+            }
         }
 
         public void LoadSetupFile(string setupFileName)
@@ -57,18 +58,18 @@ namespace SetupExplorerLibrary
 
             // check setupFile.Size
 
-            if (setupParser.Load(setupFileName))
+            if (setupFileParser.Load(setupFileName))
             {
                 if (cfg.Debug)
                 {
-                    var xPathList = setupParser.GetXpathList(cfg.XPathRoot + "node()");
-                    var dump = setupParser.Dump(cfg.XPathRoot + "node()");
+                    var xPathList = setupFileParser.GetXpathList(cfg.XPathRoot + "node()");
+                    var dump = setupFileParser.Dump(cfg.XPathRoot + "node()");
                     //var carName = setupParser.GetCarName();
                     SaveToFile($@"{cfg.OutputDir}\__debug.xpath.txt", xPathList);
                     SaveToFile($@"{cfg.OutputDir}\__debug.xpathvalues.txt", dump);
                 }
 
-                setup.SetupSummary = setupParser.GetSetupSummary();
+                setup.Summary = setupFileParser.GetSetupSummary();
             }
             
         }
@@ -125,7 +126,7 @@ namespace SetupExplorerLibrary
 
         private void BuildSetup()
         {
-            Setup setup = new Setup(setupParser.GetSetupSummary(), logger);
+            Setup setup = new Setup(setupFileParser.GetSetupSummary(), logger);
 
             foreach (Sheet sheet in template.Sheets)
             {
@@ -133,7 +134,7 @@ namespace SetupExplorerLibrary
                 {
                     foreach(Property property in area.Properties)
                     {
-                        logger.Log("6: " + setupParser.GetText(property.PropertyXpath) + " => " + setupParser.GetText(property.ValuesXpath));
+                        logger.Log("6: " + setupFileParser.GetText(property.PropertyXpath) + " => " + setupFileParser.GetText(property.ValuesXpath));
                         
                     }
                 }
@@ -142,14 +143,14 @@ namespace SetupExplorerLibrary
 
         private void BuildSetupV2()
         {
-            Setup setup = new Setup(setupParser.GetSetupSummary(), logger);
+            Setup setup = new Setup(setupFileParser.GetSetupSummary(), logger);
             
-            foreach(var xpath in setupParser.NodesXPathList)
+            foreach(var xpath in setupFileParser.NodesXPathList)
             {
-                var last = setupParser.SplitXPath(xpath).Last();
+                var last = setupFileParser.SplitXPath(xpath).Last();
                 logger.Log(last);
-                var currentNode = setupParser.GetNodeName(last);
-                var id = setupParser.GetNodeId(last);
+                var currentNode = setupFileParser.GetNodeName(last);
+                var id = setupFileParser.GetNodeId(last);
                 if (currentNode == "h2")
                 {
                     logger.Log(id + " => " + template.GetKeyByValue(id));

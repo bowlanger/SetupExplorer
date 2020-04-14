@@ -1,6 +1,5 @@
-﻿using SetupExplorerLibrary.Entities.Setup;
-using SetupExplorerLibrary.Enum;
-using SetupExplorerLibrary.Interfaces;
+﻿using SetupExplorerApp.Enum;
+using SetupExplorerApp.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary.Components.Handlers
+namespace SetupExplorerApp.Components.Handlers
 {
     public class SetupHandler
     {

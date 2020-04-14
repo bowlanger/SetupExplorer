@@ -1,4 +1,4 @@
-﻿namespace SetupExplorerLibrary.Enum
+﻿namespace SetupExplorerApp.Enum
 {
     public enum EFileType
     {

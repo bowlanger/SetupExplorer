@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SetupExplorerLibrary.Interfaces;
-using SetupExplorerLibrary.Entities.Setup;
-using SetupExplorerLibrary.Extensions;
+using SetupExplorerApp.Interfaces;
+using SetupExplorerApp.Extensions;
+using SetupExplorerApp.Entities;
 
-namespace SetupExplorerLibrary.Components.Parsers
+namespace SetupExplorerApp.Components.Parsers
 {
-	public class SetupParser
+	public class SetupFileParser
 	{
 		private readonly HtmlDocument doc = new HtmlDocument();
 		private readonly HtmlNode firstH2Node;
@@ -22,7 +22,7 @@ namespace SetupExplorerLibrary.Components.Parsers
 
 		private readonly ILogger logger;
 
-		public SetupParser(ILogger logger)
+		public SetupFileParser(ILogger logger)
 		{
 			this.logger = logger;
 			this.logger.Log("INFO | SetupParser > _constructor(logger)");
@@ -57,11 +57,21 @@ namespace SetupExplorerLibrary.Components.Parsers
 			return doc.DocumentNode.SelectNodes(xpath).Dump();
 		}
 
+		public Summary GetSummary()
+		{
+			return new Summary(setupSummaryParser.GetCarName(),
+						setupSummaryParser.GetSetupName(),
+						setupSummaryParser.GetTrackName(),
+						setupSummaryParser.GetTrackCfg(),
+						logger);
+		}
+
+		public Summary 
 		// ##############################################
 		// <------------- old code below --------------->
 		// ##############################################
 
-		public SetupParser(string htmFileName, ILogger logger)
+		public SetupFileParser(string htmFileName, ILogger logger)
 		{
 			this.logger = logger;
 			this.logger.Log("SetupParser > _constructor");
@@ -84,10 +94,10 @@ namespace SetupExplorerLibrary.Components.Parsers
 			GhettoParse(h2Nodes);
 		}
 
-		public SetupSummary GetSetupSummary()
+		public Summary GetSetupSummary()
 		{
 
-			return new SetupSummary(setupSummaryParser.GetCarName(), 
+			return new Summary(setupSummaryParser.GetCarName(), 
 									setupSummaryParser.GetSetupName(), 
 									setupSummaryParser.GetTrackName(),
 									setupSummaryParser.GetTrackCfg(),
