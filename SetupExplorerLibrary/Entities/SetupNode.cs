@@ -8,13 +8,7 @@ namespace SetupExplorerLibrary.Entities
 {
     public class SetupNode
     {
-        public string Title { get; set; }
-        public string Content { get; set; }
-
-        public SetupNode(string title, string content)
-        {
-            Title = title;
-            Content = content;
-        }
+        public int Id { get; set; }
+        public string Text { get; set; }
     }
 }

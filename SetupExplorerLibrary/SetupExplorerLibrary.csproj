@@ -50,6 +50,7 @@
     <Compile Include="Components\Manager.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Entities\SetupNode.cs" />
+    <Compile Include="Entities\XPathRecord.cs" />
     <Compile Include="Enum\EFileType.cs" />
     <Compile Include="Components\Managers\SetupManager.cs" />
     <Compile Include="Enum\EArea.cs" />
@@ -61,7 +62,7 @@
     <Compile Include="Entities\Setup.cs" />
     <Compile Include="SetupExplorer.cs" />
     <Compile Include="Components\Parsers\SetupFileParser.cs" />
-    <Compile Include="Entities\Summary.cs" />
+    <Compile Include="Entities\SetupSummary.cs" />
     <Compile Include="Components\Parsers\SummaryParser.cs" />
     <Compile Include="Entities\Template.cs" />
   </ItemGroup>

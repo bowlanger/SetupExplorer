@@ -9,17 +9,17 @@ namespace SetupExplorerLibrary.Entities
 {
     public class Setup
     {
-        private readonly ILogger logger;
-
-        public string FileName { get; set; }
-        public Summary Summary { get; set; }
+        public string FileName { get; set; } = "";
+        public SetupSummary Summary { get; set; } = new SetupSummary();
 
         public List<Property> Properties { get; set; } = new List<Property>();
+
+        public string Notes { get; set; } = "";
 
         public Setup(string fileName)
         {
             FileName = fileName;
-            Summary = new Summary();
+            Summary = new SetupSummary();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using SetupExplorerLibrary.Components.Managers;
 using SetupExplorerLibrary.Components.Parsers;
 using SetupExplorerLibrary.Entities;
+using SetupExplorerLibrary.Entities.Templates;
 using SetupExplorerLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,8 @@ namespace SetupExplorerLibrary
         private readonly Config cfg;
         private readonly SetupManager setupManager;
         private readonly SetupFileParser setupFileParser;
-        private readonly Setup setup;
-        private readonly Template template;
-
-        private List<string> xPathList;
+        //private readonly Setup setup;
+        private Template template;
 
         public SetupExplorer(ILogger logger)
         {
@@ -48,34 +47,98 @@ namespace SetupExplorerLibrary
             {
                 if (cfg.Debug)
                 {
-                    var xPathList = setupFileParser.GetXPathsAsList(cfg.XPathRoot + "node()");
-                    var xPathValuesList = setupFileParser.GetXPathsAndValuesAsList(cfg.XPathRoot + "node()");
+                    // TODO : replace with SelectRecords
+                    var xPathRecords = setupFileParser.GetMultipleXPathsWithValues(cfg.XPathRoot + "node()");
                     
-                    SaveToFile($@"{cfg.OutputDir}\__debug.xpath.txt", xPathList);
-                    SaveToFile($@"{cfg.OutputDir}\__debug.xpathvalues.txt", xPathValuesList);
+                    SaveToFile($@"{cfg.OutputDir}\__debug.xpathrecords.txt", xPathRecords);
                 }
 
-                var nodes = setupFileParser.GetSetupNodes(cfg.XPathRoot);
-
-                var tmp = nodes.
-
-                
-                var summaryNodes = setupFileParser.GetNodes(cfg.XPathRoot + "h2[1]/text()"); // /html[1]/body[1]/h2[1]/text()
-                foreach (var node in summaryNodes)
-                {
-                    logger.Log($@"DEBUG | {node.InnerText.Trim()}");
-                }
-
-                /*
                 Setup setup = new Setup(setupFileName);
-                Summary summary = new Summary(setupFileParser.GetCarName(),
-                                              setupFileParser.GetSetupName(),
-                                              setupFileParser.GetExportTrackName());
-                setup.Summary = summary;
-                setup.Properties = SetupFileParser.GetProperties();
 
-                setupManager.Register(new Setup(setupFileName));      
-                */
+                // get setup summary
+                // TODO : replace with SelectRecords
+                var summaryContent = setupFileParser.GetMultipleLines(cfg.XPathRoot + "h2[1]/text()");
+                foreach (var item in summaryContent)
+                {
+                    logger.Debug($@"{item}");
+                }
+                var carNameLine = summaryContent[1];
+                logger.Debug($"carNameLine: {carNameLine}");
+                var carName = carNameLine.Substring(0, carNameLine.IndexOf(":") - 6); // -6 = get rid of trailing "<SPACE>setup"
+                logger.Debug($@"carName: {carName}");
+
+                // get template from carName
+                var templateName = cfg.Templates[carName];
+                logger.Debug($@"templateName: {templateName}");
+
+                // load template
+                template = new TCNTemplate();
+
+                // use template.Mapping to define setup.Properties
+                foreach (KeyValuePair<string, int> kvp in template.Mapping)
+                {
+                    SetupNode sn = new SetupNode();
+
+                    var pPath = kvp.Key;
+                    sn.Id = kvp.Value;
+                    logger.Debug($"Mapping: {pPath} => {sn.Id}");
+
+                    sn.Text = setupFileParser.SelectSingleRecord(cfg.XPathRoot + $"h2[{sn.Id}]").Value;
+                    logger.Debug($"sn.Text: {sn.Text.Remove(sn.Text.Length - 1)}");
+
+                    // get content of the setup nodes
+                    // TODO simpler query : //node()[count(preceding-sibling::h2)= and not(*[not(h2)])]
+                    var query = $"{cfg.XPathRoot}h2[{sn.Id}]/following-sibling::node()"
+							  + $"[count(.|{cfg.XPathRoot}h2[{sn.Id + 1}]/preceding-sibling::node())"
+							  + $"="
+							  + $"count({cfg.XPathRoot}h2[{sn.Id + 1}]/preceding-sibling::node())]";
+                    logger.Debug($"query: {query}");
+
+                    var xPathRecords = setupFileParser.SelectRecords(query);
+
+                    // parse content of the setup nodes into Label => Value
+                    var pXPath = "";
+                    var pVXPath = "";
+                    var pLabel = "";
+                    var pValue = "";
+                    foreach (var xr in xPathRecords.Where(x => !string.IsNullOrEmpty(x.Value)))
+                    {    
+                        if (xr.LastNodeName == "#text")
+                        {
+                            if (!string.IsNullOrEmpty(pValue))
+                            {
+                                // remove trailing ";"
+                                pVXPath = pVXPath.Remove(pVXPath.Length - 1);
+                                pValue = pValue.Remove(pValue.Length - 1);
+
+                                // property has a value, store it !
+                                // pValue != "" means we went through u once and pValue got a value assigned
+                                setup.Properties.Add(new Property(sn, pXPath, pVXPath, pPath, pLabel, pValue));
+                                logger.Debug($@"New Setup Property: {sn}, {pXPath}, {pVXPath}, {pPath}, {pLabel}, {pValue}");
+
+                                pVXPath = "";
+                                pValue = "";
+                            }
+                            // new property
+                            pXPath = xr.XPath;
+                            pLabel = xr.Value;
+                            
+                        }
+                        else if (xr.LastNodeName == "u") {
+                            // property value
+                            if (string.IsNullOrEmpty(xr.Value))
+                            {
+                                xr.Value = "<empty>";
+                            }
+
+                            // replace with string.Join(";", List<string>)
+                            pVXPath += xr.XPath + ";";
+                            pValue += xr.Value + ";";
+                        }
+
+                        logger.Debug($"{xr.LastNodeName} => {xr.Value}");
+                    }
+                }
             }
         }
 
@@ -98,11 +161,6 @@ namespace SetupExplorerLibrary
         // ##############################################
         // <------------- old code below --------------->
         // ##############################################
-
-        //public string GetSetupFileName()
-        //{
-        //    return this.setupFileName;
-        //}
 
         /*
         private Template GetTemplate(string carName)
@@ -127,44 +185,6 @@ namespace SetupExplorerLibrary
             //}
 
             return new Audirs3lmsTemplateV2();
-        }
-        */
-
-        /*
-        private void BuildSetup()
-        {
-            Setup setup = new Setup(setupFileParser.GetSetupSummary(), logger);
-
-            foreach (Sheet sheet in template.Sheets)
-            {
-                foreach(Area area in sheet.Areas)
-                {
-                    foreach(Property property in area.Properties)
-                    {
-                        logger.Log("6: " + setupFileParser.GetText(property.PropertyXpath) + " => " + setupFileParser.GetText(property.ValuesXpath));
-                        
-                    }
-                }
-            }
-        }
-        */
-
-        /*
-        private void BuildSetupV2()
-        {
-            Setup setup = new Setup(setupFileParser.GetSetupSummary(), logger);
-            
-            foreach(var xpath in setupFileParser.NodesXPathList)
-            {
-                var last = setupFileParser.SplitXPath(xpath).Last();
-                logger.Log(last);
-                var currentNode = setupFileParser.GetNodeName(last);
-                var id = setupFileParser.GetNodeId(last);
-                if (currentNode == "h2")
-                {
-                    logger.Log(id + " => " + template.GetKeyByValue(id));
-                }
-            }
         }
         */
     }

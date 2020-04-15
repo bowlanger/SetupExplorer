@@ -7,17 +7,17 @@ using SetupExplorerLibrary.Interfaces;
 
 namespace SetupExplorerLibrary.Entities
 {
-    public class Summary
+    public class SetupSummary
     {
         public string CarName { get; set; } = "";
         public string SetupName { get; set; } = "";
         public string ExportTrackName { get; set; } = "";
 
-        public Summary()
+        public SetupSummary()
         {
         }
 
-        public Summary(string carName, string setupName, string exportTrackName)
+        public SetupSummary(string carName, string setupName, string exportTrackName)
         {
             CarName = carName;
             SetupName = setupName;

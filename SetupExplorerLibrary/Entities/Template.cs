@@ -9,14 +9,15 @@ namespace SetupExplorerLibrary.Entities
     public class Template
     {
         public string Name { get; set; }
-        public Dictionary<string, string> Mapping = new Dictionary<string, string>();
+        public string Description { get; set; }
+        public Dictionary<string, int> Mapping = new Dictionary<string, int>();
 
-        public Template()
-        {
+        //public Template()
+        //{
 
-        }
+        //}
 
-        public string GetKeyByValue(string value)
+        public string GetKeyByValue(int value)
         {
             return Mapping.FirstOrDefault(x => x.Value == value).Key;
         }

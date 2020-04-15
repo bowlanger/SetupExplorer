@@ -8,13 +8,23 @@ namespace SetupExplorerLibrary.Entities
 {
     public class Property
     {
-        public string Mapping { get; set; }
-        public string Name { get; set; }
+        public string Path { get; set; }
+        public SetupNode SetupNode { get; set; }
         public string Label { get; set; }
         public string Value { get; set; }
         
         // internal string PropertyXPath
-        public string PropertyXpath { get; set; }
-        public string ValuesXpath { get; set; }
+        public string PropertyXPath { get; set; }
+        public string ValuesXPath { get; set; }
+
+        public Property(SetupNode sn, string pXPath, string pVXPath, string pPath, string pLabel, string pValue)
+        {
+            SetupNode = sn;
+            PropertyXPath = pXPath;
+            ValuesXPath = pVXPath;
+            Path = pPath;
+            Label = pLabel;
+            Value = pValue;
+        }
     }
 }
