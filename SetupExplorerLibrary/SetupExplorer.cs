@@ -56,16 +56,29 @@ namespace SetupExplorerLibrary
                 Setup setup = new Setup(setupFileName);
 
                 // get setup summary
-                // TODO : replace with SelectRecords
-                var summaryContent = setupFileParser.GetMultipleLines(cfg.XPathRoot + "h2[1]/text()");
-                foreach (var item in summaryContent)
-                {
-                    logger.Debug($@"{item}");
-                }
-                var carNameLine = summaryContent[1];
+                SetupSummary ss = new SetupSummary();
+                var summaryContent = setupFileParser.SelectRecords(cfg.XPathRoot + "h2[1]/text()");
+                //foreach (var xr in summaryContent)
+                //{
+                //    logger.Debug($@"{xr.Value}");
+                //}
+                var carNameLine = summaryContent[1].Value;
                 logger.Debug($"carNameLine: {carNameLine}");
                 var carName = carNameLine.Substring(0, carNameLine.IndexOf(":") - 6); // -6 = get rid of trailing "<SPACE>setup"
                 logger.Debug($@"carName: {carName}");
+
+                var setupName = carNameLine.Substring(carNameLine.IndexOf(":") + 2);
+                logger.Debug($@"setupName: {setupName}");
+
+                var exportTrackNameLine = summaryContent[2].Value;
+                var exportTrackName = exportTrackNameLine.Substring(exportTrackNameLine.IndexOf(":") + 2);
+                logger.Debug($@"exportTrackName: {exportTrackName}");
+
+                ss.CarName = carName;
+                ss.SetupName = setupName;
+                ss.ExportTrackName = exportTrackName;
+
+                setup.Summary = ss;
 
                 // get template from carName
                 var templateName = cfg.Templates[carName];
@@ -74,6 +87,8 @@ namespace SetupExplorerLibrary
                 // load template
                 template = new TCNTemplate();
 
+
+                // get setup properties
                 // use template.Mapping to define setup.Properties
                 foreach (KeyValuePair<string, int> kvp in template.Mapping)
                 {
@@ -87,11 +102,14 @@ namespace SetupExplorerLibrary
                     logger.Debug($"sn.Text: {sn.Text.Remove(sn.Text.Length - 1)}");
 
                     // get content of the setup nodes
-                    // TODO simpler query : //node()[count(preceding-sibling::h2)= and not(*[not(h2)])]
+                    // 
+                    var query = $@"{cfg.XPathRoot}node()[count(preceding-sibling::h2)={sn.Id} and not(*[not(h2)])]";
+                    /* alternate
                     var query = $"{cfg.XPathRoot}h2[{sn.Id}]/following-sibling::node()"
 							  + $"[count(.|{cfg.XPathRoot}h2[{sn.Id + 1}]/preceding-sibling::node())"
 							  + $"="
 							  + $"count({cfg.XPathRoot}h2[{sn.Id + 1}]/preceding-sibling::node())]";
+                    */
                     logger.Debug($"query: {query}");
 
                     var xPathRecords = setupFileParser.SelectRecords(query);
@@ -101,20 +119,14 @@ namespace SetupExplorerLibrary
                     var pVXPath = "";
                     var pLabel = "";
                     var pValue = "";
+                    //List<string> plValue = new List<string>
                     foreach (var xr in xPathRecords.Where(x => !string.IsNullOrEmpty(x.Value)))
                     {    
                         if (xr.LastNodeName == "#text")
                         {
                             if (!string.IsNullOrEmpty(pValue))
                             {
-                                // remove trailing ";"
-                                pVXPath = pVXPath.Remove(pVXPath.Length - 1);
-                                pValue = pValue.Remove(pValue.Length - 1);
-
-                                // property has a value, store it !
-                                // pValue != "" means we went through u once and pValue got a value assigned
-                                setup.Properties.Add(new Property(sn, pXPath, pVXPath, pPath, pLabel, pValue));
-                                logger.Debug($@"New Setup Property: {sn}, {pXPath}, {pVXPath}, {pPath}, {pLabel}, {pValue}");
+                                AddSetupProperty(setup, sn, pXPath, pVXPath, pPath, pLabel, pValue);
 
                                 pVXPath = "";
                                 pValue = "";
@@ -138,8 +150,30 @@ namespace SetupExplorerLibrary
 
                         logger.Debug($"{xr.LastNodeName} => {xr.Value}");
                     }
+                    // save last property ( we reached last u and there is no more xr in xPathRecords so we didn't have the chance to go back to !string.IsNullOrEmpty(pValue) )
+                    AddSetupProperty(setup, sn, pXPath, pVXPath, pPath, pLabel, pValue);
+
+
+                    // get Notes node
                 }
+
+                // dump setup object
+                var setupDump = ObjectDumper.Dump(setup);
+
+                Console.WriteLine(setupDump);
             }
+        }
+
+        private void AddSetupProperty(Setup setup, SetupNode sn, string pXPath, string pVXPath, string pPath, string pLabel, string pValue)
+        {
+            // remove trailing ";"
+            pVXPath = pVXPath.Remove(pVXPath.Length - 1);
+            pValue = pValue.Remove(pValue.Length - 1);
+
+            // property has a value, store it !
+            // pValue != "" means we went through u once and pValue got a value assigned
+            setup.Properties.Add(new Property(sn, pXPath, pVXPath, pPath, pLabel, pValue));
+            logger.Debug($@"New Setup Property: {sn}, {pXPath}, {pVXPath}, {pPath}, {pLabel}, {pValue}");
         }
 
         private bool SaveToFile(string fileName, List<string> lines)
