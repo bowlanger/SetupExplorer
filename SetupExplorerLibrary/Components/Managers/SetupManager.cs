@@ -1,6 +1,5 @@
-﻿using SetupExplorerLibrary.Entities;
+﻿using SetupExplorerLibrary.Entities.Setup;
 using SetupExplorerLibrary.Interfaces;
-using SetupExplorerLibrary.Components;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +17,7 @@ namespace SetupExplorerLibrary.Components.Managers
         public SetupManager(ILogger logger)
         {
             this.logger = logger;
-            this.logger.Info($@"{this.GetType().Name} > _constructor(logger)");
+            this.logger.Info($@"{this.GetType().Name} > Constructor(logger)");
         }
 
         public override void Register(Object setup)

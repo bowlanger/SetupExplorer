@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using SetupExplorerLibrary.Interfaces;
 
-namespace SetupExplorerLibrary.Entities
+namespace SetupExplorerLibrary.Entities.Setup
 {
-    public class SetupSummary
+    public class Summary
     {
         public string CarName { get; set; } = "";
         public string SetupName { get; set; } = "";
         public string ExportTrackName { get; set; } = "";
 
-        public SetupSummary()
+        public Summary()
         {
         }
 
-        public SetupSummary(string carName, string setupName, string exportTrackName)
+        public Summary(string carName, string setupName, string exportTrackName)
         {
             CarName = carName;
             SetupName = setupName;

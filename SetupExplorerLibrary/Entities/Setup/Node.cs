@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary.Entities
+namespace SetupExplorerLibrary.Entities.Setup
 {
-    public class SetupNode
+    public class Node
     {
         public int Id { get; set; }
         public string Text { get; set; }

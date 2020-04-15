@@ -5,21 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using SetupExplorerLibrary.Interfaces;
 
-namespace SetupExplorerLibrary.Entities
+namespace SetupExplorerLibrary.Entities.Setup
 {
     public class Setup
     {
         public string FileName { get; set; } = "";
-        public SetupSummary Summary { get; set; } = new SetupSummary();
-
+        public Summary Summary { get; set; } = new Summary();
         public List<Property> Properties { get; set; } = new List<Property>();
-
-        public string Notes { get; set; } = "";
+        public List<string> Notes { get; set; } = new List<string>();
 
         public Setup(string fileName)
         {
             FileName = fileName;
-            Summary = new SetupSummary();
         }
     }
 }

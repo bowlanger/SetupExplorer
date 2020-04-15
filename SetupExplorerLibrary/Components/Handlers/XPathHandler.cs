@@ -21,7 +21,7 @@ namespace SetupExplorerLibrary.Components.Handlers
 		public XPathHandler(ILogger logger)
 		{
 			_logger = logger;
-			_logger.Info($@"{this.GetType().Name} > _constructor(logger)");
+			_logger.Info($@"{this.GetType().Name} > Constructor(logger)");
 		}
 
 		public bool Open(string htmFileName)

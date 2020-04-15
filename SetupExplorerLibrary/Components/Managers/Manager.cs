@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary.Components
+namespace SetupExplorerLibrary.Components.Managers
 {
     public abstract class Manager
     {

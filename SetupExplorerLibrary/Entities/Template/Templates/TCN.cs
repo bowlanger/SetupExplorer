@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary.Entities.Templates
+namespace SetupExplorerLibrary.Entities.Template.Templates
 {
-    public class TCNTemplate : Template
+    public class TCN : Template
     {
-        public TCNTemplate() : base()
+        public TCN() : base()
         {
             Name = "TCN Template";
             Description = "Tires / Chassis / Notes";
