@@ -40,16 +40,16 @@ namespace SetupExplorerLibrary.Components.Handlers
 			return true;
 		}
 
-		public XPathRecord SelectSingleRecord(string xpath)
+		public XPathRecord SelectSingleRecord(string query)
 		{
-			var node = _doc.DocumentNode.SelectSingleNode(xpath);
+			var node = _doc.DocumentNode.SelectSingleNode(query);
 			return new XPathRecord(node.XPath, node.Name, node.InnerText.Trim());
 		}
 
-		public List<XPathRecord> SelectRecords(string xpath)
+		public List<XPathRecord> SelectRecords(string query)
 		{
 			var lines = new List<XPathRecord>();
-			foreach (var node in _doc.DocumentNode.SelectNodes(xpath))
+			foreach (var node in _doc.DocumentNode.SelectNodes(query))
 			{
 				lines.Add(new XPathRecord(node.XPath, node.Name, node.InnerText.Trim()));
 			}

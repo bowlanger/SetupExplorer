@@ -52,10 +52,14 @@ namespace SetupExplorerLibrary
             if (_xH.Open(setupFileName))
             {
                 Setup setup = new Setup(setupFileName);
-                /*
-                 * TODO?:
-                _sfP.Configure(setupFileName, _xH, _cfg.XPathRoot)
-                */
+
+                // Refactor2k20 project
+                _sfP.Configure(_xH, _cfg.XPathRoot);
+                // should _cfg.XPathRoot become a property of _xH instead of _sfP ? (I think so)
+                // -> we'd instantiate _sfP with _xH in SetupExplorer constructor
+                // -> _xH would be instantiated with _cfg.XPathRoot
+                // Refactor2k21 : also pass _cfg.Queries to _sfP
+
                 if (_cfg.Debug)
                 {
                     var xRecords = _xH.SelectRecords(_cfg.XPathRoot + "node()");
@@ -69,8 +73,6 @@ namespace SetupExplorerLibrary
                 }
 
                 // get setup notes
-                // TODO?: replace with 
-                //          setup.Notes = _sfP.GetSetupNotes();
                 _xQuery = $@"{_cfg.XPathRoot}node()[count(preceding-sibling::h2)=count({_cfg.XPathRoot}h2)]";
                 var notesRecords = _xH.SelectRecords(_xQuery);
                 var notes = "";
@@ -80,9 +82,11 @@ namespace SetupExplorerLibrary
                     notes += xr.Value + "\r\n";
                 }
                 _logger.Debug($"Notes:\r\n{notes}");
+                // Refactor2k20: 
+                setup.Notes = _sfP.GetSetupNotes();
 
                 // get setup summary
-                // TODO?: replace with
+                // Refactor2k20: replace with
                 //          setup.Summary.CarName = _sfP.GetCarName();
                 //          setup.Summary.SetupName = _sfP.GetSetupName();
                 //          setup.Summary.ExportTrackName = _sfP.GetExportTrackName();
@@ -131,7 +135,7 @@ namespace SetupExplorerLibrary
 
                 // get setup properties
                 // use template.Mapping to define setup.Properties
-                // TODO?: replace with
+                // Refactor2k20: replace with
                 //              setup.Properties = _sfP.GetProperties(_template);
                 foreach (KeyValuePair<string, int> kvp in _template.Mapping)
                 {
@@ -147,13 +151,13 @@ namespace SetupExplorerLibrary
                     // get content of the setup nodes
                     // 
                     _xQuery = $@"{_cfg.XPathRoot}node()[count(preceding-sibling::h2)={sn.Id} and not(*[not(h2)])]";
-                    /* alternate
+                    /* alternate query, same result
                     xpquery = $"{cfg.XPathRoot}h2[{sn.Id}]/following-sibling::node()"
 							+ $"[count(.|{cfg.XPathRoot}h2[{sn.Id + 1}]/preceding-sibling::node())"
 							+ $"="
 							+ $"count({cfg.XPathRoot}h2[{sn.Id + 1}]/preceding-sibling::node())]";
                     */
-                    _logger.Debug($"xpquery: {_xQuery}");
+                    _logger.Debug($"_xQuery: {_xQuery}");
 
                     var xPathRecords = _xH.SelectRecords(_xQuery);
 
@@ -168,6 +172,9 @@ namespace SetupExplorerLibrary
                         {
                             if (!string.IsNullOrEmpty(pValue))
                             {
+                                // !string.IsNullOrEmpty(pValue) means we went through u once (or more) and pValue got a value assigned
+                                // we now found a new #text record, which means we are going to parse a new property
+                                // before doing so, store the current property
                                 AddSetupProperty(setup, sn, pXPath, pVXPath, pPath, pLabel, pValue);
 
                                 pVXPath = "";
@@ -179,7 +186,7 @@ namespace SetupExplorerLibrary
                             
                         }
                         else if (xr.Name == "u") {
-                            // setup property value
+                            // new value for the current property
                             if (string.IsNullOrEmpty(xr.Value))
                             {
                                 xr.Value = "<empty>";
@@ -214,8 +221,6 @@ namespace SetupExplorerLibrary
             pVXPath = pVXPath.Remove(pVXPath.Length - 1);
             pValue = pValue.Remove(pValue.Length - 1);
 
-            // property has a value, store it !
-            // pValue != "" means we went through u once and pValue got a value assigned
             setup.Properties.Add(new Property(sn, pXPath, pVXPath, pPath, pLabel, pValue));
             _logger.Debug($@"New Setup Property: {sn}, {pXPath}, {pVXPath}, {pPath}, {pLabel}, {pValue}");
         }
