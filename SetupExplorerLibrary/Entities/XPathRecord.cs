@@ -9,13 +9,13 @@ namespace SetupExplorerLibrary.Entities
     public class XPathRecord
     {
         public string XPath { get; set; }
-        public string LastNodeName { get; set; }
+        public string Name { get; set; }
         public string Value { get; set; }
 
         public XPathRecord(string xpath, string lastNodeName, string value)
         {
             XPath = xpath;
-            LastNodeName = lastNodeName;
+            Name = lastNodeName;
             Value = value;
         }
     }

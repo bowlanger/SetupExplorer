@@ -19,7 +19,7 @@ namespace SetupExplorerLibrary.Components.Parsers
         public SummaryParser(ILogger logger)
         {
             this.logger = logger;
-            this.logger.Log("INFO | SetupSummaryParser > _constructor(logger)");
+            this.logger.Info($@"{this.GetType().Name} > _constructor(logger)");
         }
 
         // ##############################################
@@ -29,7 +29,7 @@ namespace SetupExplorerLibrary.Components.Parsers
         public SummaryParser(HtmlNode setupSummary, ILogger logger)
         {
             this.logger = logger;
-            this.logger.Log("SetupSummaryParser > _constructor");
+            this.logger.Info($@"{this.GetType().Name} > _constructor");
 
             this.setupSummary = setupSummary;
 

@@ -18,7 +18,7 @@ namespace SetupExplorerLibrary.Components.Managers
         public SetupManager(ILogger logger)
         {
             this.logger = logger;
-            this.logger.Log("INFO | FileHandler > _constructor(logger)");
+            this.logger.Info($@"{this.GetType().Name} > _constructor(logger)");
         }
 
         public override void Register(Object setup)

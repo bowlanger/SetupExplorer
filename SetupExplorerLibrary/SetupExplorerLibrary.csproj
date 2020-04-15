@@ -34,8 +34,8 @@
     <Reference Include="HtmlAgilityPack, Version=1.11.23.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.11.23\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
-    <Reference Include="ObjectDumping, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ObjectDumper.NET.2.5.20033.1\lib\net45\ObjectDumping.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -61,7 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Setup.cs" />
     <Compile Include="SetupExplorer.cs" />
-    <Compile Include="Components\Parsers\SetupFileParser.cs" />
+    <Compile Include="Components\Handlers\XPathHandler.cs" />
     <Compile Include="Entities\SetupSummary.cs" />
     <Compile Include="Components\Parsers\SummaryParser.cs" />
     <Compile Include="Entities\Template.cs" />

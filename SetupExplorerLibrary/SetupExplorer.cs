@@ -1,4 +1,6 @@
-﻿using SetupExplorerLibrary.Components.Managers;
+﻿using Newtonsoft.Json;
+using SetupExplorerLibrary.Components.Handlers;
+using SetupExplorerLibrary.Components.Managers;
 using SetupExplorerLibrary.Components.Parsers;
 using SetupExplorerLibrary.Entities;
 using SetupExplorerLibrary.Entities.Templates;
@@ -17,21 +19,21 @@ namespace SetupExplorerLibrary
 
         private readonly Config cfg;
         private readonly SetupManager setupManager;
-        private readonly SetupFileParser setupFileParser;
+        private readonly XPathHandler xPathHandler;
         //private readonly Setup setup;
         private Template template;
 
         public SetupExplorer(ILogger logger)
         {
             this.logger = logger;
-            this.logger.Log("INFO | SetupHandler > _constructor(logger)");
+            this.logger.Info($@"{this.GetType().Name} > _constructor(logger)");
 
             // config
             cfg = new Config();
 
             // components
             setupManager = new SetupManager(logger);
-            setupFileParser = new SetupFileParser(logger);
+            xPathHandler = new XPathHandler(logger);
 
             // entities
             template = new Template();
@@ -43,21 +45,25 @@ namespace SetupExplorerLibrary
 
         public void OpenSetupFile(string setupFileName)
         {
-            if (setupFileParser.Load(setupFileName))
+            if (xPathHandler.Open(setupFileName))
             {
                 if (cfg.Debug)
                 {
-                    // TODO : replace with SelectRecords
-                    var xPathRecords = setupFileParser.GetMultipleXPathsWithValues(cfg.XPathRoot + "node()");
-                    
-                    SaveToFile($@"{cfg.OutputDir}\__debug.xpathrecords.txt", xPathRecords);
+                    var xPathRecords = xPathHandler.SelectRecords(cfg.XPathRoot + "node()");
+                    var csvList = new List<string>();
+
+                    foreach (var xr in xPathRecords)
+                    {
+                        csvList.Add($"{xr.Name};{xr.XPath};{xr.Value}");
+                    }
+                    SaveToFile($@"{cfg.OutputDir}\__debug.xpathrecords.txt", csvList);
                 }
 
                 Setup setup = new Setup(setupFileName);
 
                 // get setup summary
                 SetupSummary ss = new SetupSummary();
-                var summaryContent = setupFileParser.SelectRecords(cfg.XPathRoot + "h2[1]/text()");
+                var summaryContent = xPathHandler.SelectRecords(cfg.XPathRoot + "h2[1]/text()");
                 //foreach (var xr in summaryContent)
                 //{
                 //    logger.Debug($@"{xr.Value}");
@@ -98,7 +104,7 @@ namespace SetupExplorerLibrary
                     sn.Id = kvp.Value;
                     logger.Debug($"Mapping: {pPath} => {sn.Id}");
 
-                    sn.Text = setupFileParser.SelectSingleRecord(cfg.XPathRoot + $"h2[{sn.Id}]").Value;
+                    sn.Text = xPathHandler.SelectSingleRecord(cfg.XPathRoot + $"h2[{sn.Id}]").Value;
                     logger.Debug($"sn.Text: {sn.Text.Remove(sn.Text.Length - 1)}");
 
                     // get content of the setup nodes
@@ -112,7 +118,7 @@ namespace SetupExplorerLibrary
                     */
                     logger.Debug($"query: {query}");
 
-                    var xPathRecords = setupFileParser.SelectRecords(query);
+                    var xPathRecords = xPathHandler.SelectRecords(query);
 
                     // parse content of the setup nodes into Label => Value
                     var pXPath = "";
@@ -122,7 +128,7 @@ namespace SetupExplorerLibrary
                     //List<string> plValue = new List<string>
                     foreach (var xr in xPathRecords.Where(x => !string.IsNullOrEmpty(x.Value)))
                     {    
-                        if (xr.LastNodeName == "#text")
+                        if (xr.Name == "#text")
                         {
                             if (!string.IsNullOrEmpty(pValue))
                             {
@@ -136,7 +142,7 @@ namespace SetupExplorerLibrary
                             pLabel = xr.Value;
                             
                         }
-                        else if (xr.LastNodeName == "u") {
+                        else if (xr.Name == "u") {
                             // property value
                             if (string.IsNullOrEmpty(xr.Value))
                             {
@@ -148,7 +154,7 @@ namespace SetupExplorerLibrary
                             pValue += xr.Value + ";";
                         }
 
-                        logger.Debug($"{xr.LastNodeName} => {xr.Value}");
+                        logger.Debug($"{xr.Name} => {xr.Value}");
                     }
                     // save last property ( we reached last u and there is no more xr in xPathRecords so we didn't have the chance to go back to !string.IsNullOrEmpty(pValue) )
                     AddSetupProperty(setup, sn, pXPath, pVXPath, pPath, pLabel, pValue);
@@ -158,9 +164,8 @@ namespace SetupExplorerLibrary
                 }
 
                 // dump setup object
-                var setupDump = ObjectDumper.Dump(setup);
-
-                Console.WriteLine(setupDump);
+                var setupJson = JsonConvert.SerializeObject(setup, Formatting.Indented);
+                Console.WriteLine(setupJson);
             }
         }
 

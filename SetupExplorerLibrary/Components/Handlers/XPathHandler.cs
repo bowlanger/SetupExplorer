@@ -8,71 +8,48 @@ using SetupExplorerLibrary.Interfaces;
 using SetupExplorerLibrary.Extensions;
 using SetupExplorerLibrary.Entities;
 
-namespace SetupExplorerLibrary.Components.Parsers
+namespace SetupExplorerLibrary.Components.Handlers
 {
-	public class SetupFileParser
+	public class XPathHandler
 	{
-		private readonly HtmlDocument doc = new HtmlDocument();
-		private readonly HtmlNode firstH2Node;
-		private readonly HtmlNodeCollection documentNodes;
-		private readonly HtmlNodeCollection h2Nodes;
-		private readonly SummaryParser summaryParser;
-		private HtmlNode summaryNode;
+		// injections
+		private readonly ILogger _logger;
 
-		public List<string> NodesXPathList { get; set; } = new List<string>();
-
-		private readonly ILogger logger;
-
-		public SetupFileParser(ILogger logger)
+		// champs
+		private readonly HtmlDocument _doc = new HtmlDocument();
+		
+		public XPathHandler(ILogger logger)
 		{
-			this.logger = logger;
-			this.logger.Log("INFO | SetupParser > _constructor(logger)");
-
-			// components
-			summaryParser = new SummaryParser(this.logger);
+			_logger = logger;
+			_logger.Info($@"{this.GetType().Name} > _constructor(logger)");
 		}
 
-		public bool Load(string htmFileName)
+		public bool Open(string htmFileName)
 		{
 			try
 			{
-				doc.Load(htmFileName);
+				_doc.Load(htmFileName);
 			}
 			catch (Exception e)
 			{
-				logger.Log(e.Message);
+				_logger.Log(e.Message);
 				return false;
 			}
 
-			logger.Log("INFO | SetupParser > Load(htmFileName) : success !");
+			_logger.Info($@"{this.GetType().Name} > Open(htmFileName) : success !");
 			return true;
-		}
-
-		public List<string> GetMultipleXPathsWithValues(string xpath)
-		{
-			return doc.DocumentNode.SelectNodes(xpath).ToXPathsAndValuesList();
 		}
 
 		public XPathRecord SelectSingleRecord(string xpath)
 		{
-			var node = doc.DocumentNode.SelectSingleNode(xpath);
+			var node = _doc.DocumentNode.SelectSingleNode(xpath);
 			return new XPathRecord(node.XPath, node.Name, node.InnerText.Trim());
-		}
-
-		public List<string> GetMultipleLines(string xpath)
-		{
-			var lines = new List<string>();
-			foreach (var node in doc.DocumentNode.SelectNodes(xpath))
-			{
-				lines.Add(node.InnerText.Trim() + " (" + node.Name + ")");
-			}
-			return lines;
 		}
 
 		public List<XPathRecord> SelectRecords(string xpath)
 		{
 			var lines = new List<XPathRecord>();
-			foreach (var node in doc.DocumentNode.SelectNodes(xpath))
+			foreach (var node in _doc.DocumentNode.SelectNodes(xpath))
 			{
 				lines.Add(new XPathRecord(node.XPath, node.Name, node.InnerText.Trim()));
 			}
@@ -112,21 +89,6 @@ namespace SetupExplorerLibrary.Components.Parsers
 				if (c == sep) count++;
 
 			return xpath.Split(new string[] { sep.ToString() }, count, StringSplitOptions.RemoveEmptyEntries);
-		}
-
-		public string GetNodeName(string node)
-		{
-			return node.Substring(0, node.IndexOf("["));
-		}
-
-		public string GetNodeId(string node)
-		{
-			// https://www.techiedelight.com/convert-string-to-integer-csharp/
-			//return Int32.Parse(step.Substring(step.IndexOf("[") + 1, 1));
-			int begin = node.IndexOf("[") + 1;
-			int length = node.IndexOf("]") - begin;
-
-			return node.Substring(begin, length);
 		}
 	}
 }
