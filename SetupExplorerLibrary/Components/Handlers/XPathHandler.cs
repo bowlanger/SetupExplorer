@@ -32,7 +32,7 @@ namespace SetupExplorerLibrary.Components.Handlers
 			}
 			catch (Exception e)
 			{
-				_logger.Log(e.Message);
+				_logger.Error(e.Message);
 				return false;
 			}
 

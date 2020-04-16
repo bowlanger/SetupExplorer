@@ -5,6 +5,7 @@ using SetupExplorerLibrary.Components.Parsers;
 using SetupExplorerLibrary.Entities.Setup;
 using SetupExplorerLibrary.Entities.Template;
 using SetupExplorerLibrary.Entities.Template.Templates;
+using SetupExplorerLibrary.Enum;
 using SetupExplorerLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -29,18 +30,21 @@ namespace SetupExplorerLibrary
         private string _xQuery;
         private Template _template;
 
-        public SetupExplorer(ILogger logger)
+        public void ConfigAction(IConfigLibrary configLibrary) { }
+
+        public SetupExplorer(Action<IConfigLibrary> configAction, ILogger logger)
         {
             _logger = logger;
             _logger.Info($@"{this.GetType().Name} > Constructor(logger)");
 
             // config
             _cfg = new Config();
+            configAction(_cfg);
 
             // components
-            _setupManager = new SetupManager(logger);
-            _xH = new XPathHandler(logger);
-            _sfP = new SetupFileParser(logger);
+            _setupManager = new SetupManager(_logger);
+            _xH = new XPathHandler(_logger);
+            _sfP = new SetupFileParser(_logger);
 
             // entities
             _template = new Template();
@@ -148,7 +152,7 @@ namespace SetupExplorerLibrary
 
                     var pPath = kvp.Key;
                     sn.Id = kvp.Value;
-                    _logger.Debug($"Mapping: {pPath} => {sn.Id}");
+                    _logger.Debug($"Mapping: {pPath} => {sn.Id}", ELogLevel.L1);
 
                     sn.Text = _xH.SelectSingleRecord(_cfg.XPathRoot + $"h2[{sn.Id}]").Value;
                     _logger.Debug($"sn.Text: {sn.Text.Remove(sn.Text.Length - 1)}");
@@ -243,7 +247,7 @@ namespace SetupExplorerLibrary
             }
             catch (Exception e)
             {
-                _logger.Log(e.Message);
+                _logger.Error(e.Message);
                 return false;
             }
 

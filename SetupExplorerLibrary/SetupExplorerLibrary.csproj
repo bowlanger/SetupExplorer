@@ -56,6 +56,7 @@
     <Compile Include="Enum\EArea.cs" />
     <Compile Include="Entities\Setup\Property.cs" />
     <Compile Include="Entities\Template\Templates\TCN.cs" />
+    <Compile Include="Enum\ELogLevel.cs" />
     <Compile Include="Extensions\HtmlNodeCollectionExtensions.cs" />
     <Compile Include="Interfaces\Ilogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

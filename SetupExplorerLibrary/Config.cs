@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SetupExplorerLibrary.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace SetupExplorerLibrary
 {
-    internal class Config
+    internal class Config : IConfigLibrary
     {
-        public bool Debug { get; } = true;
-        public string OutputFolder { get; }
-        public string BaseFolder { get; }
+        public bool Debug { get; set; }
+        public string OutputFolder { get; set; }
+        public string BaseFolder { get; set; }
         public string XPathRoot { get; }
+
+        public int LogLevel { get; }
 
         public Dictionary<string, string> Templates = new Dictionary<string, string>();
 
@@ -19,9 +22,8 @@ namespace SetupExplorerLibrary
 
         public Config()
         {
-            OutputFolder = @"D:\Yoann\";
-            BaseFolder = @"E:\Temp\iRacing\SetupExplorer\setups\";
-            XPathRoot = "/html[1]/body[1]/";
+
+            XPathRoot = "/html[1]/body[1]/"; // par defaut c'est <-
 
             Templates.Add("audirs3lms", "TCN");
             // QUESTION faire un dictionnaire inverse Templates => TCN  => { audirs3lms, ... }

@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace SetupExplorerLibrary.Interfaces
 {
-	public interface ILogger
-	{
-		void Log(string message);
-
-		void Debug(string message);
-		void Error(string message);
-		void Warn(string message);
-		void Notice(string message);
-		void Info(string message);
-	}
+    public interface ILogger
+    {
+        void Debug(string message, Enum.ELogLevel level = Enum.ELogLevel.L0);
+        void Error(string message, Enum.ELogLevel level = Enum.ELogLevel.L0);
+        void Warn(string message, Enum.ELogLevel level = Enum.ELogLevel.L0);
+        void Notice(string message, Enum.ELogLevel level = Enum.ELogLevel.L0);
+        void Info(string message, Enum.ELogLevel level = Enum.ELogLevel.L0);
+    }
 }
