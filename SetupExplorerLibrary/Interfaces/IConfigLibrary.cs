@@ -12,6 +12,8 @@ namespace SetupExplorerLibrary.Interfaces
         string OutputFolder { get; set; }
         string BaseFolder { get; set; } // what is an auto implement property ?
 
+        Type LoggerType { get; set; }
+
         /*
          *             OutputFolder = @"%temp%"; // => transferer à l'UI
             BaseFolder = @"E:\Temp\iRacing\SetupExplorer\setups\"; // recuperer Mes Documents\iRacing => transferer à l'UI

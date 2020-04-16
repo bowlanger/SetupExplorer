@@ -15,6 +15,7 @@ namespace SetupExplorerLibrary
         public string XPathRoot { get; }
 
         public int LogLevel { get; }
+        public Type LoggerType { get; set; }
 
         public Dictionary<string, string> Templates = new Dictionary<string, string>();
 

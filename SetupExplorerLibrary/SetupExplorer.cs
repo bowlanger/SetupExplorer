@@ -37,10 +37,12 @@ namespace SetupExplorerLibrary
 
 			// registering the services
 			Container.Register(() => _cfg, Lifestyle.Singleton);
-			Container.Register(() => _logger, Lifestyle.Singleton);
-			Container.Register<SetupManager>(Lifestyle.Singleton);
-			Container.Register<XPathHandler>(Lifestyle.Singleton);
-			Container.Register<SetupFileParser>(Lifestyle.Singleton);
+			Container.Register(typeof(ILogger), _cfg.LoggerType);
+			// Container.Register(() => _logger, Lifestyle.Singleton);
+			Container.Register<SetupManager>();
+			Container.Register<XPathHandler>();
+			Container.Register<SetupFileParser>();
+
 
 			_setupManager = Container.GetInstance<SetupManager>();
 			_xH = Container.GetInstance<XPathHandler>();

@@ -18,6 +18,7 @@ namespace SetupExplorerUI
 			_logger = new RichTextBoxLogger(tbConsole);
 			_se = new SetupExplorer((c) =>
 			{
+				c.LoggerType = typeof(RichTextBoxLogger);
 				c.Debug = true;
 				c.BaseFolder = @"C:\";
 				c.OutputFolder = @"C:\";
