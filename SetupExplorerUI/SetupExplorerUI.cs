@@ -8,22 +8,28 @@ namespace SetupExplorerUI
 	{
 		private readonly RichTextBoxLogger _logger;
 
-		private SetupExplorer setupExplorer;
+		private SetupExplorer _se;
 
 		public SetupExplorerForm()
 		{
 			InitializeComponent();
 			_logger = new RichTextBoxLogger(tbConsole);
-			setupExplorer = new SetupExplorer(_logger);
+			_se = new SetupExplorer(_logger);
 
-			// TODO register templates ?
+			// TODO
+			// setupExplorer.LookForSetup() // Find setups in default directory
+			// _setupList = _se.GetSetupList()
+
+			// Display list of setups with tickbox "select" "compare1" "compare2" "compare3"
+			//		list must be filterable by car name and custom string
+			// Button Open -> Open selected setups
 		}
 
 		private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (seOpenFileDialog.ShowDialog() == DialogResult.OK)
 			{
-				setupExplorer.OpenSetupFile(seOpenFileDialog.FileName);
+				_se.OpenSetupFile(seOpenFileDialog.FileName);
 
 				/*setup = setupHandler.Setup;
 
