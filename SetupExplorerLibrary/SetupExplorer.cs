@@ -134,6 +134,7 @@ namespace SetupExplorerLibrary
 
 				// dynamically load template
 				/*
+				 * https://stackoverflow.com/questions/3512319/resolve-type-from-class-name-in-a-different-assembly
                 string fqn1 = typeof(Template).AssemblyQualifiedName;           _logger.Debug(fqn1);
                 string fqn2 = typeof(Template).UnderlyingSystemType.FullName;   _logger.Debug(fqn2);
                 string ns = typeof(Template).Namespace;                         _logger.Debug(ns);
