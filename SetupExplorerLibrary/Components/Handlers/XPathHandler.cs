@@ -1,12 +1,8 @@
 ﻿using HtmlAgilityPack;
+using SetupExplorerLibrary.Entities;
+using SetupExplorerLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SetupExplorerLibrary.Interfaces;
-using SetupExplorerLibrary.Extensions;
-using SetupExplorerLibrary.Entities;
 
 namespace SetupExplorerLibrary.Components.Handlers
 {
@@ -17,7 +13,7 @@ namespace SetupExplorerLibrary.Components.Handlers
 
 		// champs
 		private readonly HtmlDocument _doc = new HtmlDocument();
-		
+
 		public XPathHandler(ILogger logger)
 		{
 			_logger = logger;
@@ -60,25 +56,24 @@ namespace SetupExplorerLibrary.Components.Handlers
 		// <------------- old code below --------------->
 		// ##############################################
 
-			// XPATH EXAMPLES
+		// XPATH EXAMPLES
 
-			/*
-		public SetupFileParser(string htmFileName, ILogger logger)
-		{
-			// get all content nodes except summary and notes
-			// solution 1
-			documentNodes = doc.DocumentNode.SelectNodes("//node()[preceding-sibling::h2][following-sibling::h2]"); 
-			NodesXPathList = documentNodes.ToXPathsList();
-		}
-			*/
+		/*
+	public SetupFileParser(string htmFileName, ILogger logger)
+	{
+		// get all content nodes except summary and notes
+		// solution 1
+		documentNodes = doc.DocumentNode.SelectNodes("//node()[preceding-sibling::h2][following-sibling::h2]");
+		NodesXPathList = documentNodes.ToXPathsList();
+	}
+		*/
 
 		//private List<string> ListNodesXPath(HtmlNodeCollection documentNodes)
 		//{
 		//	// https://stackoverflow.com/questions/37320624/htmlagilitypack-how-to-extract-html-between-some-tag
 		//	//string query = "//node()[preceding-sibling::h2 or self::h2][following-sibling::h2 or self::h2]"; // grabs all h2 and nodes in between but won't grab "content" of last h2 node "Notes:"
 		//	//string query = "//node()[preceding-sibling::h2][following-sibling::h2]"; // will skip first h2 "setup summary" and the last h2 "Notes:"
-		//	//string query = "//node()[preceding-sibling::h2]"; // skips first h2 "setup summary" and doesn't skip last h2 "Notes:", grabs all nodes that have a h2 as 
-
+		//	//string query = "//node()[preceding-sibling::h2]"; // skips first h2 "setup summary" and doesn't skip last h2 "Notes:", grabs all nodes that have a h2 as
 
 		public string[] SplitXPath(string xpath)
 		{

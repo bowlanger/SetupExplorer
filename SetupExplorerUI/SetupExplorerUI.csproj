@@ -52,9 +52,8 @@
     <Compile Include="Components\ReadOnlyTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Components\Loggers\Logger.cs" />
-    <Compile Include="Components\Loggers\NullLogger.cs" />
-    <Compile Include="Config.cs" />
+    <Compile Include="Injector.cs" />
+    <Compile Include="RichTextBoxLogger.cs" />
     <Compile Include="SetupExplorerUI.cs">
       <SubType>Form</SubType>
     </Compile>
