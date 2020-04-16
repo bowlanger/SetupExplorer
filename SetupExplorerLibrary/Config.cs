@@ -9,7 +9,8 @@ namespace SetupExplorerLibrary
     internal class Config
     {
         public bool Debug { get; } = true;
-        public string OutputDir { get; }
+        public string OutputFolder { get; }
+        public string BaseFolder { get; }
         public string XPathRoot { get; }
 
         public Dictionary<string, string> Templates = new Dictionary<string, string>();
@@ -18,7 +19,8 @@ namespace SetupExplorerLibrary
 
         public Config()
         {
-            OutputDir = @"D:\Yoann\";
+            OutputFolder = @"D:\Yoann\";
+            BaseFolder = @"E:\Temp\iRacing\SetupExplorer\setups\";
             XPathRoot = "/html[1]/body[1]/";
 
             Templates.Add("audirs3lms", "TCN");

@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace SetupExplorerLibrary
 {
+    // “Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.” - John F. Woods.
+    //
+
     public class SetupExplorer
     {
         private readonly ILogger _logger;
@@ -43,6 +46,8 @@ namespace SetupExplorerLibrary
             _template = new Template();
             //setup = new Setup();
 
+            // init
+            LookForSetup(_cfg.BaseFolder);
             //template = GetTemplate(setupParser.GetCarName());
             //BuildSetupV2();
         }
@@ -69,7 +74,7 @@ namespace SetupExplorerLibrary
                     {
                         csvList.Add($"{xr.Name};{xr.XPath};{xr.Value}");
                     }
-                    SaveToFile($@"{_cfg.OutputDir}\__debug.xpathrecords.txt", csvList);
+                    SaveToFile($@"{_cfg.OutputFolder}\__debug.xpathrecords.txt", csvList);
                 }
 
                 // get setup notes
@@ -214,7 +219,6 @@ namespace SetupExplorerLibrary
                 _setupManager.Register(setup);
             }
         }
-
         private void AddSetupProperty(Setup setup, Node sn, string pXPath, string pVXPath, string pPath, string pLabel, string pValue)
         {
             // remove trailing ";"
@@ -223,6 +227,11 @@ namespace SetupExplorerLibrary
 
             setup.Properties.Add(new Property(sn, pXPath, pVXPath, pPath, pLabel, pValue));
             _logger.Debug($@"New Setup Property: {sn}, {pXPath}, {pVXPath}, {pPath}, {pLabel}, {pValue}");
+        }
+
+        private void LookForSetup(string dir)
+        {
+
         }
 
         private bool SaveToFile(string fileName, List<string> lines)
