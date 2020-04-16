@@ -1,4 +1,5 @@
 ﻿using SetupExplorerLibrary.Entities.Setup;
+using SetupExplorerLibrary.Enum;
 using SetupExplorerLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,13 @@ namespace SetupExplorerLibrary.Components.Managers
 {
     public class SetupManager : Manager
     {
-        private readonly ILogger logger;
+        private readonly ILogger _logger;
         private List<Setup> Setups = new List<Setup>();
 
         public SetupManager(ILogger logger)
         {
-            this.logger = logger;
-            this.logger.Info($@"{this.GetType().Name} > Constructor(logger)");
+            _logger = logger;
+            _logger.Log(ELogLevel.Debug, $@"{this.GetType().Name} > Constructor(logger)");
         }
 
         public override void Register(Object setup)

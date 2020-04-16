@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using SetupExplorerLibrary.Entities;
+using SetupExplorerLibrary.Enum;
 using SetupExplorerLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace SetupExplorerLibrary.Components.Handlers
 		public XPathHandler(ILogger logger)
 		{
 			_logger = logger;
-			_logger.Info($@"{this.GetType().Name} > Constructor(logger)");
+			_logger.Log(ELogLevel.Debug, $@"{this.GetType().Name} > Constructor(logger)");
 		}
 
 		public bool Open(string htmFileName)
@@ -28,11 +29,11 @@ namespace SetupExplorerLibrary.Components.Handlers
 			}
 			catch (Exception e)
 			{
-				_logger.Error(e.Message);
+				_logger.Log(ELogLevel.Error, e.Message);
 				return false;
 			}
 
-			_logger.Info($@"{this.GetType().Name} > Open(htmFileName) : success !");
+			_logger.Log(ELogLevel.Notice, $@"{this.GetType().Name} > Open(htmFileName) : success !");
 			return true;
 		}
 

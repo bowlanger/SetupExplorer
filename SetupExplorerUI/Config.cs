@@ -9,6 +9,8 @@ namespace SetupExplorerUI
 {
     public class Config
     {
-        public static ELogLevel ELogLevel = ELogLevel.L5;
+        public static ELogLevel ELogLevel = ELogLevel.DebugVV;
+
+        public static string OutputFolder = @"D:\Yoann\";
     }
 }

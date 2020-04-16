@@ -8,16 +8,11 @@ using System.Threading.Tasks;
 
 namespace SetupExplorerUI.Components.Loggers
 {
-    public class Logger : ILogger
+    public class ConsoleLogger : ILogger
     {
-        public List<ILogger> Loggers { get; set; } = new List<ILogger>();
-
         public void Log(ELogLevel level, string message)
         {
-            foreach (var logger in Loggers)
-            {
-                logger.Log(level, message);
-            }
+            Console.WriteLine($"{(int)level} {level} | {message}");
         }
     }
 }

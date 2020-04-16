@@ -4,6 +4,7 @@ using SetupExplorerLibrary.Components.Managers;
 using SetupExplorerLibrary.Components.Parsers;
 using SetupExplorerLibrary.Entities.Setup;
 using SetupExplorerLibrary.Entities.Template;
+using SetupExplorerLibrary.Enum;
 using SetupExplorerLibrary.Interfaces;
 using SimpleInjector;
 using System;
@@ -20,7 +21,7 @@ namespace SetupExplorerLibrary
 		private readonly Config _cfg;
 		private readonly SetupManager _setupManager;
 		private readonly XPathHandler _xH;
-		private readonly SetupFileParser _sfP;
+		private readonly SetupFileHelper _sfH;
 
 		private string _xQuery;
 		private Template _template;
@@ -28,8 +29,7 @@ namespace SetupExplorerLibrary
 		public SetupExplorer(Action<IConfigLibrary> actionConfig, ILogger logger)
 		{
 			_logger = logger;
-
-			_logger.Info($@"{this.GetType().Name} > Constructor(logger)");
+			_logger.Log(ELogLevel.Debug, $@"{this.GetType().Name} > Constructor(logger)");
 
 			// config
 			_cfg = new Config();
@@ -41,12 +41,12 @@ namespace SetupExplorerLibrary
 			// Container.Register(() => _logger, Lifestyle.Singleton);
 			Container.Register<SetupManager>();
 			Container.Register<XPathHandler>();
-			Container.Register<SetupFileParser>();
+			Container.Register<SetupFileHelper>();
 
 
 			_setupManager = Container.GetInstance<SetupManager>();
 			_xH = Container.GetInstance<XPathHandler>();
-			_sfP = Container.GetInstance<SetupFileParser>();
+			_sfH = Container.GetInstance<SetupFileHelper>();
 
 			// entities
 			_template = new Template();
@@ -63,7 +63,7 @@ namespace SetupExplorerLibrary
 				Setup setup = new Setup(setupFileName);
 
 				// Refactor2k20 project
-				_sfP.Configure(_xH, _cfg.XPathRoot);
+				_sfH.Configure(_xH, _cfg.XPathRoot);
 				// should _cfg.XPathRoot become a property of _xH instead of _sfP ? (I think so)
 				// -> we'd instantiate _sfP with _xH in SetupExplorer constructor
 				// -> _xH would be instantiated with _cfg.XPathRoot
@@ -90,29 +90,29 @@ namespace SetupExplorerLibrary
 					setup.Notes.Add(xr.Value);
 					notes += xr.Value + "\r\n";
 				}
-				_logger.Debug($"Notes:\r\n{notes}");
+				_logger.Log(ELogLevel.Debug, $"Notes:\r\n{notes}");
 				// Refactor2k20:
-				setup.Notes = _sfP.GetSetupNotes();
+				setup.Notes = _sfH.GetSetupNotes();
 
 				// get setup summary
 				// Refactor2k20: replace with
-				//          setup.Summary.CarName = _sfP.GetCarName();
-				//          setup.Summary.SetupName = _sfP.GetSetupName();
-				//          setup.Summary.ExportTrackName = _sfP.GetExportTrackName();
+				//          setup.Summary.CarName = _sfH.GetCarName();
+				//          setup.Summary.SetupName = _sfH.GetSetupName();
+				//          setup.Summary.ExportTrackName = _sfH.GetExportTrackName();
 				Summary ss = new Summary();
 				var summmaryRecords = _xH.SelectRecords(_cfg.XPathRoot + "h2[1]/text()");
 
 				var carNameLine = summmaryRecords[1].Value;
-				_logger.Debug($"carNameLine: {carNameLine}");
+				_logger.Log(ELogLevel.Debug, $"carNameLine: {carNameLine}");
 				var carName = carNameLine.Substring(0, carNameLine.IndexOf(":") - 6); // -6 = get rid of trailing "<SPACE>setup"
-				_logger.Debug($@"carName: {carName}");
+				_logger.Log(ELogLevel.DebugV, $@"carName: {carName}");
 
 				var setupName = carNameLine.Substring(carNameLine.IndexOf(":") + 2);
-				_logger.Debug($@"setupName: {setupName}");
+				_logger.Log(ELogLevel.DebugV, $@"setupName: {setupName}");
 
 				var exportTrackNameLine = summmaryRecords[2].Value;
 				var exportTrackName = exportTrackNameLine.Substring(exportTrackNameLine.IndexOf(":") + 2);
-				_logger.Debug($@"exportTrackName: {exportTrackName}");
+				_logger.Log(ELogLevel.DebugVV, $@"exportTrackName: {exportTrackName}");
 
 				ss.CarName = carName;
 				ss.SetupName = setupName;
@@ -122,7 +122,7 @@ namespace SetupExplorerLibrary
 
 				// get template from carName
 				var templateName = _cfg.Templates[carName];
-				_logger.Debug($@"templateName: {templateName}");
+				_logger.Log(ELogLevel.DebugV, $@"templateName: {templateName}");
 				// TODO:
 				// else
 				//      build generic template
@@ -145,17 +145,17 @@ namespace SetupExplorerLibrary
 				// get setup properties
 				// use template.Mapping to define setup.Properties
 				// Refactor2k20: replace with
-				//              setup.Properties = _sfP.GetProperties(_template);
+				//              setup.Properties = _sfH.GetProperties(_template);
 				foreach (KeyValuePair<string, int> kvp in _template.Mapping)
 				{
 					Node sn = new Node();
 
 					var pPath = kvp.Key;
 					sn.Id = kvp.Value;
-					_logger.Debug($"Mapping: {pPath} => {sn.Id}");
+					_logger.Log(ELogLevel.Debug, $"Mapping: {pPath} => {sn.Id}");
 
 					sn.Text = _xH.SelectSingleRecord(_cfg.XPathRoot + $"h2[{sn.Id}]").Value;
-					_logger.Debug($"sn.Text: {sn.Text.Remove(sn.Text.Length - 1)}");
+					_logger.Log(ELogLevel.DebugVV, $"sn.Text: {sn.Text.Remove(sn.Text.Length - 1)}");
 
 					// get content of the setup nodes
 					//
@@ -166,7 +166,7 @@ namespace SetupExplorerLibrary
 							+ $"="
 							+ $"count({cfg.XPathRoot}h2[{sn.Id + 1}]/preceding-sibling::node())]";
                     */
-					_logger.Debug($"_xQuery: {_xQuery}");
+					_logger.Log(ELogLevel.DebugVV, $"_xQuery: {_xQuery}");
 
 					var xPathRecords = _xH.SelectRecords(_xQuery);
 
@@ -206,7 +206,7 @@ namespace SetupExplorerLibrary
 							pValue += xr.Value + ";";
 						}
 
-						_logger.Debug($"{xr.Name} => {xr.Value}");
+						_logger.Log(ELogLevel.DebugV, $"{xr.Name} => {xr.Value}");
 					}
 					// save last setup property
 					// ( we reached last u and there is no more xr in xPathRecords
@@ -218,7 +218,7 @@ namespace SetupExplorerLibrary
 
 				// dump setup object
 				var setupJson = JsonConvert.SerializeObject(setup, Formatting.Indented);
-				Console.WriteLine(setupJson);
+				_logger.Log(ELogLevel.DebugVV, setupJson);
 
 				_setupManager.Register(setup);
 			}
@@ -231,7 +231,7 @@ namespace SetupExplorerLibrary
 			pValue = pValue.Remove(pValue.Length - 1);
 
 			setup.Properties.Add(new Property(sn, pXPath, pVXPath, pPath, pLabel, pValue));
-			_logger.Debug($@"New Setup Property: {sn}, {pXPath}, {pVXPath}, {pPath}, {pLabel}, {pValue}");
+			_logger.Log(ELogLevel.Debug, $@"New Setup Property: {sn}, {pXPath}, {pVXPath}, {pPath}, {pLabel}, {pValue}");
 		}
 
 		private bool SaveToFile(string fileName, List<string> lines)
@@ -243,7 +243,7 @@ namespace SetupExplorerLibrary
 			}
 			catch (Exception e)
 			{
-				_logger.Error(e.Message);
+				_logger.Log(ELogLevel.Error, e.Message);
 				return false;
 			}
 

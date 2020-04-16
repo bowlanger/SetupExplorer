@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Managers\Manager.cs" />
-    <Compile Include="Components\Parsers\SetupFileParser.cs" />
+    <Compile Include="Components\Helpers\SetupFileHelper.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Entities\Setup\Node.cs" />
     <Compile Include="Entities\XPathRecord.cs" />

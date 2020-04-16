@@ -1,4 +1,5 @@
 ﻿using SetupExplorerLibrary.Components.Handlers;
+using SetupExplorerLibrary.Enum;
 using SetupExplorerLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,16 +9,19 @@ using System.Threading.Tasks;
 
 namespace SetupExplorerLibrary.Components.Parsers
 {
-    public class SetupFileParser
+    public class SetupFileHelper
     {
         private readonly ILogger _logger;
 
         private XPathHandler _xH;
         private string _xPathRoot = "";
-        public SetupFileParser(ILogger logger)
+        public SetupFileHelper(XPathHandler xH, Config cfg, ILogger logger)
         {
             _logger = logger;
-            _logger.Info($@"{this.GetType().Name} > Constructor(logger)");
+            _logger.Log(ELogLevel.Debug, $@"{this.GetType().Name} > Constructor(logger)");
+
+            _xH = xH;
+            _xPathRoot = cfg.XPathRoot;
         }
 
         public void Configure(XPathHandler xh, string xPathRoot)

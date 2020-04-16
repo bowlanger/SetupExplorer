@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace SetupExplorerLibrary
 {
-    internal class Config : IConfigLibrary
+    public class Config : IConfigLibrary
     {
         public bool Debug { get; set; }
         public string OutputFolder { get; set; }
         public string BaseFolder { get; set; }
         public string XPathRoot { get; }
 
-        public int LogLevel { get; }
         public Type LoggerType { get; set; }
 
         public Dictionary<string, string> Templates = new Dictionary<string, string>();
