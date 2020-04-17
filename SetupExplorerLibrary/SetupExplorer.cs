@@ -20,8 +20,8 @@ namespace SetupExplorerLibrary
 		private readonly ILogger _logger;
 		private readonly Config _cfg;
 		private readonly SetupManager _setupManager;
-		private readonly XPathHandler _xH;
-		private readonly SetupFileHelper _sfH;
+		private readonly XPathHandler _xHd;
+		private readonly SetupFileHelper _sfHp;
 
 		private string _xQuery;
 		private Template _template;
@@ -44,8 +44,8 @@ namespace SetupExplorerLibrary
 			_logger.Log(ELogLevel.Debug, $@"{this.GetType().Name} > Constructor(logger)");
 
 			_setupManager = Container.GetInstance<SetupManager>();
-			_xH = Container.GetInstance<XPathHandler>();
-			_sfH = Container.GetInstance<SetupFileHelper>();
+			_xHd = Container.GetInstance<XPathHandler>();
+			_sfHp = Container.GetInstance<SetupFileHelper>();
 
 			// entities
 			_template = new Template();
@@ -57,12 +57,12 @@ namespace SetupExplorerLibrary
 
 		public void OpenSetupFile(string setupFileName)
 		{
-			if (_xH.Open(setupFileName))
+			if (_xHd.Open(setupFileName))
 			{
 				Setup setup = new Setup(setupFileName);
 
 				// Refactor2k20 project
-				_sfH.Configure(_xH, _cfg.XPathRoot);
+				_sfHp.Configure(_xHd, _cfg.XPathRoot);
 				// should _cfg.XPathRoot become a property of _xH instead of _sfP ? (I think so)
 				// -> we'd instantiate _sfP with _xH in SetupExplorer constructor
 				// -> _xH would be instantiated with _cfg.XPathRoot
@@ -70,7 +70,7 @@ namespace SetupExplorerLibrary
 
 				if (_cfg.Debug)
 				{
-					var xRecords = _xH.SelectRecords(_cfg.XPathRoot + "node()");
+					var xRecords = _xHd.SelectRecords(_cfg.XPathRoot + "node()");
 					var csvList = new List<string>();
 
 					foreach (var xr in xRecords)
@@ -82,7 +82,7 @@ namespace SetupExplorerLibrary
 
 				// get setup notes
 				_xQuery = $@"{_cfg.XPathRoot}node()[count(preceding-sibling::h2)=count({_cfg.XPathRoot}h2)]";
-				var notesRecords = _xH.SelectRecords(_xQuery);
+				var notesRecords = _xHd.SelectRecords(_xQuery);
 				var notes = "";
 				foreach (var xr in notesRecords.Where(x => x.Name != "br"))
 				{
@@ -91,7 +91,7 @@ namespace SetupExplorerLibrary
 				}
 				_logger.Log(ELogLevel.Debug, $"Notes:\r\n{notes}");
 				// Refactor2k20:
-				setup.Notes = _sfH.GetSetupNotes();
+				setup.Notes = _sfHp.GetSetupNotes();
 
 				// get setup summary
 				// Refactor2k20: replace with
@@ -99,7 +99,7 @@ namespace SetupExplorerLibrary
 				//          setup.Summary.SetupName = _sfH.GetSetupName();
 				//          setup.Summary.ExportTrackName = _sfH.GetExportTrackName();
 				Summary ss = new Summary();
-				var summmaryRecords = _xH.SelectRecords(_cfg.XPathRoot + "h2[1]/text()");
+				var summmaryRecords = _xHd.SelectRecords(_cfg.XPathRoot + "h2[1]/text()");
 
 				var carNameLine = summmaryRecords[1].Value;
 				_logger.Log(ELogLevel.Debug, $"carNameLine: {carNameLine}");
@@ -153,7 +153,7 @@ namespace SetupExplorerLibrary
 					sn.Id = kvp.Value;
 					_logger.Log(ELogLevel.Debug, $"Mapping: {pPath} => {sn.Id}");
 
-					sn.Text = _xH.SelectSingleRecord(_cfg.XPathRoot + $"h2[{sn.Id}]").Value;
+					sn.Text = _xHd.SelectSingleRecord(_cfg.XPathRoot + $"h2[{sn.Id}]").Value;
 					_logger.Log(ELogLevel.DebugVV, $"sn.Text: {sn.Text.Remove(sn.Text.Length - 1)}");
 
 					// get content of the setup nodes
@@ -167,7 +167,7 @@ namespace SetupExplorerLibrary
                     */
 					_logger.Log(ELogLevel.DebugVV, $"_xQuery: {_xQuery}");
 
-					var xPathRecords = _xH.SelectRecords(_xQuery);
+					var xPathRecords = _xHd.SelectRecords(_xQuery);
 
 					// parse content of the setup nodes into Label => Value
 					var pXPath = "";
