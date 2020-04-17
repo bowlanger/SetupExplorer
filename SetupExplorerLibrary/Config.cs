@@ -14,7 +14,12 @@ namespace SetupExplorerLibrary
         public string BaseFolder { get; set; }
         public string XPathRoot { get; }
 
-        public Type LoggerType { get; set; }
+        public ILogger Logger { get; set; }
+
+        public void UseLogger(ILogger logger)
+        {
+            Logger = logger;
+        }
 
         public Dictionary<string, string> Templates = new Dictionary<string, string>();
 

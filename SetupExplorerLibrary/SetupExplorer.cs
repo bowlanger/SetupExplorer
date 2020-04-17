@@ -26,23 +26,22 @@ namespace SetupExplorerLibrary
 		private string _xQuery;
 		private Template _template;
 
-		public SetupExplorer(Action<IConfigLibrary> actionConfig, ILogger logger)
+		public SetupExplorer(Action<IConfigLibrary> actionConfig)
 		{
-			_logger = logger;
-			_logger.Log(ELogLevel.Debug, $@"{this.GetType().Name} > Constructor(logger)");
-
 			// config
 			_cfg = new Config();
 			actionConfig?.Invoke(_cfg);
 
 			// registering the services
 			Container.Register(() => _cfg, Lifestyle.Singleton);
-			Container.Register(typeof(ILogger), _cfg.LoggerType);
+			Container.Register(() => _cfg.Logger, Lifestyle.Singleton);
 			// Container.Register(() => _logger, Lifestyle.Singleton);
 			Container.Register<SetupManager>();
 			Container.Register<XPathHandler>();
 			Container.Register<SetupFileHelper>();
 
+			_logger = Container.GetInstance<ILogger>();
+			_logger.Log(ELogLevel.Debug, $@"{this.GetType().Name} > Constructor(logger)");
 
 			_setupManager = Container.GetInstance<SetupManager>();
 			_xH = Container.GetInstance<XPathHandler>();
