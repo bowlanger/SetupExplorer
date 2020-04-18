@@ -368,6 +368,7 @@
             this.seHeaderReadOnlyTextBox.ReadOnly = true;
             this.seHeaderReadOnlyTextBox.Size = new System.Drawing.Size(390, 44);
             this.seHeaderReadOnlyTextBox.TabIndex = 15;
+            this.seHeaderReadOnlyTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // SetupExplorerForm
             // 

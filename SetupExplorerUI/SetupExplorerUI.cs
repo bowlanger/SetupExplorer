@@ -1,4 +1,5 @@
 ﻿using SetupExplorerLibrary;
+using SetupExplorerLibrary.Entities.SetupEntity;
 using SetupExplorerLibrary.Enum;
 using SetupExplorerLibrary.Interfaces;
 using SetupExplorerUI.Components.Loggers;
@@ -38,7 +39,7 @@ namespace SetupExplorerUI
 
 			// Display list of setups with tickbox "select" "compare1" "compare2" "compare3"
 			//		list must be filterable by car name and custom string
-			// Button Open -> Open selected setups
+			// Button Open -> Open selected setups into a tab for each car
 		}
 
 		private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -47,6 +48,17 @@ namespace SetupExplorerUI
 			{
 				_se.OpenSetupFile(seOpenFileDialog.FileName);
 
+				Setup setup = _se.GetSetup(seOpenFileDialog.FileName);
+
+				if (setup != null)
+				{
+					seToolStripStatusLabel.Text = $@"Setup File : {setup.FileName}";
+					seHeaderReadOnlyTextBox.Text = $"car : {setup.Summary.CarName}"
+													+ $"\t"
+													+ $"setup : {setup.Summary.SetupName}"
+													+ $"\r\n\r\n"
+													+ $"exported from track : {setup.Summary.ExportTrackName}";
+				}
 				/*setup = setupHandler.Setup;
 
 				seHeaderReadOnlyTextBox.Text = String.Format("car : {0}\ttrack : {1} - {2}\r\nsetup : {3}",

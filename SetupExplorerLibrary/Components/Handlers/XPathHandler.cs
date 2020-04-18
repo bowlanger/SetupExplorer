@@ -45,12 +45,12 @@ namespace SetupExplorerLibrary.Components.Handlers
 
 		public List<XPathRecord> SelectRecords(string query)
 		{
-			var lines = new List<XPathRecord>();
+			var xPathRecords = new List<XPathRecord>();
 			foreach (var node in _doc.DocumentNode.SelectNodes(query))
 			{
-				lines.Add(new XPathRecord(node.XPath, node.Name, node.InnerText.Trim()));
+				xPathRecords.Add(new XPathRecord(node.XPath, node.Name, node.InnerText.Trim()));
 			}
-			return lines;
+			return xPathRecords;
 		}
 
 		// ##############################################

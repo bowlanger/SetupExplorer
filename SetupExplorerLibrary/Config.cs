@@ -1,4 +1,5 @@
-﻿using SetupExplorerLibrary.Interfaces;
+﻿using SetupExplorerLibrary.Entities;
+using SetupExplorerLibrary.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace SetupExplorerLibrary
 
         public Dictionary<string, string> Templates = new Dictionary<string, string>();
 
-        public Dictionary<string, string> XPathQueries = new Dictionary<string, string>();
+        public Dictionary<string, XPathQuery> XPathQueries = new Dictionary<string, XPathQuery>();
 
         public Config()
         {
@@ -34,14 +35,34 @@ namespace SetupExplorerLibrary
             // QUESTION faire un dictionnaire inverse Templates => TCN  => { audirs3lms, ... }
             //                                                     SN   => { fr500, ... }
 
-            XPathQueries.Add(
+
+            /*
+             * 
+                // XPathQuery GetAllNodes { _xpr }
+                // XPathQuery GetSetupNotes { _xpr }
+                // XPathQuery GetSetupSummary { _xpr }
+                // XPathQuery GetSetupNodeContent { _xpr, sn.Id }
+             * 
+             * 
+             * */
+            XPathQueries.Add("GetAllNodes", new XPathQuery("GetAllNodes", "{0}node()"));
+            XPathQueries.Add("GetSetupNotes", new XPathQuery(
                 "GetSetupNotes",
-                $@"{XPathRoot}node()[count(preceding - sibling::h2) = count({XPathRoot}h2)]"
-                );
-            XPathQueries.Add(
-                "GetSetupNode[%id%]",
-                $@"{XPathRoot}node()[count(preceding-sibling::h2)=%id% and not(*[not(h2)])]"
-                );
+                "{0}node()[count(preceding-sibling::h2)=count({0}h2)]"
+                ));
+            XPathQueries.Add("GetSetupSummary", new XPathQuery("GetSetupSummary", "{0}h2[1]/text()"));
+            /* 
+            XPathQueries.Add("GetSetupNode", new XPathQuery(
+                "GetSetupNode",
+                "{0}node()[count(preceding-sibling::h2)={1} and not(*[not(h2)])]"
+                ));
+            */
+            XPathQueries.Add("GetSetupNodeContent", new XPathQuery(
+                "GetSetupNodeContent",
+                "{0}node()[count(preceding-sibling::h2)={1} and not(*[not(h2)])]"
+                ));
+
+
         }
     }
 }

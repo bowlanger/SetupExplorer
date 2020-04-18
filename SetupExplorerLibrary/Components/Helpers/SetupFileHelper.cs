@@ -21,7 +21,7 @@ namespace SetupExplorerLibrary.Components.Parsers
         public SetupFileHelper(XPathHandler xHd, Config cfg, ILogger logger)
         {
             _logger = logger;
-            _logger.Log(ELogLevel.Debug, $@"{this.GetType().Name} > Constructor(logger)");
+            _logger.Log(ELogLevel.Debug, $@"{this.GetType().Name} > Constructor(xHd, cfg, logger)");
 
             _xHd = xHd;
             _cfg = cfg;
@@ -38,7 +38,10 @@ namespace SetupExplorerLibrary.Components.Parsers
             else { 
                 if (_cfg.Debug)
                 {
-                    var xRecords = _xHd.SelectRecords(_xpr + "node()");
+                    var xpquery = _cfg.XPathQueries["GetAllNodes"].BindParameters(new string[] { _xpr });
+                    _logger.Log(ELogLevel.Debug, "XPathQuery : " + xpquery);
+                    //var xRecords = _xHd.SelectRecords(_xpr + "node()");
+                    var xRecords = _xHd.SelectRecords(xpquery);
                     var csvList = new List<string>();
 
                     foreach (var xr in xRecords)
@@ -70,9 +73,11 @@ namespace SetupExplorerLibrary.Components.Parsers
 
         public List<string> GetSetupNotes()
         {
-            var query = $@"{_xpr}node()[count(preceding-sibling::h2)=count({_xpr}h2)]";
+            var xpquery = _cfg.XPathQueries["GetSetupNotes"].BindParameters(new string[] { _xpr });
+            _logger.Log(ELogLevel.Debug, "XPathQuery : " + xpquery);
+            // var query = $@"{_xpr}node()[count(preceding-sibling::h2)=count({_xpr}h2)]";
             var notes = new List<string>();
-            foreach (var xr in _xHd.SelectRecords(query).Where(x => x.Name != "br"))
+            foreach (var xr in _xHd.SelectRecords(xpquery).Where(x => x.Name != "br"))
             {
                 notes.Add(xr.Value);
             }
@@ -87,26 +92,13 @@ namespace SetupExplorerLibrary.Components.Parsers
 
         public Summary GetSetupSummary()
         {
-            var summaryRecords = _xHd.SelectRecords(_xpr + "h2[1]/text()");
-            /*
-			var carNameLine = summmaryRecords[1].Value;
-			_logger.Log(ELogLevel.Debug, $"carNameLine: {carNameLine}");
-			var carName = carNameLine.Substring(0, carNameLine.IndexOf(":") - 6); // -6 = get rid of trailing "<SPACE>setup"
-			_logger.Log(ELogLevel.DebugV, $@"carName: {carName}");
-            */
+            var xpquery = _cfg.XPathQueries["GetSetupSummary"].BindParameters(new string[] {  _xpr });
+            _logger.Log(ELogLevel.Debug, "XPathQuery : " + xpquery);
+            //var summaryRecords = _xHd.SelectRecords(_xpr + "h2[1]/text()");
+            var summaryRecords = _xHd.SelectRecords(xpquery);
+
             var carName = GetCarName(summaryRecords[1]);
-
-            /*
-            var setupName = carNameLine.Substring(carNameLine.IndexOf(":") + 2);
-            _logger.Log(ELogLevel.DebugV, $@"setupName: {setupName}");
-            */
             var setupName = GetSetupName(summaryRecords[1]);
-
-            /*
-            var exportTrackNameLine = summmaryRecords[2].Value;
-			var exportTrackName = exportTrackNameLine.Substring(exportTrackNameLine.IndexOf(":") + 2);
-			_logger.Log(ELogLevel.DebugVV, $@"exportTrackName: {exportTrackName}");
-            */
             var exportTrackName = GetExportTrackName(summaryRecords[2]);
 
             return new Summary(carName, setupName, exportTrackName);
@@ -181,17 +173,19 @@ namespace SetupExplorerLibrary.Components.Parsers
                 _logger.Log(ELogLevel.DebugVV, $"sn.Text: {sn.Text.Remove(sn.Text.Length - 1)}");
 
                 // get content of the setup nodes
-                //
-                var query = $@"{_xpr}node()[count(preceding-sibling::h2)={sn.Id} and not(*[not(h2)])]";
+                // XPathQuery GetSetupNodeContent { _xpr, sn.Id }
+                var xpquery = _cfg.XPathQueries["GetSetupNodeContent"].BindParameters(new string[] { _xpr, sn.Id.ToString() });
+                _logger.Log(ELogLevel.Debug, "XPathQuery : " + xpquery);
+                // var query = $@"{_xpr}node()[count(preceding-sibling::h2)={sn.Id} and not(*[not(h2)])]";
                 /* alternate query, same result
                 xpquery = $"{cfg.XPathRoot}h2[{sn.Id}]/following-sibling::node()"
 						+ $"[count(.|{cfg.XPathRoot}h2[{sn.Id + 1}]/preceding-sibling::node())"
 						+ $"="
 						+ $"count({cfg.XPathRoot}h2[{sn.Id + 1}]/preceding-sibling::node())]";
                 */
-                _logger.Log(ELogLevel.DebugVV, $"query: {query}");
+                // _logger.Log(ELogLevel.DebugVV, $"query: {xpquery}");
 
-                var xPathRecords = _xHd.SelectRecords(query);
+                var xPathRecords = _xHd.SelectRecords(xpquery);
 
                 // parse content of the setup nodes into Label => Value
                 var pXPath = "";
@@ -224,7 +218,10 @@ namespace SetupExplorerLibrary.Components.Parsers
                             xr.Value = "<empty>";
                         }
 
-                        // replace with string.Join(";", List<string>)
+                        // TODO: replace with 
+                        //  List<string> pVXPath
+                        //  pVXPath.Add(xr.XPath)
+                        //  and after the loop string.Join(";", pVXPath)
                         pVXPath += xr.XPath + ";";
                         pValue += xr.Value + ";";
                     }

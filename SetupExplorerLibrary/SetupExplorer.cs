@@ -22,7 +22,7 @@ namespace SetupExplorerLibrary
 		
 		private readonly SetupFileHelper _sfHp;
 
-		private readonly SetupManager _setupManager;
+		private readonly SetupManager _sM;
 
 		public SetupExplorer(Action<IConfigLibrary> actionConfig)
 		{
@@ -43,7 +43,7 @@ namespace SetupExplorerLibrary
 
 			_sfHp = Container.GetInstance<SetupFileHelper>();
 
-			_setupManager = Container.GetInstance<SetupManager>();
+			_sM = Container.GetInstance<SetupManager>();
 		}
 
 		public void OpenSetupFile(string setupFileName)
@@ -74,7 +74,12 @@ namespace SetupExplorerLibrary
 			_logger.Log(ELogLevel.DebugVV, setupJson);
 
 			// save setup object in our library of loaded
-			_setupManager.Register(setup);
+			_sM.Register(setup);
+		}
+
+		public Setup GetSetup(string setupFileName)
+		{
+			return _sM.GetSetup(setupFileName);
 		}
 	}
 }

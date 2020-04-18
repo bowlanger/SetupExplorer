@@ -30,5 +30,10 @@ namespace SetupExplorerLibrary.Components.Managers
         {
             Setups.Remove((Setup)setup);
         }
+
+        public Setup GetSetup(string setupFileName)
+        {
+            return Setups.FirstOrDefault(x => x.FileName == setupFileName);
+        }
     }
 }
