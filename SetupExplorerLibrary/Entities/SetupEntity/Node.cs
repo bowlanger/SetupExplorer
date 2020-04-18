@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary.Entities.Setup
+namespace SetupExplorerLibrary.Entities.SetupEntity
 {
     public class Node
     {

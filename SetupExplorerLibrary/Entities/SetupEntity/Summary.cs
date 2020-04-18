@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SetupExplorerLibrary.Interfaces;
 
-namespace SetupExplorerLibrary.Entities.Setup
+namespace SetupExplorerLibrary.Entities.SetupEntity
 {
     public class Summary
     {

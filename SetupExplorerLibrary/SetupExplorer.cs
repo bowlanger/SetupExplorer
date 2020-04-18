@@ -2,8 +2,8 @@
 using SetupExplorerLibrary.Components.Handlers;
 using SetupExplorerLibrary.Components.Managers;
 using SetupExplorerLibrary.Components.Parsers;
-using SetupExplorerLibrary.Entities.Setup;
-using SetupExplorerLibrary.Entities.Template;
+using SetupExplorerLibrary.Entities.SetupEntity;
+using SetupExplorerLibrary.Entities.TemplateEntity;
 using SetupExplorerLibrary.Enum;
 using SetupExplorerLibrary.Interfaces;
 using SimpleInjector;
@@ -19,12 +19,10 @@ namespace SetupExplorerLibrary
 
 		private readonly ILogger _logger;
 		private readonly Config _cfg;
-		private readonly SetupManager _setupManager;
-		private readonly XPathHandler _xHd;
+		
 		private readonly SetupFileHelper _sfHp;
 
-		private string _xQuery;
-		private Template _template;
+		private readonly SetupManager _setupManager;
 
 		public SetupExplorer(Action<IConfigLibrary> actionConfig)
 		{
@@ -33,250 +31,50 @@ namespace SetupExplorerLibrary
 			actionConfig?.Invoke(_cfg);
 
 			// registering the services
-			Container.Register(() => _cfg, Lifestyle.Singleton);
-			Container.Register(() => _cfg.Logger, Lifestyle.Singleton);
+			Container.Register<Config>(() => _cfg, Lifestyle.Singleton);
+			Container.Register<ILogger>(() => _cfg.Logger, Lifestyle.Singleton);
 			// Container.Register(() => _logger, Lifestyle.Singleton);
-			Container.Register<SetupManager>();
-			Container.Register<XPathHandler>();
+			Container.Register<XPathHandler>(Lifestyle.Singleton);
 			Container.Register<SetupFileHelper>();
+			Container.Register<SetupManager>();
 
 			_logger = Container.GetInstance<ILogger>();
 			_logger.Log(ELogLevel.Debug, $@"{this.GetType().Name} > Constructor(logger)");
 
-			_setupManager = Container.GetInstance<SetupManager>();
-			_xHd = Container.GetInstance<XPathHandler>();
 			_sfHp = Container.GetInstance<SetupFileHelper>();
 
-			// entities
-			_template = new Template();
-			//setup = new Setup();
-
-			//template = GetTemplate(setupParser.GetCarName());
-			//BuildSetupV2();
+			_setupManager = Container.GetInstance<SetupManager>();
 		}
 
 		public void OpenSetupFile(string setupFileName)
 		{
-			if (_xHd.Open(setupFileName))
+			if (!_sfHp.Open(setupFileName))
 			{
-				Setup setup = new Setup(setupFileName);
+				throw new Exception();
+			}
 
-				// Refactor2k20 project
-				_sfHp.Configure(_xHd, _cfg.XPathRoot);
-				// should _cfg.XPathRoot become a property of _xH instead of _sfP ? (I think so)
-				// -> we'd instantiate _sfP with _xH in SetupExplorer constructor
-				// -> _xH would be instantiated with _cfg.XPathRoot
-				// Refactor2k21 : also pass _cfg.Queries to _sfP
-
-				if (_cfg.Debug)
-				{
-					var xRecords = _xHd.SelectRecords(_cfg.XPathRoot + "node()");
-					var csvList = new List<string>();
-
-					foreach (var xr in xRecords)
-					{
-						csvList.Add($"{xr.Name};{xr.XPath};{xr.Value}");
-					}
-					SaveToFile($@"{_cfg.OutputFolder}\__debug.xpathrecords.txt", csvList);
-				}
+			Setup setup = new Setup(setupFileName)
+			{
 
 				// get setup notes
-				_xQuery = $@"{_cfg.XPathRoot}node()[count(preceding-sibling::h2)=count({_cfg.XPathRoot}h2)]";
-				var notesRecords = _xHd.SelectRecords(_xQuery);
-				var notes = "";
-				foreach (var xr in notesRecords.Where(x => x.Name != "br"))
-				{
-					setup.Notes.Add(xr.Value);
-					notes += xr.Value + "\r\n";
-				}
-				_logger.Log(ELogLevel.Debug, $"Notes:\r\n{notes}");
-				// Refactor2k20:
-				setup.Notes = _sfHp.GetSetupNotes();
+				Notes = _sfHp.GetSetupNotes(),
 
 				// get setup summary
-				// Refactor2k20: replace with
-				//          setup.Summary.CarName = _sfH.GetCarName();
-				//          setup.Summary.SetupName = _sfH.GetSetupName();
-				//          setup.Summary.ExportTrackName = _sfH.GetExportTrackName();
-				Summary ss = new Summary();
-				var summmaryRecords = _xHd.SelectRecords(_cfg.XPathRoot + "h2[1]/text()");
+				Summary = _sfHp.GetSetupSummary(),
+			};
 
-				var carNameLine = summmaryRecords[1].Value;
-				_logger.Log(ELogLevel.Debug, $"carNameLine: {carNameLine}");
-				var carName = carNameLine.Substring(0, carNameLine.IndexOf(":") - 6); // -6 = get rid of trailing "<SPACE>setup"
-				_logger.Log(ELogLevel.DebugV, $@"carName: {carName}");
+			// get template from carName
+			setup.Template = _sfHp.GetTemplate(setup.Summary.CarName);
 
-				var setupName = carNameLine.Substring(carNameLine.IndexOf(":") + 2);
-				_logger.Log(ELogLevel.DebugV, $@"setupName: {setupName}");
+			// get setup properties
+			setup.Properties = _sfHp.GetSetupProperties(setup.Template);
 
-				var exportTrackNameLine = summmaryRecords[2].Value;
-				var exportTrackName = exportTrackNameLine.Substring(exportTrackNameLine.IndexOf(":") + 2);
-				_logger.Log(ELogLevel.DebugVV, $@"exportTrackName: {exportTrackName}");
+			// dump setup object
+			var setupJson = JsonConvert.SerializeObject(setup, Formatting.Indented);
+			_logger.Log(ELogLevel.DebugVV, setupJson);
 
-				ss.CarName = carName;
-				ss.SetupName = setupName;
-				ss.ExportTrackName = exportTrackName;
-
-				setup.Summary = ss;
-
-				// get template from carName
-				var templateName = _cfg.Templates[carName];
-				_logger.Log(ELogLevel.DebugV, $@"templateName: {templateName}");
-				// TODO:
-				// else
-				//      build generic template
-				//          sheetId = 0
-				//          h2dict<string, count> // ex: LEFT FRONT:, 2 => il y a aura donc au moins 2 sheets
-				//          foreach h2
-				//              definecurrentsheetid { if newcount(h2.title) > currentcount(h2.title), sheetId++ }
-				//                  Mapping["Sheet[sheetId]:h2.title"] = id(h2)
-
-				// dynamically load template
-				/*
-				 * https://stackoverflow.com/questions/3512319/resolve-type-from-class-name-in-a-different-assembly
-                string fqn1 = typeof(Template).AssemblyQualifiedName;           _logger.Debug(fqn1);
-                string fqn2 = typeof(Template).UnderlyingSystemType.FullName;   _logger.Debug(fqn2);
-                string ns = typeof(Template).Namespace;                         _logger.Debug(ns);
-                */
-				Type t = Type.GetType(typeof(Template).Namespace + ".Templates." + templateName);
-				_template = (Template)Activator.CreateInstance(t);
-
-				// get setup properties
-				// use template.Mapping to define setup.Properties
-				// Refactor2k20: replace with
-				//              setup.Properties = _sfH.GetProperties(_template);
-				foreach (KeyValuePair<string, int> kvp in _template.Mapping)
-				{
-					Node sn = new Node();
-
-					var pPath = kvp.Key;
-					sn.Id = kvp.Value;
-					_logger.Log(ELogLevel.Debug, $"Mapping: {pPath} => {sn.Id}");
-
-					sn.Text = _xHd.SelectSingleRecord(_cfg.XPathRoot + $"h2[{sn.Id}]").Value;
-					_logger.Log(ELogLevel.DebugVV, $"sn.Text: {sn.Text.Remove(sn.Text.Length - 1)}");
-
-					// get content of the setup nodes
-					//
-					_xQuery = $@"{_cfg.XPathRoot}node()[count(preceding-sibling::h2)={sn.Id} and not(*[not(h2)])]";
-					/* alternate query, same result
-                    xpquery = $"{cfg.XPathRoot}h2[{sn.Id}]/following-sibling::node()"
-							+ $"[count(.|{cfg.XPathRoot}h2[{sn.Id + 1}]/preceding-sibling::node())"
-							+ $"="
-							+ $"count({cfg.XPathRoot}h2[{sn.Id + 1}]/preceding-sibling::node())]";
-                    */
-					_logger.Log(ELogLevel.DebugVV, $"_xQuery: {_xQuery}");
-
-					var xPathRecords = _xHd.SelectRecords(_xQuery);
-
-					// parse content of the setup nodes into Label => Value
-					var pXPath = "";
-					var pVXPath = "";
-					var pLabel = "";
-					var pValue = "";
-					foreach (var xr in xPathRecords.Where(x => !string.IsNullOrEmpty(x.Value)))
-					{
-						if (xr.Name == "#text")
-						{
-							if (!string.IsNullOrEmpty(pValue))
-							{
-								// !string.IsNullOrEmpty(pValue) means we went through u once (or more) and pValue got a value assigned
-								// we now found a new #text record, which means we are going to parse a new property
-								// before doing so, store the current property
-								AddSetupProperty(setup, sn, pXPath, pVXPath, pPath, pLabel, pValue);
-
-								pVXPath = "";
-								pValue = "";
-							}
-							// new setup property
-							pXPath = xr.XPath;
-							pLabel = xr.Value;
-						}
-						else if (xr.Name == "u")
-						{
-							// new value for the current property
-							if (string.IsNullOrEmpty(xr.Value))
-							{
-								xr.Value = "<empty>";
-							}
-
-							// replace with string.Join(";", List<string>)
-							pVXPath += xr.XPath + ";";
-							pValue += xr.Value + ";";
-						}
-
-						_logger.Log(ELogLevel.DebugV, $"{xr.Name} => {xr.Value}");
-					}
-					// save last setup property
-					// ( we reached last u and there is no more xr in xPathRecords
-					//   so we won't have the chance to go back to !string.IsNullOrEmpty(pValue)
-					//   we got out of the the foreach loop
-					//   therefore, we need to save the last property we parsed)
-					AddSetupProperty(setup, sn, pXPath, pVXPath, pPath, pLabel, pValue);
-				}
-
-				// dump setup object
-				var setupJson = JsonConvert.SerializeObject(setup, Formatting.Indented);
-				_logger.Log(ELogLevel.DebugVV, setupJson);
-
-				_setupManager.Register(setup);
-			}
+			// save setup object in our library of loaded
+			_setupManager.Register(setup);
 		}
-
-		private void AddSetupProperty(Setup setup, Node sn, string pXPath, string pVXPath, string pPath, string pLabel, string pValue)
-		{
-			// remove trailing ";"
-			pVXPath = pVXPath.Remove(pVXPath.Length - 1);
-			pValue = pValue.Remove(pValue.Length - 1);
-
-			setup.Properties.Add(new Property(sn, pXPath, pVXPath, pPath, pLabel, pValue));
-			_logger.Log(ELogLevel.Debug, $@"New Setup Property: {sn}, {pXPath}, {pVXPath}, {pPath}, {pLabel}, {pValue}");
-		}
-
-		private bool SaveToFile(string fileName, List<string> lines)
-		{
-			try
-			{
-				// https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/file-system/how-to-write-to-a-text-file
-				System.IO.File.WriteAllLines(fileName, lines);
-			}
-			catch (Exception e)
-			{
-				_logger.Log(ELogLevel.Error, e.Message);
-				return false;
-			}
-
-			return true;
-		}
-
-		// ##############################################
-		// <------------- old code below --------------->
-		// ##############################################
-
-		/*
-        private Template GetTemplate(string carName)
-        {
-            // Capitalize first letter of carName
-            System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(carName.ToLower());
-
-            // Trying to dynamically instancing template
-            //string templateTypeFQN = typeof(carName + "Template").AssemblyQualifiedName;
-            //Type templateType = Type.GetType(templateTypeFQN);
-            //return (Template)Activator.CreateInstance(templateType);
-
-            // instancing template based on carName
-            //switch (carName)
-            //{
-            //    case "Audirs3lms":
-            //        return new Audirs3lmsTemplate();
-            //    //break;
-            //    default:
-            //        logger.Log("Unknown car");
-            //        break;
-            //}
-
-            return new Audirs3lmsTemplateV2();
-        }
-        */
 	}
 }

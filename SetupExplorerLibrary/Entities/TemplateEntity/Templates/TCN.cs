@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SetupExplorerLibrary.Entities.Template.Templates
+namespace SetupExplorerLibrary.Entities.TemplateEntity.Templates
 {
     public class TCN : Template
     {

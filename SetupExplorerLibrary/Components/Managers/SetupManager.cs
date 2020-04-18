@@ -1,4 +1,4 @@
-﻿using SetupExplorerLibrary.Entities.Setup;
+﻿using SetupExplorerLibrary.Entities.SetupEntity;
 using SetupExplorerLibrary.Enum;
 using SetupExplorerLibrary.Interfaces;
 using System;
