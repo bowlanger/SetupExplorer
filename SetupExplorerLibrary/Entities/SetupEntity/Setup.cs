@@ -12,7 +12,8 @@ namespace SetupExplorerLibrary.Entities.SetupEntity
     {
         public string FileName { get; set; } = "";
         public Summary Summary { get; set; } = new Summary();
-        public List<Property> Properties { get; set; } = new List<Property>();
+
+        public List<Sheet> Sheets { get; set; } = new List<Sheet>();
         public List<string> Notes { get; set; } = new List<string>();
         public Template Template { get; internal set; }
 

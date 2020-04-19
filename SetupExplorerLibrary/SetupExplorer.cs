@@ -67,7 +67,7 @@ namespace SetupExplorerLibrary
 			setup.Template = _sfHp.GetTemplate(setup.Summary.CarName);
 
 			// get setup properties
-			setup.Properties = _sfHp.GetSetupProperties(setup.Template);
+			setup.Sheets = _sfHp.GetSetupProperties(setup.Template);
 
 			// dump setup object
 			var setupJson = JsonConvert.SerializeObject(setup, Formatting.Indented);

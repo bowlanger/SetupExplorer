@@ -156,25 +156,41 @@ namespace SetupExplorerLibrary.Components.Parsers
             return (Template)Activator.CreateInstance(t);
         }
 
-        public List<Property> GetSetupProperties(Template template)
+        public List<Sheet> GetSetupProperties(Template template)
         {
-            var properties = new List<Property>();
+            var sheets = new List<Sheet>();
+            //var properties = new List<Property>();
 
             // use template.Mapping to define all the Properties
             foreach (KeyValuePair<string, int> kvp in template.Mapping)
             {
-                Node sn = new Node();
-
                 var pPath = kvp.Key;
-                sn.Id = kvp.Value;
-                _logger.Log(ELogLevel.Debug, $"Mapping: {pPath} => {sn.Id}");
+                // TODO: maybe replace with split ?
+                var sheetName = pPath.Substring(0, pPath.IndexOf(":"));
+                var nodeName = pPath.Substring(pPath.IndexOf(":") + 1); // get rid of leading ":"
+                _logger.Log(ELogLevel.Debug, $"sheetName: {sheetName}, nodeName: {nodeName}");
 
-                sn.Text = _xHd.SelectSingleRecord(_cfg.XPathRoot + $"h2[{sn.Id}]").Value;
-                _logger.Log(ELogLevel.DebugVV, $"sn.Text: {sn.Text.Remove(sn.Text.Length - 1)}");
+                if (sheets.FirstOrDefault(x => x.Name == sheetName) == null)
+                {
+                    sheets.Add(new Sheet(sheetName));
+                }
+                var sheet = sheets.FirstOrDefault(x => x.Name == sheetName);
+
+                if (sheet.Nodes.FirstOrDefault(x => x.Name == nodeName) == null){
+                    sheet.Nodes.Add(new Node(nodeName));
+                }
+                var node = sheet.Nodes.FirstOrDefault(x => x.Name == nodeName);
+
+//                Node sn = new Node();                
+                node.Id = kvp.Value;
+                _logger.Log(ELogLevel.Debug, $"Mapping: {pPath} => {node.Id}");
+
+                node.Text = _xHd.SelectSingleRecord(_cfg.XPathRoot + $"h2[{node.Id}]").Value;
+                _logger.Log(ELogLevel.DebugVV, $"sn.Text: {node.Text.Remove(node.Text.Length - 1)}");
 
                 // get content of the setup nodes
                 // XPathQuery GetSetupNodeContent { _xpr, sn.Id }
-                var xpquery = _cfg.XPathQueries["GetSetupNodeContent"].BindParameters(new string[] { _xpr, sn.Id.ToString() });
+                var xpquery = _cfg.XPathQueries["GetSetupNodeContent"].BindParameters(new string[] { _xpr, node.Id.ToString() });
                 _logger.Log(ELogLevel.Debug, "XPathQuery : " + xpquery);
                 // var query = $@"{_xpr}node()[count(preceding-sibling::h2)={sn.Id} and not(*[not(h2)])]";
                 /* alternate query, same result
@@ -201,7 +217,8 @@ namespace SetupExplorerLibrary.Components.Parsers
                             // !string.IsNullOrEmpty(pValue) means we went through u once (or more) and pValue got a value assigned
                             // we now found a new #text record, which means we are going to parse a new property
                             // before doing so, store the current property
-                            properties.Add(GetSetupProperty(sn, pXPath, pVXPath, pPath, pLabel, pValue));
+                            //properties.Add(GetSetupProperty(node, pXPath, pVXPath, pPath, pLabel, pValue));
+                            node.Properties.Add(GetSetupProperty(pXPath, pVXPath, pPath, pLabel, pValue));
 
                             pVXPath = "";
                             pValue = "";
@@ -233,20 +250,20 @@ namespace SetupExplorerLibrary.Components.Parsers
                 //   so we won't have the chance to go back to !string.IsNullOrEmpty(pValue)
                 //   we got out of the the foreach loop
                 //   therefore, we need to save the last property we parsed)
-                GetSetupProperty(sn, pXPath, pVXPath, pPath, pLabel, pValue);
+                GetSetupProperty(pXPath, pVXPath, pPath, pLabel, pValue);
             }
 
-            return properties;
+            return sheets;
         }
 
-        private Property GetSetupProperty(Node sn, string pXPath, string pVXPath, string pPath, string pLabel, string pValue)
+        private Property GetSetupProperty(string pXPath, string pVXPath, string pPath, string pLabel, string pValue)
         {
             // remove trailing ";"
             pVXPath = pVXPath.Remove(pVXPath.Length - 1);
             pValue = pValue.Remove(pValue.Length - 1);
 
-            _logger.Log(ELogLevel.Debug, $@"New Setup Property: {sn}, {pXPath}, {pVXPath}, {pPath}, {pLabel}, {pValue}");
-            return new Property(sn, pXPath, pVXPath, pPath, pLabel, pValue);
+            _logger.Log(ELogLevel.Debug, $@"New Setup Property: {pXPath}, {pVXPath}, {pPath}, {pLabel}, {pValue}");
+            return new Property(pXPath, pVXPath, pPath, pLabel, pValue);
         }
     }
 }

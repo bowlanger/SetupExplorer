@@ -6,17 +6,12 @@ using System.Threading.Tasks;
 
 namespace SetupExplorerLibrary.Entities.SetupEntity
 {
-    public class Node
+    public class Sheet
     {
-        
         public string Name { get; set; }
+        public List<Node> Nodes { get; set; } = new List<Node>();
 
-        public int Id { get; set; }
-        public string Text { get; set; }
-
-        public List<Property> Properties { get; set; } = new List<Property>();
-
-        public Node(string name)
+        public Sheet(string name)
         {
             Name = name;
         }

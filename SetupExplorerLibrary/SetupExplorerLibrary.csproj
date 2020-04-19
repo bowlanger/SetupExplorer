@@ -54,6 +54,7 @@
     <Compile Include="Components\Helpers\SetupFileHelper.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Entities\SetupEntity\Node.cs" />
+    <Compile Include="Entities\SetupEntity\Sheet.cs" />
     <Compile Include="Entities\XPathQuery.cs" />
     <Compile Include="Entities\XPathRecord.cs" />
     <Compile Include="Components\Managers\SetupManager.cs" />
